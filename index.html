@@ -71,14 +71,78 @@
 @keyframes blink-skip{0%,100%{opacity:.3}50%{opacity:.8}}
 
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth;scroll-padding-top:70px}
-body{background:var(–bg);color:var(–white);font-family:var(–font-body);overflow-x:hidden}
+html{scroll-behavior:smooth;scroll-padding-top:70px;background:var(–bg)}
+body{background:var(–bg);color:var(–white);font-family:var(–font-body);overflow-x:hidden;min-height:100vh}
 
-/* ── GRAIN ── */
-.grain{position:fixed;inset:0;z-index:9999;pointer-events:none;opacity:.055;
-background-image:url(“data:image/svg+xml,%3Csvg viewBox=‘0 0 256 256’ xmlns=‘http://www.w3.org/2000/svg’%3E%3Cfilter id=‘n’%3E%3CfeTurbulence type=‘fractalNoise’ baseFrequency=’.9’ numOctaves=‘4’ stitchTiles=‘stitch’/%3E%3C/filter%3E%3Crect width=‘100%25’ height=‘100%25’ filter=‘url(%23n)’/%3E%3C/svg%3E”);
-background-size:128px;animation:grain .35s steps(2) infinite}
-@keyframes grain{0%{background-position:0 0}50%{background-position:-30px 15px}100%{background-position:15px -10px}}
+/* ── ЖИВОЙ ФОН — дымовые облака ── */
+.bg-canvas{
+position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;
+}
+/* Основные облака — медленно дрейфуют */
+.bg-canvas::before{
+content:’’;
+position:absolute;inset:-50%;
+background:
+radial-gradient(ellipse 70% 50% at 20% 60%,  rgba(120,20,0,0.18) 0%, transparent 65%),
+radial-gradient(ellipse 50% 40% at 80% 30%,  rgba(80,10,0,0.14)  0%, transparent 60%),
+radial-gradient(ellipse 40% 60% at 60% 80%,  rgba(100,15,0,0.12) 0%, transparent 55%),
+radial-gradient(ellipse 80% 30% at 40% 10%,  rgba(60,8,0,0.10)   0%, transparent 70%);
+animation: smoke-drift 18s ease-in-out infinite alternate;
+will-change: transform;
+}
+/* Вторичный слой — смещён по фазе */
+.bg-canvas::after{
+content:’’;
+position:absolute;inset:-50%;
+background:
+radial-gradient(ellipse 55% 45% at 75% 70%,  rgba(140,25,0,0.10) 0%, transparent 60%),
+radial-gradient(ellipse 45% 55% at 25% 25%,  rgba(90,12,0,0.12)  0%, transparent 55%),
+radial-gradient(ellipse 60% 35% at 50% 50%,  rgba(70,8,0,0.08)   0%, transparent 65%);
+animation: smoke-drift2 24s ease-in-out infinite alternate;
+will-change: transform;
+}
+@keyframes smoke-drift{
+0%  { transform: translate(0%,    0%)    scale(1);    }
+33% { transform: translate(3%,   -2%)    scale(1.04); }
+66% { transform: translate(-2%,   3%)    scale(0.97); }
+100%{ transform: translate(4%,    1%)    scale(1.03); }
+}
+@keyframes smoke-drift2{
+0%  { transform: translate(0%,    0%)    scale(1);    }
+33% { transform: translate(-4%,   2%)    scale(1.03); }
+66% { transform: translate(2%,   -3%)    scale(0.98); }
+100%{ transform: translate(-3%,  -1%)    scale(1.04); }
+}
+
+/* Уголёк — еле заметное свечение снизу страницы */
+.bg-ember{
+position:fixed;bottom:-120px;left:50%;transform:translateX(-50%);
+width:120%;height:280px;pointer-events:none;z-index:0;
+background:radial-gradient(ellipse 60% 100% at 50% 100%,
+rgba(160,40,0,0.12) 0%,
+rgba(80,15,0,0.06)  45%,
+transparent 70%);
+animation: ember-pulse 6s ease-in-out infinite;
+}
+@keyframes ember-pulse{
+0%,100%{ opacity:.7; transform:translateX(-50%) scaleX(1);   }
+50%    { opacity:1;   transform:translateX(-50%) scaleX(1.08); }
+}
+
+/* ── GRAIN + VIGNETTE ── */
+.grain{position:fixed;inset:0;z-index:9998;pointer-events:none;opacity:.08;
+background-image:url(“data:image/svg+xml,%3Csvg viewBox=‘0 0 256 256’ xmlns=‘http://www.w3.org/2000/svg’%3E%3Cfilter id=‘n’%3E%3CfeTurbulence type=‘fractalNoise’ baseFrequency=’.75’ numOctaves=‘4’ stitchTiles=‘stitch’/%3E%3C/filter%3E%3Crect width=‘100%25’ height=‘100%25’ filter=‘url(%23n)’/%3E%3C/svg%3E”);
+background-size:160px;animation:grain .4s steps(3) infinite}
+@keyframes grain{
+0%  {background-position:0 0}
+33% {background-position:-40px 20px}
+66% {background-position:20px -30px}
+100%{background-position:-15px 10px}
+}
+/* Виньетка */
+.vignette{position:fixed;inset:0;z-index:9997;pointer-events:none;
+background:radial-gradient(ellipse 110% 110% at 50% 50%,
+transparent 45%, rgba(0,0,0,0.55) 100%)}
 
 /* ── NAV — Tinted glass panel ── */
 nav {
@@ -156,14 +220,14 @@ transition:background .04s linear;
 }
 
 .nav-logo{font-family:var(–font-display);font-size:26px;letter-spacing:.15em;
-color:var(–red-bright);text-shadow:0 0 20px rgba(255,34,0,.5);text-decoration:none;
-transition: text-shadow .3s}
+color:#ff2200;color:var(–red-bright);text-shadow:0 0 20px rgba(255,34,0,.5);text-decoration:none;
+transition:text-shadow .3s}
 .nav-logo:hover{text-shadow:0 0 35px rgba(255,80,0,.8)}
 
 .nav-links{display:flex;gap:36px;align-items:center}
 .nav-links a{font-family:var(–font-mono);font-size:10px;letter-spacing:.25em;text-transform:uppercase;
-color:var(–white-dim);text-decoration:none;transition:color .2s}
-.nav-links a:hover{color:var(–white)}
+color:#7a6a58;color:var(–white-dim);text-decoration:none;transition:color .2s}
+.nav-links a:hover{color:#ede0cc;color:var(–white)}
 
 .nav-lang{font-family:var(–font-mono);font-size:10px;letter-spacing:.2em;color:var(–white-dim);
 border:1px solid rgba(255,255,255,.1);padding:6px 14px;cursor:pointer;transition:all .2s;background:none;
@@ -276,18 +340,19 @@ text-shadow:0 0 20px rgba(255,34,0,.4)}
 /* ── BUTTONS ── */
 .btn{font-family:var(–font-mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;
 padding:14px 34px;border:1px solid;text-decoration:none;transition:all .25s;
-display:inline-flex;align-items:center;gap:10px;cursor:pointer;background:transparent}
-.btn-fire{color:var(–bg);background:var(–fire);border-color:var(–fire)}
-.btn-fire:hover{background:transparent;color:var(–fire-bright);box-shadow:0 0 30px rgba(232,80,0,.4)}
+display:inline-flex;align-items:center;gap:10px;cursor:pointer;background:transparent;
+color:inherit}
+.btn-fire{color:#050403;color:var(–bg);background:#e85000;background:var(–fire);border-color:#e85000;border-color:var(–fire)}
+.btn-fire:hover{background:transparent;color:#ff6a00;color:var(–fire-bright);box-shadow:0 0 30px rgba(232,80,0,.4)}
 .btn-ghost{
-color:var(–white-dim);
+color:#7a6a58;color:var(–white-dim);
 border-color:rgba(255,255,255,.12);
-background: rgba(255,255,255,0.04);
-backdrop-filter: blur(10px);
--webkit-backdrop-filter: blur(10px);
-box-shadow: inset 0 1px 0 rgba(255,255,255,0.08), 0 4px 16px rgba(0,0,0,0.3);
+background:rgba(255,255,255,0.04);
+backdrop-filter:blur(10px);
+-webkit-backdrop-filter:blur(10px);
+box-shadow:inset 0 1px 0 rgba(255,255,255,0.08),0 4px 16px rgba(0,0,0,0.3);
 }
-.btn-ghost:hover{color:var(–white);border-color:rgba(255,255,255,.3);background:rgba(255,255,255,0.08)}
+.btn-ghost:hover{color:#ede0cc;color:var(–white);border-color:rgba(255,255,255,.3);background:rgba(255,255,255,0.08)}
 
 /* ── TAPE ── */
 .tape{background:rgba(120,20,0,0.85);backdrop-filter:blur(8px);padding:10px 0;overflow:hidden;white-space:nowrap;border-top:1px solid rgba(255,60,0,0.3);border-bottom:1px solid rgba(255,60,0,0.3)}
@@ -298,7 +363,7 @@ font-family:var(–font-mono);font-size:11px;letter-spacing:.3em;color:rgba(255,
 /* ── LAYOUT ── */
 .divider{height:1px;background:linear-gradient(90deg,var(–fire-dim),transparent 70%)}
 .container{max-width:1200px;margin:0 auto;padding:0 48px}
-section{padding:100px 0}
+section{padding:100px 0;background:transparent;position:relative;z-index:1}
 .label{font-family:var(–font-mono);font-size:9px;letter-spacing:.45em;text-transform:uppercase;
 color:var(–fire);display:block;margin-bottom:16px}
 .sec-title{font-family:var(–font-display);font-size:clamp(42px,6vw,86px);
@@ -543,6 +608,9 @@ RESPONSIVE — small 375px
   <button class="intro-skip" id="introSkip">[ ПРОПУСТИТЬ ]</button>
 </div>
 
+<div class="bg-canvas"></div>
+<div class="bg-ember"></div>
+<div class="vignette"></div>
 <div class="grain"></div>
 
 <!-- ── NAV ── -->
