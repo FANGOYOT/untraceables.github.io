@@ -20,6 +20,48 @@
   --font-body: 'Oswald', sans-serif;
   --font-mono: 'Share Tech Mono', monospace;
 }
+/* ── INTRO OVERLAY ── */
+#intro{
+  position:fixed;inset:0;z-index:99999;background:#000;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  transition:opacity .6s ease;
+}
+#intro.fade-out{opacity:0;pointer-events:none}
+.intro-scanlines{
+  position:absolute;inset:0;pointer-events:none;
+  background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(0,0,0,0.2) 3px,rgba(0,0,0,0.2) 4px);
+}
+.intro-terminal{
+  width:min(560px,88vw);
+  font-family:'Share Tech Mono',monospace;
+  font-size:clamp(11px,1.5vw,13px);
+  color:#00cc40;
+  position:relative;z-index:2;
+}
+.intro-line{line-height:2.2;opacity:0;transform:translateX(-6px);transition:opacity .25s ease,transform .25s ease}
+.intro-line.show{opacity:1;transform:translateX(0)}
+.intro-line .dim{color:#004d18}
+.intro-line .ok{color:#00ff50}
+.intro-line .err{color:#ff2200}
+.intro-line .warn{color:#cc8800}
+.intro-logo-wrap{text-align:center;margin-top:32px;opacity:0;transition:opacity .7s ease}
+.intro-logo-wrap.show{opacity:1}
+.intro-logo{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(52px,10vw,100px);
+  letter-spacing:.1em;color:#ff2200;line-height:1;
+  text-shadow:0 0 40px rgba(255,34,0,.7),0 0 80px rgba(255,34,0,.3);
+}
+.intro-logo-sub{font-size:10px;letter-spacing:.5em;color:rgba(255,34,0,.4);margin-top:6px}
+.intro-skip{
+  position:absolute;bottom:28px;right:28px;
+  font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:.3em;
+  color:rgba(0,255,80,.2);cursor:pointer;border:none;background:none;
+  animation:blink-skip 2s ease infinite;transition:color .2s;
+}
+.intro-skip:hover{color:rgba(0,255,80,.5)}
+@keyframes blink-skip{0%,100%{opacity:.3}50%{opacity:.8}}
+
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
 body{background:var(--bg);color:var(--white);font-family:var(--font-body);overflow-x:hidden}
@@ -134,6 +176,10 @@ background:linear-gradient(0deg,rgba(160,50,0,.65) 0%,rgba(100,25,0,.3) 45%,tran
 background:linear-gradient(180deg,rgba(5,4,3,.75) 0%,transparent 100%)}
 .hero-btm{position:absolute;bottom:0;left:0;right:0;height:38%;pointer-events:none;
 background:linear-gradient(0deg,var(--bg) 0%,transparent 100%)}
+/* ── PARALLAX ── */
+.hero-poster{will-change:transform}
+
+
 
 .hero-content{position:relative;z-index:2;padding:0 64px 80px}
 .hero-eyebrow{font-family:var(--font-mono);font-size:10px;letter-spacing:.5em;text-transform:uppercase;
@@ -306,6 +352,18 @@ transition:opacity .9s cubic-bezier(.4,0,.2,1),transform .9s cubic-bezier(.4,0,.
 </style>
 </head>
 <body>
+
+<!-- ── INTRO ── -->
+<div id="intro">
+  <div class="intro-scanlines"></div>
+  <div class="intro-terminal" id="introTerminal"></div>
+  <div class="intro-logo-wrap" id="introLogo">
+    <div class="intro-logo">UNTRACEABLES</div>
+    <div class="intro-logo-sub">FNGYT PRODUCTION // CLASSIFIED</div>
+  </div>
+  <button class="intro-skip" id="introSkip">[ ПРОПУСТИТЬ ]</button>
+</div>
+
 <div class="grain"></div>
 
 <!-- ── NAV ── -->
@@ -637,6 +695,87 @@ title.addEventListener('mouseenter',()=>{
   },100);
 });
 title.addEventListener('mouseleave',()=>{clearInterval(gt);title.style.textShadow='';});
+
+/* ── PARALLAX on poster ── */
+(function(){
+  const poster = document.querySelector('.hero-poster');
+  if(!poster) return;
+  let ticking = false;
+  document.addEventListener('mousemove', e => {
+    if(ticking) return;
+    ticking = true;
+    requestAnimationFrame(() => {
+      const cx = window.innerWidth / 2;
+      const cy = window.innerHeight / 2;
+      const dx = (e.clientX - cx) / cx;
+      const dy = (e.clientY - cy) / cy;
+      poster.style.transform = `scale(1.08) translate(${dx * -12}px, ${dy * -8}px)`;
+      ticking = false;
+    });
+  });
+  document.addEventListener('mouseleave', () => {
+    poster.style.transform = 'scale(1.04)';
+  });
+})();
+
+/* ── INTRO SEQUENCE ── */
+(function(){
+  const overlay = document.getElementById('intro');
+  const terminal = document.getElementById('introTerminal');
+  const logoWrap = document.getElementById('introLogo');
+  const skipBtn  = document.getElementById('introSkip');
+  // Prevent scroll while intro runs
+  document.body.style.overflow = 'hidden';
+
+  const LINES_RU = [
+    '<span class="dim">FIB SYSTEMS v4.1.0 — ИНИЦИАЛИЗАЦИЯ...</span>',
+    '<span class="dim">CPU: [CLASSIFIED] &nbsp; RAM: OK &nbsp; GPU: OK</span>',
+    'Загрузка протокола наблюдения... <span class="ok">OK</span>',
+    'Проверка базы данных объектов... <span class="ok">OK</span>',
+    '<span class="warn">ПРЕДУПРЕЖДЕНИЕ: обнаружен неизвестный пользователь</span>',
+    'Активация OBSERVER... <span class="ok">АКТИВЕН</span>',
+    '<span class="err">СТАТУС ТИХОНИ: НЕ ОПРЕДЕЛЁН</span>',
+    'Загрузка интерфейса...',
+  ];
+  const LINES_EN = [
+    '<span class="dim">FIB SYSTEMS v4.1.0 — INITIALIZING...</span>',
+    '<span class="dim">CPU: [CLASSIFIED] &nbsp; RAM: OK &nbsp; GPU: OK</span>',
+    'Loading surveillance protocol... <span class="ok">OK</span>',
+    'Checking object database... <span class="ok">OK</span>',
+    '<span class="warn">WARNING: unknown user detected</span>',
+    'Activating OBSERVER... <span class="ok">ACTIVE</span>',
+    '<span class="err">TIKHONYA STATUS: UNDEFINED</span>',
+    'Loading interface...',
+  ];
+
+  function dismiss(){
+    logoWrap.classList.remove('show');
+    overlay.classList.add('fade-out');
+    document.body.style.overflow = '';
+    setTimeout(()=>{ overlay.style.display='none'; }, 700);
+  }
+
+  skipBtn.addEventListener('click', dismiss);
+
+  // Build lines with staggered delay
+  const lines = lang === 'en' ? LINES_EN : LINES_RU;
+  let delay = 0;
+  lines.forEach((html, i) => {
+    const div = document.createElement('div');
+    div.className = 'intro-line';
+    div.innerHTML = html;
+    terminal.appendChild(div);
+    setTimeout(() => div.classList.add('show'), delay);
+    delay += i < 2 ? 180 : 280;
+  });
+
+  // Show logo after all lines
+  setTimeout(() => {
+    logoWrap.classList.add('show');
+    // Auto dismiss after logo shown
+    setTimeout(dismiss, 1800);
+  }, delay + 200);
+})();
 </script>
 </body>
 </html>
