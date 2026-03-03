@@ -24,29 +24,103 @@
 html{scroll-behavior:smooth}
 body{background:var(--bg);color:var(--white);font-family:var(--font-body);overflow-x:hidden}
 
+/* ── GRAIN ── */
 .grain{position:fixed;inset:0;z-index:9999;pointer-events:none;opacity:.055;
 background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 background-size:128px;animation:grain .35s steps(2) infinite}
 @keyframes grain{0%{background-position:0 0}50%{background-position:-30px 15px}100%{background-position:15px -10px}}
 
-nav{position:fixed;top:0;left:0;right:0;z-index:1000;height:58px;
-display:flex;align-items:center;justify-content:space-between;padding:0 48px;
-background:linear-gradient(180deg,rgba(5,4,3,.98) 0%,transparent 100%);
-border-bottom:1px solid rgba(232,80,0,.12)}
+/* ── NAV — Dark glass with fire tint ── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+  height: 58px;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 48px;
+  /* Dark frosted glass with fire tint */
+  background: rgba(8, 3, 1, 0.55);
+  backdrop-filter: blur(18px) saturate(1.4);
+  -webkit-backdrop-filter: blur(18px) saturate(1.4);
+  /* Fire glow border bottom */
+  border-bottom: 1px solid rgba(255, 80, 0, 0.25);
+  /* Subtle fire inner glow */
+  box-shadow:
+    0 1px 0 rgba(255, 100, 0, 0.15),
+    0 4px 32px rgba(180, 40, 0, 0.12),
+    inset 0 1px 0 rgba(255, 120, 0, 0.08);
+  /* Plastic/glass highlight on top */
+  border-top: 1px solid rgba(255, 120, 50, 0.12);
+}
+/* Top highlight streak — plastic effect */
+nav::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    rgba(255, 100, 40, 0.35) 30%,
+    rgba(255, 140, 60, 0.5) 50%,
+    rgba(255, 100, 40, 0.35) 70%,
+    transparent 100%);
+}
+/* Bottom fire glow line */
+nav::after {
+  content: '';
+  position: absolute; bottom: -1px; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    rgba(232, 80, 0, 0.4) 20%,
+    rgba(255, 106, 0, 0.6) 50%,
+    rgba(232, 80, 0, 0.4) 80%,
+    transparent 100%);
+  animation: fire-line 3s ease-in-out infinite;
+}
+@keyframes fire-line {
+  0%,100%{opacity:.7} 50%{opacity:1}
+}
+
 .nav-logo{font-family:var(--font-display);font-size:26px;letter-spacing:.15em;
-color:var(--red-bright);text-shadow:0 0 20px rgba(255,34,0,.5);text-decoration:none}
+color:var(--red-bright);text-shadow:0 0 20px rgba(255,34,0,.5);text-decoration:none;
+transition: text-shadow .3s}
+.nav-logo:hover{text-shadow:0 0 35px rgba(255,80,0,.8)}
+
 .nav-links{display:flex;gap:36px;align-items:center}
 .nav-links a{font-family:var(--font-mono);font-size:10px;letter-spacing:.25em;text-transform:uppercase;
 color:var(--white-dim);text-decoration:none;transition:color .2s}
 .nav-links a:hover{color:var(--white)}
+
 .nav-lang{font-family:var(--font-mono);font-size:10px;letter-spacing:.2em;color:var(--white-dim);
-border:1px solid rgba(255,255,255,.1);padding:6px 14px;cursor:pointer;transition:all .2s;background:none}
+border:1px solid rgba(255,255,255,.1);padding:6px 14px;cursor:pointer;transition:all .2s;background:none;
+border-radius:2px}
 .nav-lang:hover{border-color:var(--fire);color:var(--fire-bright)}
+
 .nav-secret{font-family:var(--font-mono);font-size:9px;letter-spacing:.25em;color:var(--red);
 border:1px solid rgba(204,26,0,.3);padding:6px 14px;cursor:pointer;transition:all .3s;
-animation:pulse-red 3s ease infinite;user-select:none}
-@keyframes pulse-red{0%,100%{border-color:rgba(204,26,0,.3)}50%{border-color:rgba(204,26,0,.7)}}
+animation:pulse-red 3s ease infinite;user-select:none;border-radius:2px}
+@keyframes pulse-red{0%,100%{border-color:rgba(204,26,0,.3);box-shadow:none}
+50%{border-color:rgba(204,26,0,.6);box-shadow:0 0 10px rgba(204,26,0,.15)}}
 
+/* Mobile burger */
+.burger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px;background:none;border:none}
+.burger span{display:block;width:22px;height:2px;background:var(--white-dim);transition:all .3s}
+.burger.open span:nth-child(1){transform:rotate(45deg) translate(5px,5px)}
+.burger.open span:nth-child(2){opacity:0}
+.burger.open span:nth-child(3){transform:rotate(-45deg) translate(5px,-5px)}
+
+/* Mobile menu */
+.mobile-menu{
+  display:none;position:fixed;top:58px;left:0;right:0;z-index:999;
+  background:rgba(6,2,1,.96);backdrop-filter:blur(20px);
+  border-bottom:1px solid rgba(232,80,0,.2);
+  flex-direction:column;padding:24px 24px 32px;gap:0;
+  transform:translateY(-110%);transition:transform .35s cubic-bezier(.4,0,.2,1);
+}
+.mobile-menu.open{transform:translateY(0)}
+.mobile-menu a{font-family:var(--font-mono);font-size:13px;letter-spacing:.3em;text-transform:uppercase;
+color:var(--white-dim);text-decoration:none;padding:14px 0;
+border-bottom:1px solid rgba(255,255,255,.05);transition:color .2s}
+.mobile-menu a:hover{color:var(--white)}
+.mobile-menu-bottom{display:flex;gap:12px;margin-top:20px}
+
+/* ── HERO ── */
 .hero{height:100vh;min-height:700px;position:relative;overflow:hidden;
 display:flex;flex-direction:column;justify-content:flex-end}
 .hero-poster{position:absolute;inset:0;
@@ -67,7 +141,7 @@ color:var(--fire);margin-bottom:16px;opacity:0;animation:fadeUp .7s ease .3s for
 .hero-title{font-family:var(--font-display);font-size:clamp(80px,14vw,180px);
 line-height:.88;letter-spacing:.02em;color:var(--red-bright);
 text-shadow:0 0 60px rgba(255,34,0,.6),0 0 120px rgba(255,80,0,.2),4px 4px 0 rgba(0,0,0,.8);
-opacity:0;animation:fadeUp .7s ease .5s forwards}
+opacity:0;animation:fadeUp .7s ease .5s forwards;cursor:default}
 .hero-sub{font-family:var(--font-body);font-weight:200;font-size:clamp(12px,1.8vw,17px);
 letter-spacing:.3em;text-transform:uppercase;color:var(--white-dim);margin-top:12px;
 opacity:0;animation:fadeUp .7s ease .7s forwards}
@@ -78,6 +152,22 @@ opacity:0;animation:fadeUp .7s ease .7s forwards}
 .hm-val.fire{color:var(--fire-bright)}
 .hero-btns{display:flex;gap:16px;margin-top:40px;flex-wrap:wrap;opacity:0;animation:fadeUp .7s ease 1.1s forwards}
 
+/* ── COUNTDOWN ── */
+.countdown-bar{
+  position:absolute;bottom:0;right:48px;
+  display:flex;gap:24px;padding:20px 28px;z-index:3;
+  background:rgba(5,3,2,.6);backdrop-filter:blur(12px);
+  border:1px solid rgba(232,80,0,.15);
+  border-bottom:none;
+  opacity:0;animation:fadeUp .7s ease 1.3s forwards;
+}
+.cd-item{display:flex;flex-direction:column;align-items:center;gap:4px}
+.cd-num{font-family:var(--font-display);font-size:36px;color:var(--red-bright);line-height:1;
+text-shadow:0 0 20px rgba(255,34,0,.4)}
+.cd-label{font-family:var(--font-mono);font-size:7px;letter-spacing:.3em;color:var(--white-dim);text-transform:uppercase}
+.cd-sep{font-family:var(--font-display);font-size:28px;color:rgba(232,80,0,.3);align-self:flex-end;margin-bottom:12px}
+
+/* ── BUTTONS ── */
 .btn{font-family:var(--font-mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;
 padding:14px 34px;border:1px solid;text-decoration:none;transition:all .25s;
 display:inline-flex;align-items:center;gap:10px;cursor:pointer;background:transparent}
@@ -86,11 +176,13 @@ display:inline-flex;align-items:center;gap:10px;cursor:pointer;background:transp
 .btn-ghost{color:var(--white-dim);border-color:rgba(255,255,255,.12)}
 .btn-ghost:hover{color:var(--white);border-color:rgba(255,255,255,.3)}
 
+/* ── TAPE ── */
 .tape{background:var(--red-bright);padding:13px 0;overflow:hidden;white-space:nowrap}
 .tape-inner{display:inline-block;animation:marquee 22s linear infinite;
 font-family:var(--font-display);font-size:14px;letter-spacing:.25em;color:var(--bg)}
 @keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 
+/* ── LAYOUT ── */
 .divider{height:1px;background:linear-gradient(90deg,var(--fire-dim),transparent 70%)}
 .container{max-width:1200px;margin:0 auto;padding:0 48px}
 section{padding:100px 0}
@@ -99,6 +191,7 @@ color:var(--fire);display:block;margin-bottom:16px}
 .sec-title{font-family:var(--font-display);font-size:clamp(42px,6vw,86px);
 line-height:.92;letter-spacing:.02em;color:var(--white);margin-bottom:48px}
 
+/* ── ABOUT ── */
 .about-grid{display:grid;grid-template-columns:1fr 1.3fr;gap:80px;align-items:start}
 .about-poster{position:relative;aspect-ratio:2/3;overflow:hidden;border:1px solid rgba(232,80,0,.2)}
 .about-poster img{width:100%;height:100%;object-fit:cover;display:block}
@@ -113,6 +206,7 @@ padding:7px 16px;border:1px solid rgba(255,255,255,.08);color:var(--white-dim);t
 .genre-chip:hover{border-color:var(--fire-dim);color:var(--white)}
 .genre-chip.hot{border-color:var(--fire-dim);color:var(--fire-bright)}
 
+/* ── CHARS ── */
 .chars-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;
 background:rgba(232,80,0,.06);border:1px solid rgba(232,80,0,.06)}
 .char-card{background:var(--bg);padding:32px 24px;transition:background .25s;position:relative;overflow:hidden}
@@ -121,7 +215,7 @@ background:rgba(232,80,0,.06);border:1px solid rgba(232,80,0,.06)}
 color:rgba(232,80,0,.04);pointer-events:none;line-height:1;letter-spacing:-.05em}
 .char-img{width:64px;height:80px;margin-bottom:20px;background:rgba(255,255,255,.04);
 border:1px solid rgba(232,80,0,.15);display:flex;align-items:center;justify-content:center;
-font-size:28px;color:rgba(232,80,0,.3);position:relative;overflow:hidden}
+font-size:28px;position:relative;overflow:hidden}
 .char-img::after{content:'';position:absolute;inset:0;
 background:repeating-linear-gradient(0deg,transparent,transparent 4px,rgba(0,0,0,.2) 4px,rgba(0,0,0,.2) 5px)}
 .char-id{font-family:var(--font-mono);font-size:8px;letter-spacing:.3em;color:var(--fire);margin-bottom:6px}
@@ -134,11 +228,12 @@ letter-spacing:.2em;padding:4px 10px;border:1px solid}
 .s-unknown{color:#d4820a;border-color:rgba(212,130,10,.3)}
 .s-missing{color:var(--white-dim);border-color:rgba(255,255,255,.1)}
 
+/* ── SYNOPSIS ── */
 .syn-list{display:flex;flex-direction:column;gap:1px;margin-top:48px}
 .syn-item{display:grid;grid-template-columns:80px 1fr auto;align-items:start;gap:32px;
 padding:32px 28px;background:rgba(255,255,255,.01);border:1px solid rgba(255,255,255,.04);
-transition:background .25s;position:relative;overflow:hidden}
-.syn-item:hover{background:rgba(232,80,0,.03)}
+transition:background .3s,border-color .3s;position:relative;overflow:hidden}
+.syn-item:hover{background:rgba(232,80,0,.03);border-color:rgba(232,80,0,.1)}
 .syn-num{font-family:var(--font-display);font-size:52px;color:rgba(232,80,0,.15);line-height:1;letter-spacing:-.03em}
 .syn-act{font-family:var(--font-mono);font-size:8px;letter-spacing:.35em;color:var(--fire);margin-bottom:8px;text-transform:uppercase}
 .syn-title{font-family:var(--font-display);font-size:26px;color:var(--white);margin-bottom:12px;line-height:1;letter-spacing:.03em}
@@ -150,8 +245,9 @@ border:1px solid rgba(255,255,255,.06);color:rgba(255,255,255,.2);white-space:no
   background:repeating-linear-gradient(transparent 0,transparent 19px,rgba(12,6,3,.97) 19px,rgba(12,6,3,.97) 38px);
   -webkit-background-clip:text;background-clip:text;color:transparent}
 
-.terminal-wrap{opacity:0;max-height:0;overflow:hidden;transition:opacity 1.2s ease,max-height 1.2s ease}
-.terminal-wrap.revealed{opacity:1;max-height:1000px}
+/* ── TERMINAL ── */
+.terminal-wrap{opacity:0;max-height:0;overflow:hidden;transition:opacity 1.2s ease,max-height 1.5s ease}
+.terminal-wrap.revealed{opacity:1;max-height:1200px}
 .terminal-box{border:1px solid rgba(0,255,80,.12);background:#000;position:relative;overflow:hidden;padding:48px}
 .terminal-box::before{content:'';position:absolute;inset:0;pointer-events:none;
 background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(0,0,0,.12) 3px,rgba(0,0,0,.12) 4px)}
@@ -169,6 +265,7 @@ border:1px solid #00ff50;color:#000;text-decoration:none;transition:all .2s;curs
 .t-btn:hover{background:transparent;color:#00ff50;box-shadow:0 0 24px rgba(0,255,80,.2)}
 .t-warn{margin-top:20px;font-family:var(--font-mono);font-size:10px;color:#003d14;letter-spacing:.1em;line-height:1.9}
 
+/* ── FOOTER ── */
 footer{border-top:1px solid rgba(232,80,0,.1);padding:40px 48px;
 display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:20px;
 font-family:var(--font-mono);font-size:10px;color:var(--white-dim);letter-spacing:.15em}
@@ -176,24 +273,42 @@ footer a{color:var(--white-dim);text-decoration:none}
 footer a:hover{color:var(--white)}
 .footer-logo{font-family:var(--font-display);font-size:22px;letter-spacing:.2em;color:var(--red-bright)}
 
-.reveal{opacity:0;transform:translateY(28px);transition:opacity .85s ease,transform .85s ease}
+/* ── SCROLL REVEAL ── */
+.reveal{opacity:0;transform:translateY(36px);
+transition:opacity .9s cubic-bezier(.4,0,.2,1),transform .9s cubic-bezier(.4,0,.2,1)}
 .reveal.visible{opacity:1;transform:translateY(0)}
+.reveal-delay-1{transition-delay:.1s}
+.reveal-delay-2{transition-delay:.2s}
+.reveal-delay-3{transition-delay:.3s}
+
 @keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
 
+/* ── RESPONSIVE ── */
 @media(max-width:900px){
-  nav{padding:0 20px}.nav-links{display:none}
-  .hero-content{padding:0 24px 60px}.container{padding:0 20px}
+  nav{padding:0 20px}
+  .nav-links{display:none}
+  .burger{display:flex}
+  .mobile-menu{display:flex}
+  .hero-content{padding:0 24px 60px}
+  .countdown-bar{right:20px;gap:16px;padding:16px 18px}
+  .cd-num{font-size:28px}
+  .container{padding:0 20px}
   .about-grid{grid-template-columns:1fr;gap:48px}
   .chars-grid{grid-template-columns:1fr 1fr}
   .syn-item{grid-template-columns:52px 1fr}.syn-tag{display:none}
   footer{padding:32px 20px;flex-direction:column;align-items:flex-start}
-  .terminal-box{padding:24px 18px}}
-@media(max-width:600px){.chars-grid{grid-template-columns:1fr}}
+  .terminal-box{padding:24px 18px}
+}
+@media(max-width:600px){
+  .chars-grid{grid-template-columns:1fr}
+  .countdown-bar{display:none}
+}
 </style>
 </head>
 <body>
 <div class="grain"></div>
 
+<!-- ── NAV ── -->
 <nav>
   <a href="#" class="nav-logo">UNTRACEABLES</a>
   <div class="nav-links">
@@ -201,16 +316,42 @@ footer a:hover{color:var(--white)}
     <a href="#chars" class="i18n" data-ru="ПЕРСОНАЖИ" data-en="CAST">ПЕРСОНАЖИ</a>
     <a href="#synopsis" class="i18n" data-ru="СЮЖЕТ" data-en="STORY">СЮЖЕТ</a>
     <button class="nav-lang" id="langBtn">EN</button>
+    <div class="nav-secret" id="navSecret">CLASSIFIED</div>
   </div>
-  <div class="nav-secret" id="navSecret">CLASSIFIED</div>
+  <button class="burger" id="burgerBtn" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
 
-<!-- HERO -->
+<!-- Mobile menu -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#about" class="i18n mob-link" data-ru="О ФИЛЬМЕ" data-en="ABOUT">О ФИЛЬМЕ</a>
+  <a href="#chars" class="i18n mob-link" data-ru="ПЕРСОНАЖИ" data-en="CAST">ПЕРСОНАЖИ</a>
+  <a href="#synopsis" class="i18n mob-link" data-ru="СЮЖЕТ" data-en="STORY">СЮЖЕТ</a>
+  <div class="mobile-menu-bottom">
+    <button class="nav-lang" id="langBtnMob">EN</button>
+    <div class="nav-secret" id="navSecretMob" style="font-size:9px">CLASSIFIED</div>
+  </div>
+</div>
+
+<!-- ── HERO ── -->
 <section class="hero" id="top">
   <div class="hero-poster"></div>
   <div class="hero-fire"></div>
   <div class="hero-top"></div>
   <div class="hero-btm"></div>
+
+  <!-- Countdown -->
+  <div class="countdown-bar" id="countdown">
+    <div class="cd-item"><div class="cd-num" id="cd-d">--</div><div class="cd-label i18n" data-ru="ДНЕЙ" data-en="DAYS">ДНЕЙ</div></div>
+    <div class="cd-sep">:</div>
+    <div class="cd-item"><div class="cd-num" id="cd-h">--</div><div class="cd-label i18n" data-ru="ЧАСОВ" data-en="HRS">ЧАСОВ</div></div>
+    <div class="cd-sep">:</div>
+    <div class="cd-item"><div class="cd-num" id="cd-m">--</div><div class="cd-label i18n" data-ru="МИНУТ" data-en="MIN">МИНУТ</div></div>
+    <div class="cd-sep">:</div>
+    <div class="cd-item"><div class="cd-num" id="cd-s">--</div><div class="cd-label i18n" data-ru="СЕКУНД" data-en="SEC">СЕКУНД</div></div>
+  </div>
+
   <div class="hero-content">
     <div class="hero-eyebrow i18n" data-ru="// FIB — ЗАСЕКРЕЧЕННЫЙ РЕЛИЗ — 2025" data-en="// FIB — CLASSIFIED RELEASE — 2025">// FIB — ЗАСЕКРЕЧЕННЫЙ РЕЛИЗ — 2025</div>
     <h1 class="hero-title" id="heroTitle">UNTRACEABLES</h1>
@@ -227,11 +368,11 @@ footer a:hover{color:var(--white)}
   </div>
 </section>
 
-<!-- TAPE -->
+<!-- ── TAPE ── -->
 <div class="tape"><div class="tape-inner" id="tapeEl"></div></div>
 <div class="divider"></div>
 
-<!-- ABOUT -->
+<!-- ── ABOUT ── -->
 <section id="about">
   <div class="container reveal">
     <span class="label i18n" data-ru="// О ФИЛЬМЕ" data-en="// ABOUT THE FILM">// О ФИЛЬМЕ</span>
@@ -255,13 +396,13 @@ footer a:hover{color:var(--white)}
 
 <div class="divider"></div>
 
-<!-- CHARS -->
+<!-- ── CHARACTERS ── -->
 <section id="chars">
-  <div class="container reveal">
-    <span class="label i18n" data-ru="// ДОСЬЕ" data-en="// CASE FILES">// ДОСЬЕ</span>
-    <h2 class="sec-title i18n" data-ru="Персонажи" data-en="Characters">Персонажи</h2>
+  <div class="container">
+    <span class="label reveal i18n" data-ru="// ДОСЬЕ" data-en="// CASE FILES">// ДОСЬЕ</span>
+    <h2 class="sec-title reveal i18n" data-ru="Персонажи" data-en="Characters">Персонажи</h2>
     <div class="chars-grid">
-      <div class="char-card">
+      <div class="char-card reveal reveal-delay-1">
         <div class="char-bg-num">01</div>
         <div class="char-img">🕵️</div>
         <div class="char-id i18n" data-ru="АГЕНТ ФИБ #001" data-en="FIB AGENT #001">АГЕНТ ФИБ #001</div>
@@ -269,7 +410,7 @@ footer a:hover{color:var(--white)}
         <div class="char-desc i18n" data-ru="Полевой агент. Получил дело о пропавшем шпионе. Упрямый, наблюдательный. Не знает во что ввязался." data-en="Field agent. Assigned the missing spy case. Stubborn, perceptive. Has no idea what he's getting into.">Полевой агент. Получил дело о пропавшем шпионе. Упрямый, наблюдательный. Не знает во что ввязался.</div>
         <div class="char-status s-active i18n" data-ru="● АКТИВЕН" data-en="● ACTIVE">● АКТИВЕН</div>
       </div>
-      <div class="char-card">
+      <div class="char-card reveal reveal-delay-2">
         <div class="char-bg-num">02</div>
         <div class="char-img">👤</div>
         <div class="char-id i18n" data-ru="ОБЪЕКТ — РАЗЫСКИВАЕТСЯ" data-en="OBJECT — WANTED">ОБЪЕКТ — РАЗЫСКИВАЕТСЯ</div>
@@ -277,7 +418,7 @@ footer a:hover{color:var(--white)}
         <div class="char-desc i18n" data-ru="Шпион. Исчез при невыясненных обстоятельствах. Последнее место — здание ФИБ. Знает больше чем говорит." data-en="Spy. Disappeared under unclear circumstances. Last known location — FIB building. Knows more than he lets on.">Шпион. Исчез при невыясненных обстоятельствах. Последнее место — здание ФИБ. Знает больше чем говорит.</div>
         <div class="char-status s-missing i18n" data-ru="◆ ПРОПАЛ" data-en="◆ MISSING">◆ ПРОПАЛ</div>
       </div>
-      <div class="char-card">
+      <div class="char-card reveal reveal-delay-3">
         <div class="char-bg-num">03</div>
         <div class="char-img" style="border-color:rgba(204,26,0,.5)">😈</div>
         <div class="char-id i18n" data-ru="ОБЪЕКТ — УГРОЗА: МАКС" data-en="OBJECT — THREAT: MAX">ОБЪЕКТ — УГРОЗА: МАКС</div>
@@ -285,7 +426,7 @@ footer a:hover{color:var(--white)}
         <div class="char-desc i18n" data-ru="Имя в каждом деле. Суд. Казнь. Последнее благо. Никто не знает как он выглядит на самом деле." data-en="A name in every case. Trial. Execution. Last mercy. Nobody knows what he actually looks like.">Имя в каждом деле. Суд. Казнь. Последнее благо. Никто не знает как он выглядит на самом деле.</div>
         <div class="char-status s-hostile i18n" data-ru="▲ ВРАЖДЕБЕН" data-en="▲ HOSTILE">▲ ВРАЖДЕБЕН</div>
       </div>
-      <div class="char-card">
+      <div class="char-card reveal reveal-delay-3">
         <div class="char-bg-num">04</div>
         <div class="char-img">🐻</div>
         <div class="char-id i18n" data-ru="АГЕНТ ЕМС" data-en="EMC AGENT">АГЕНТ ЕМС</div>
@@ -299,7 +440,7 @@ footer a:hover{color:var(--white)}
 
 <div class="divider"></div>
 
-<!-- SYNOPSIS -->
+<!-- ── SYNOPSIS ── -->
 <section id="synopsis">
   <div class="container reveal">
     <span class="label i18n" data-ru="// ХОД ДЕЛА — ЧАСТИЧНО РАССЕКРЕЧЕНО" data-en="// CASE PROGRESS — PARTIALLY DECLASSIFIED">// ХОД ДЕЛА — ЧАСТИЧНО РАССЕКРЕЧЕНО</span>
@@ -312,12 +453,12 @@ footer a:hover{color:var(--white)}
       </div>
       <div class="syn-item">
         <div class="syn-num">02</div>
-        <div><div class="syn-act i18n" data-ru="АКТ ВТОРОЙ" data-en="ACT TWO">АКТ ВТОРОЙ</div><div class="syn-title i18n" data-ru="Охота начинается" data-en="The Hunt Begins">Охота начинается</div><div class="syn-text i18n" data-ru="Зацепка — вертолёт, камеры ЕМС. Медведь обнаружен. Три возможных местоположения Недотроги." data-en="Lead — helicopter, EMC cameras. Bear discovered. Three possible locations for Untouchable.">Зацепка — вертолёт, камеры ЕМС. Медведь обнаружен. Три возможных местоположения Недотроги.</div></div>
+        <div><div class="syn-act i18n" data-ru="АКТ ВТОРОЙ" data-en="ACT TWO">АКТ ВТОРОЙ</div><div class="syn-title i18n" data-ru="Охота начинается" data-en="The Hunt Begins">Охота начинается</div><div class="syn-text i18n" data-ru="Зацепка — вертолёт, камеры ЕМС. Медведь обнаружен. Три возможных местоположения." data-en="Lead — helicopter, EMC cameras. Bear discovered. Three possible locations.">Зацепка — вертолёт, камеры ЕМС. Медведь обнаружен. Три возможных местоположения.</div></div>
         <div class="syn-tag i18n" data-ru="РАССЕКРЕЧЕНО" data-en="DECLASSIFIED">РАССЕКРЕЧЕНО</div>
       </div>
       <div class="syn-item">
         <div class="syn-num">03</div>
-        <div><div class="syn-act i18n" data-ru="АКТ ТРЕТИЙ" data-en="ACT THREE">АКТ ТРЕТИЙ</div><div class="syn-title i18n" data-ru="Ограбление конвоя" data-en="Convoy Heist">Ограбление конвоя</div><div class="syn-text i18n" data-ru="Подготовка. Конвой едет. Тунель. Погоня. Недотроги уходит — Охотник опоздал." data-en="Preparation. The convoy moves. Tunnel. Chase. Untouchable escapes — Hunter is too late.">Подготовка. Конвой едет. Тунель. Погоня. Недотроги уходит — Охотник опоздал.</div></div>
+        <div><div class="syn-act i18n" data-ru="АКТ ТРЕТИЙ" data-en="ACT THREE">АКТ ТРЕТИЙ</div><div class="syn-title i18n" data-ru="Ограбление конвоя" data-en="Convoy Heist">Ограбление конвоя</div><div class="syn-text i18n" data-ru="Подготовка. Конвой. Тунель. Погоня. Недотроги уходит — Охотник опоздал." data-en="Preparation. Convoy. Tunnel. Chase. Untouchable escapes — Hunter is too late.">Подготовка. Конвой. Тунель. Погоня. Недотроги уходит — Охотник опоздал.</div></div>
         <div class="syn-tag i18n" data-ru="РАССЕКРЕЧЕНО" data-en="DECLASSIFIED">РАССЕКРЕЧЕНО</div>
       </div>
       <div class="syn-item">
@@ -327,12 +468,12 @@ footer a:hover{color:var(--white)}
       </div>
       <div class="syn-item secret">
         <div class="syn-num">05</div>
-        <div><div class="syn-act i18n" data-ru="АКТ ПЯТЫЙ" data-en="ACT FIVE">АКТ ПЯТЫЙ</div><div class="syn-title i18n" data-ru="Тихоня задержан" data-en="Tikhonya Apprehended">Тихоня задержан</div><div class="syn-text i18n" data-ru="Задержание. Суд. Никакой информации кроме прошлого. Приговор. Последнее благо. Спасение мишки." data-en="Apprehension. Trial. Nothing but the past. Sentence. Last mercy. Saving the bear.">Задержание. Суд. Никакой информации кроме прошлого. Приговор. Последнее благо. Спасение мишки.</div></div>
+        <div><div class="syn-act i18n" data-ru="АКТ ПЯТЫЙ" data-en="ACT FIVE">АКТ ПЯТЫЙ</div><div class="syn-title i18n" data-ru="Тихоня задержан" data-en="Tikhonya Apprehended">Тихоня задержан</div><div class="syn-text i18n" data-ru="Задержание. Суд. Приговор. Последнее благо. Спасение мишки при перевозке." data-en="Apprehension. Trial. Sentence. Last mercy. Saving the bear during transport.">Задержание. Суд. Приговор. Последнее благо. Спасение мишки при перевозке.</div></div>
         <div class="syn-tag red i18n" data-ru="ЗАСЕКРЕЧЕНО" data-en="CLASSIFIED">ЗАСЕКРЕЧЕНО</div>
       </div>
       <div class="syn-item secret">
         <div class="syn-num">06–07</div>
-        <div><div class="syn-act i18n" data-ru="ФИНАЛ" data-en="FINALE">ФИНАЛ</div><div class="syn-title i18n" data-ru="Вечеринка" data-en="The Party">Вечеринка</div><div class="syn-text i18n" data-ru="Охотник опаздывает. Флешка исчезла. Записка. Координаты. Три медведя. Вице-губернатор. Десятки трупов. Титры в стиле первого видео." data-en="Hunter is late. Flash drive gone. Note. Coordinates. Three bears. Vice-governor. Dozens of bodies. Credits in the style of the first video.">Охотник опаздывает. Флешка исчезла. Записка. Координаты. Три медведя. Вице-губернатор. Десятки трупов. Титры в стиле первого видео.</div></div>
+        <div><div class="syn-act i18n" data-ru="ФИНАЛ" data-en="FINALE">ФИНАЛ</div><div class="syn-title i18n" data-ru="Вечеринка" data-en="The Party">Вечеринка</div><div class="syn-text i18n" data-ru="Охотник опаздывает. Флешка исчезла. Записка. Координаты. Три медведя. Вице-губернатор. Десятки трупов. Титры." data-en="Hunter is late. Flash drive gone. Note. Coordinates. Three bears. Vice-governor. Dozens of bodies. Credits.">Охотник опаздывает. Флешка исчезла. Записка. Координаты. Три медведя. Вице-губернатор. Десятки трупов. Титры.</div></div>
         <div class="syn-tag red i18n" data-ru="ЗАСЕКРЕЧЕНО" data-en="CLASSIFIED">ЗАСЕКРЕЧЕНО</div>
       </div>
     </div>
@@ -341,10 +482,12 @@ footer a:hover{color:var(--white)}
 
 <!-- Hidden hint -->
 <div style="height:80px;display:flex;align-items:center;justify-content:center">
-  <div id="hiddenHint" style="font-family:var(--font-mono);font-size:9px;letter-spacing:.4em;color:rgba(255,255,255,.03);transition:color 1s">// КОНЕЦ РАССЕКРЕЧЕННЫХ МАТЕРИАЛОВ</div>
+  <div id="hiddenHint" style="font-family:var(--font-mono);font-size:9px;letter-spacing:.4em;color:rgba(255,255,255,.03);transition:color 1.5s">
+    // КОНЕЦ РАССЕКРЕЧЕННЫХ МАТЕРИАЛОВ
+  </div>
 </div>
 
-<!-- TERMINAL (hidden) -->
+<!-- ── HIDDEN TERMINAL ── -->
 <div class="terminal-wrap" id="terminalWrap">
   <div class="container" style="padding-bottom:100px">
     <div class="divider" style="margin-bottom:80px"></div>
@@ -361,8 +504,8 @@ footer a:hover{color:var(--white)}
       </div>
       <a href="#" class="t-btn i18n" data-ru="▼  СКАЧАТЬ ТЕРМИНАЛ" data-en="▼  DOWNLOAD TERMINAL">▼ &nbsp; СКАЧАТЬ ТЕРМИНАЛ</a>
       <div class="t-warn i18n"
-        data-ru="// ВНИМАНИЕ: программа читает аппаратную конфигурацию системы.&#10;// OBSERVER будет присутствовать на протяжении всей сессии.&#10;// FIB CORP не несёт ответственности за найденное в базе данных."
-        data-en="// WARNING: reads your system hardware configuration.&#10;// OBSERVER will be present throughout your session.&#10;// FIB CORP takes no responsibility for what you find in the database.">
+        data-ru="// ВНИМАНИЕ: программа читает аппаратную конфигурацию системы.<br>// OBSERVER будет присутствовать на протяжении всей сессии.<br>// FIB CORP не несёт ответственности за найденное в базе данных."
+        data-en="// WARNING: reads your system hardware configuration.<br>// OBSERVER will be present throughout your session.<br>// FIB CORP takes no responsibility for what you find in the database.">
         // ВНИМАНИЕ: программа читает аппаратную конфигурацию системы.<br>
         // OBSERVER будет присутствовать на протяжении всей сессии.<br>
         // FIB CORP не несёт ответственности за найденное в базе данных.
@@ -371,16 +514,18 @@ footer a:hover{color:var(--white)}
   </div>
 </div>
 
+<!-- ── FOOTER ── -->
 <footer>
   <div class="footer-logo">UNTRACEABLES</div>
   <div style="display:flex;flex-direction:column;gap:6px">
     <span>© 2025 FNGYT — <span class="i18n" data-ru="Все права защищены" data-en="All rights reserved">Все права защищены</span></span>
-    <span style="color:rgba(255,255,255,.1)" class="i18n" data-ru="Независимое кино — FNGYT Production" data-en="Independent film — FNGYT Production">Независимое кино — FNGYT Production</span>
+    <span style="color:rgba(255,255,255,.08)" class="i18n" data-ru="Независимое кино — FNGYT Production" data-en="Independent film — FNGYT Production">Независимое кино — FNGYT Production</span>
   </div>
   <a href="#" class="i18n" data-ru="Контакт" data-en="Contact">Контакт</a>
 </footer>
 
 <script>
+/* ── i18n ── */
 const TAPES = {
   ru:'UNTRACEABLES &nbsp;·&nbsp; ТИХОНЯ — АКТИВЕН &nbsp;·&nbsp; ДЕЛО FIB-2025 &nbsp;·&nbsp; ОХОТНИК НА ЗАДАНИИ &nbsp;·&nbsp; ДОСТУП ОГРАНИЧЕН &nbsp;·&nbsp; НЕКОТОРЫХ ЛУЧШЕ НЕ ИСКАТЬ &nbsp;·&nbsp; UNTRACEABLES &nbsp;·&nbsp; ТИХОНЯ — АКТИВЕН &nbsp;·&nbsp; ДЕЛО FIB-2025 &nbsp;·&nbsp; ОХОТНИК НА ЗАДАНИИ &nbsp;·&nbsp; ДОСТУП ОГРАНИЧЕН &nbsp;·&nbsp; НЕКОТОРЫХ ЛУЧШЕ НЕ ИСКАТЬ &nbsp;·&nbsp;',
   en:'UNTRACEABLES &nbsp;·&nbsp; TIKHONYA — ACTIVE &nbsp;·&nbsp; CASE FIB-2025 &nbsp;·&nbsp; HUNTER ON MISSION &nbsp;·&nbsp; ACCESS RESTRICTED &nbsp;·&nbsp; SOME ARE BETTER LEFT UNFOUND &nbsp;·&nbsp; UNTRACEABLES &nbsp;·&nbsp; TIKHONYA — ACTIVE &nbsp;·&nbsp; CASE FIB-2025 &nbsp;·&nbsp; HUNTER ON MISSION &nbsp;·&nbsp; ACCESS RESTRICTED &nbsp;·&nbsp; SOME ARE BETTER LEFT UNFOUND &nbsp;·&nbsp;'
@@ -390,41 +535,97 @@ document.getElementById('tapeEl').innerHTML = TAPES.ru;
 
 function setLang(l){
   lang = l;
-  document.getElementById('langBtn').textContent = l==='ru'?'EN':'RU';
+  ['langBtn','langBtnMob'].forEach(id=>{
+    const el=document.getElementById(id);
+    if(el) el.textContent = l==='ru'?'EN':'RU';
+  });
   document.getElementById('tapeEl').innerHTML = TAPES[l];
   document.querySelectorAll('.i18n').forEach(el=>{
     const v = el.getAttribute('data-'+l);
-    if(v!==null) el.innerHTML = v.replace(/\\n/g,'<br>');
+    if(v!==null) el.innerHTML = v;
   });
 }
 document.getElementById('langBtn').addEventListener('click',()=>setLang(lang==='ru'?'en':'ru'));
+const lbm = document.getElementById('langBtnMob');
+if(lbm) lbm.addEventListener('click',()=>setLang(lang==='ru'?'en':'ru'));
 
-// Scroll reveal
-const obs = new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')}),{threshold:.08});
+/* ── Burger ── */
+const burger = document.getElementById('burgerBtn');
+const mobileMenu = document.getElementById('mobileMenu');
+burger.addEventListener('click',()=>{
+  burger.classList.toggle('open');
+  mobileMenu.classList.toggle('open');
+});
+document.querySelectorAll('.mob-link').forEach(a=>{
+  a.addEventListener('click',()=>{
+    burger.classList.remove('open');
+    mobileMenu.classList.remove('open');
+  });
+});
+
+/* ── Countdown — release date placeholder (set to 6 months from now) ── */
+const releaseDate = new Date('2025-12-31T00:00:00');
+function updateCountdown(){
+  const now = new Date();
+  const diff = releaseDate - now;
+  if(diff <= 0){
+    document.getElementById('countdown').innerHTML =
+      `<div style="font-family:var(--font-mono);font-size:11px;color:var(--fire);letter-spacing:.3em">${lang==='ru'?'УЖЕ ВЫШЕЛ':'OUT NOW'}</div>`;
+    return;
+  }
+  const d = Math.floor(diff/86400000);
+  const h = Math.floor((diff%86400000)/3600000);
+  const m = Math.floor((diff%3600000)/60000);
+  const s = Math.floor((diff%60000)/1000);
+  const pad = n => String(n).padStart(2,'0');
+  document.getElementById('cd-d').textContent = d;
+  document.getElementById('cd-h').textContent = pad(h);
+  document.getElementById('cd-m').textContent = pad(m);
+  document.getElementById('cd-s').textContent = pad(s);
+}
+updateCountdown();
+setInterval(updateCountdown, 1000);
+
+/* ── Scroll reveal ── */
+const obs = new IntersectionObserver(es=>es.forEach(e=>{
+  if(e.isIntersecting) e.target.classList.add('visible');
+}),{threshold:.08});
 document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
 
-// Secret clicks
-let clicks=0,revealed=false;
-const btn=document.getElementById('navSecret');
-btn.addEventListener('click',()=>{
-  if(revealed)return;
+/* ── Secret — 3 clicks ── */
+let clicks=0, revealed=false;
+function doSecret(btn){
+  if(revealed) return;
   clicks++;
-  if(clicks===1){btn.textContent='ACCESS?';btn.style.color='#d4820a';btn.style.borderColor='#d4820a';btn.style.animation='none';}
-  else if(clicks===2){btn.textContent='███████';btn.style.color='#ff2200';btn.style.borderColor='#ff2200';}
-  else if(clicks>=3){
+  const allBtns = [document.getElementById('navSecret'), document.getElementById('navSecretMob')];
+  if(clicks===1){
+    allBtns.forEach(b=>{if(b){b.textContent='ACCESS?';b.style.color='#d4820a';b.style.borderColor='#d4820a';b.style.animation='none';}});
+  } else if(clicks===2){
+    allBtns.forEach(b=>{if(b){b.textContent='███████';b.style.color='#ff2200';b.style.borderColor='#ff2200';}});
+  } else if(clicks>=3){
     revealed=true;
-    btn.textContent='● ACCESS GRANTED';btn.style.color='#00ff50';btn.style.borderColor='#00ff50';
+    allBtns.forEach(b=>{if(b){b.textContent='● ACCESS GRANTED';b.style.color='#00ff50';b.style.borderColor='#00ff50';}});
     const hint=document.getElementById('hiddenHint');
-    hint.style.color='rgba(0,255,80,.2)';
+    hint.style.color='rgba(0,255,80,.25)';
     hint.textContent=lang==='ru'?'// ДОСТУП РАЗРЕШЁН — ПРОКРУТИ ВНИЗ':'// ACCESS GRANTED — SCROLL DOWN';
     const wrap=document.getElementById('terminalWrap');
     wrap.classList.add('revealed');
     setTimeout(()=>wrap.scrollIntoView({behavior:'smooth',block:'start'}),500);
+    // Close mobile menu if open
+    burger.classList.remove('open');
+    mobileMenu.classList.remove('open');
   }
-});
-setTimeout(()=>{if(!revealed)document.getElementById('hiddenHint').style.color='rgba(255,255,255,.06)'},25000);
+}
+document.getElementById('navSecret').addEventListener('click',()=>doSecret());
+const nsm = document.getElementById('navSecretMob');
+if(nsm) nsm.addEventListener('click',()=>doSecret());
 
-// Glitch on title
+/* ── Hint appears after 25s ── */
+setTimeout(()=>{
+  if(!revealed) document.getElementById('hiddenHint').style.color='rgba(255,255,255,.06)';
+},25000);
+
+/* ── Hero title glitch ── */
 const title=document.getElementById('heroTitle');
 let gt;
 title.addEventListener('mouseenter',()=>{
