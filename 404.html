@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>404 — ФАЙЛ НЕ НАЙДЕН // FIB</title>
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Bebas+Neue&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{
+  background:#000;
+  color:#00ff50;
+  font-family:'Share Tech Mono',monospace;
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  overflow:hidden;
+  position:relative;
+}
+
+/* Scanlines */
+body::before{
+  content:'';position:fixed;inset:0;pointer-events:none;z-index:10;
+  background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(0,0,0,0.18) 3px,rgba(0,0,0,0.18) 4px);
+}
+/* Vignette */
+body::after{
+  content:'';position:fixed;inset:0;pointer-events:none;z-index:9;
+  background:radial-gradient(ellipse at center,transparent 40%,rgba(0,0,0,0.85) 100%);
+}
+
+/* Grain */
+.grain{position:fixed;inset:0;z-index:11;pointer-events:none;opacity:.05;
+background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+background-size:128px;animation:grain .4s steps(2) infinite}
+@keyframes grain{0%{background-position:0 0}50%{background-position:-30px 15px}100%{background-position:15px -10px}}
+
+.terminal{
+  position:relative;z-index:20;
+  width:min(680px, 92vw);
+  border:1px solid rgba(0,255,80,0.2);
+  padding:48px;
+  background:rgba(0,5,2,0.6);
+  backdrop-filter:blur(4px);
+}
+
+/* Top bar */
+.term-bar{
+  display:flex;align-items:center;gap:10px;
+  margin-bottom:32px;padding-bottom:16px;
+  border-bottom:1px solid rgba(0,255,80,0.1);
+}
+.term-dot{width:10px;height:10px;border-radius:50%}
+.term-dot.red{background:#ff3b30}
+.term-dot.yellow{background:#ffcc00}
+.term-dot.green{background:#28c840}
+.term-title{
+  font-size:10px;letter-spacing:.3em;color:rgba(0,255,80,.4);
+  margin-left:auto;
+}
+
+/* Big 404 */
+.big-code{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(80px,18vw,160px);
+  line-height:1;letter-spacing:.05em;
+  color:#ff2200;
+  text-shadow:0 0 40px rgba(255,34,0,.5),0 0 80px rgba(255,34,0,.2);
+  margin-bottom:4px;
+  animation:glitch-404 6s ease infinite;
+}
+@keyframes glitch-404{
+  0%,92%,100%{text-shadow:0 0 40px rgba(255,34,0,.5),0 0 80px rgba(255,34,0,.2);transform:none}
+  93%{text-shadow:-4px 0 #ff2200, 4px 0 rgba(0,255,80,.6);transform:skewX(-2deg)}
+  94%{text-shadow:4px 0 #ff2200,-4px 0 rgba(0,255,80,.4);transform:skewX(2deg)}
+  95%{text-shadow:0 0 40px rgba(255,34,0,.5);transform:none}
+}
+
+.lines{margin-bottom:32px}
+.line{font-size:13px;line-height:2.3;display:flex;gap:12px;align-items:baseline}
+.line .prompt{color:rgba(0,255,80,.35);flex-shrink:0}
+.line .cmd{color:#00cc40}
+.line .out{color:#005520}
+.line .err{color:#ff2200}
+.line .warn{color:#cc8800}
+.line .hi{color:#00ff50}
+
+/* Blinking cursor */
+.cursor{
+  display:inline-block;width:9px;height:16px;
+  background:#00ff50;margin-left:4px;
+  animation:blink 1s step-end infinite;vertical-align:middle;
+}
+@keyframes blink{50%{opacity:0}}
+
+.actions{display:flex;gap:14px;flex-wrap:wrap;margin-top:8px}
+.act-btn{
+  font-family:'Share Tech Mono',monospace;font-size:11px;letter-spacing:.2em;
+  text-transform:uppercase;padding:11px 24px;
+  border:1px solid;text-decoration:none;transition:all .2s;
+  display:inline-flex;align-items:center;gap:8px;
+}
+.act-btn.primary{color:#000;background:#00ff50;border-color:#00ff50}
+.act-btn.primary:hover{background:transparent;color:#00ff50;box-shadow:0 0 20px rgba(0,255,80,.2)}
+.act-btn.ghost{color:rgba(0,255,80,.5);border-color:rgba(0,255,80,.2)}
+.act-btn.ghost:hover{color:#00ff50;border-color:rgba(0,255,80,.5)}
+
+/* Bottom status */
+.status-bar{
+  position:fixed;bottom:0;left:0;right:0;z-index:20;
+  display:flex;justify-content:space-between;align-items:center;
+  padding:10px 32px;
+  background:rgba(0,5,2,.8);border-top:1px solid rgba(0,255,80,.1);
+  font-size:9px;letter-spacing:.25em;color:rgba(0,255,80,.3);
+}
+.status-bar .pulse::before{
+  content:'●';color:#ff2200;margin-right:8px;
+  animation:blink 1.5s step-end infinite;
+}
+
+/* Lang toggle */
+.lang-btn{
+  position:fixed;top:20px;right:20px;z-index:30;
+  font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:.25em;
+  color:rgba(0,255,80,.4);border:1px solid rgba(0,255,80,.15);
+  padding:6px 14px;cursor:pointer;background:none;transition:all .2s;
+}
+.lang-btn:hover{color:#00ff50;border-color:rgba(0,255,80,.4)}
+
+@media(max-width:500px){
+  .terminal{padding:28px 20px}
+  .status-bar{padding:10px 16px}
+}
+</style>
+</head>
+<body>
+<div class="grain"></div>
+<button class="lang-btn" id="langBtn">EN</button>
+
+<div class="terminal">
+  <div class="term-bar">
+    <div class="term-dot red"></div>
+    <div class="term-dot yellow"></div>
+    <div class="term-dot green"></div>
+    <div class="term-title">FIB_TERMINAL — SESSION_ACTIVE</div>
+  </div>
+
+  <div class="big-code">404</div>
+
+  <div class="lines" id="lines">
+    <!-- filled by JS -->
+  </div>
+
+  <div class="actions">
+    <a href="index.html" class="act-btn primary" id="btnHome">← НА ГЛАВНУЮ</a>
+    <a href="javascript:history.back()" class="act-btn ghost" id="btnBack">↩ НАЗАД</a>
+  </div>
+</div>
+
+<div class="status-bar">
+  <div class="pulse" id="statusLeft">ОШИБКА ДОСТУПА — КОД 404</div>
+  <div id="statusTime"></div>
+  <div id="statusRight">FIB CORP © 2025</div>
+</div>
+
+<script>
+const CONTENT = {
+  ru: {
+    lines: [
+      { type:'prompt', cmd:'fib --locate "запрошенный файл"', out:null },
+      { type:'err',    cmd:null, out:'ОШИБКА: файл не существует или был уничтожен' },
+      { type:'warn',   cmd:null, out:'ПРЕДУПРЕЖДЕНИЕ: попытка доступа зафиксирована' },
+      { type:'out',    cmd:null, out:'OBSERVER уведомлён о вашем запросе' },
+      { type:'prompt', cmd:'fib --status', out:null },
+      { type:'out',    cmd:null, out:'СТАТУС ДЕЛА: ЗАСЕКРЕЧЕНО' },
+      { type:'out',    cmd:null, out:'УРОВЕНЬ ДОСТУПА: НЕДОСТАТОЧЕН' },
+      { type:'prompt', cmd:null, out:null, cursor:true },
+    ],
+    statusLeft: 'ОШИБКА ДОСТУПА — КОД 404',
+    btnHome: '← НА ГЛАВНУЮ',
+    btnBack: '↩ НАЗАД',
+  },
+  en: {
+    lines: [
+      { type:'prompt', cmd:'fib --locate "requested file"', out:null },
+      { type:'err',    cmd:null, out:'ERROR: file does not exist or has been destroyed' },
+      { type:'warn',   cmd:null, out:'WARNING: access attempt has been logged' },
+      { type:'out',    cmd:null, out:'OBSERVER has been notified of your request' },
+      { type:'prompt', cmd:'fib --status', out:null },
+      { type:'out',    cmd:null, out:'CASE STATUS: CLASSIFIED' },
+      { type:'out',    cmd:null, out:'CLEARANCE LEVEL: INSUFFICIENT' },
+      { type:'prompt', cmd:null, out:null, cursor:true },
+    ],
+    statusLeft: 'ACCESS ERROR — CODE 404',
+    btnHome: '← HOME',
+    btnBack: '↩ BACK',
+  }
+};
+
+let lang = 'ru';
+const linesEl = document.getElementById('lines');
+
+function buildLines(l){
+  const data = CONTENT[l];
+  linesEl.innerHTML = data.lines.map(item => {
+    if(item.type === 'prompt'){
+      return `<div class="line"><span class="prompt">fib@classified:~$</span>${item.cmd ? `<span class="cmd"> ${item.cmd}</span>` : ''}${item.cursor ? '<span class="cursor"></span>' : ''}</div>`;
+    } else if(item.type === 'err'){
+      return `<div class="line"><span class="prompt">&gt;&gt;</span><span class="err"> ${item.out}</span></div>`;
+    } else if(item.type === 'warn'){
+      return `<div class="line"><span class="prompt">&gt;&gt;</span><span class="warn"> ${item.out}</span></div>`;
+    } else {
+      return `<div class="line"><span class="prompt">&gt;&gt;</span><span class="out"> ${item.out}</span></div>`;
+    }
+  }).join('');
+
+  document.getElementById('statusLeft').textContent = data.statusLeft;
+  document.getElementById('btnHome').textContent = data.btnHome;
+  document.getElementById('btnBack').textContent = data.btnBack;
+  document.getElementById('langBtn').textContent = l === 'ru' ? 'EN' : 'RU';
+}
+
+buildLines(lang);
+
+document.getElementById('langBtn').addEventListener('click', () => {
+  lang = lang === 'ru' ? 'en' : 'ru';
+  buildLines(lang);
+});
+
+// Clock
+function tick(){
+  const now = new Date();
+  const pad = n => String(n).padStart(2,'0');
+  document.getElementById('statusTime').textContent =
+    `${pad(now.getDate())}.${pad(now.getMonth()+1)}.${now.getFullYear()} ${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(now.getSeconds())}`;
+}
+tick(); setInterval(tick, 1000);
+</script>
+</body>
+</html>
