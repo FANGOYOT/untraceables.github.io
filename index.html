@@ -16,7 +16,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Share+Tech+Mono&family=Oswald:wght@200;400;700&display=swap" rel="stylesheet">
 <style>
 :root {
-  --bg: #060101;
+  --bg: #050403;
   --fire: #e85000;
   --fire-bright: #ff6a00;
   --fire-dim: #3a1200;
@@ -81,23 +81,21 @@ body{background:var(--bg);color:var(--white);font-family:var(--font-body);overfl
 }
 .bg-canvas::before{
   content:'';
-  position:absolute;inset:-20%;
+  position:absolute;inset:-30%;
   background:
-    radial-gradient(ellipse 80% 60% at 50% 50%,  rgba(100,8,0,0.35)  0%, transparent 65%),
-    radial-gradient(ellipse 60% 80% at 15% 70%,  rgba(80,5,0,0.28)   0%, transparent 55%),
-    radial-gradient(ellipse 50% 60% at 85% 20%,  rgba(90,6,0,0.25)   0%, transparent 60%),
-    radial-gradient(ellipse 100% 40% at 50% 100%,rgba(60,3,0,0.30)   0%, transparent 50%);
-  animation: smoke-drift 22s ease-in-out infinite alternate;
+    radial-gradient(ellipse 90% 50% at 50% 100%, rgba(120,10,0,0.22) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 40% at 20% 80%,  rgba(80,5,0,0.14)   0%, transparent 55%),
+    radial-gradient(ellipse 40% 50% at 80% 70%,  rgba(90,6,0,0.12)   0%, transparent 50%);
+  animation: smoke-drift 25s ease-in-out infinite alternate;
   will-change: transform;
 }
 .bg-canvas::after{
   content:'';
-  position:absolute;inset:-20%;
+  position:absolute;inset:-30%;
   background:
-    radial-gradient(ellipse 50% 40% at 75% 65%,  rgba(110,10,0,0.20) 0%, transparent 55%),
-    radial-gradient(ellipse 40% 60% at 25% 35%,  rgba(70,4,0,0.22)   0%, transparent 50%),
-    radial-gradient(ellipse 70% 35% at 50% 75%,  rgba(85,6,0,0.18)   0%, transparent 60%);
-  animation: smoke-drift2 28s ease-in-out infinite alternate;
+    radial-gradient(ellipse 60% 30% at 60% 90%,  rgba(100,8,0,0.15)  0%, transparent 55%),
+    radial-gradient(ellipse 40% 50% at 30% 60%,  rgba(60,4,0,0.10)   0%, transparent 50%);
+  animation: smoke-drift2 32s ease-in-out infinite alternate;
   will-change: transform;
 }
 /* Горизонтальные слои — как на фото */
@@ -170,7 +168,7 @@ nav {
   height: 58px;
   display: flex; align-items: center; justify-content: space-between;
   padding: 0 48px;
-  background: rgba(18, 2, 2, 0.72);
+  background: rgba(8, 3, 3, 0.65);
   backdrop-filter: blur(28px) saturate(1.8) brightness(0.7);
   -webkit-backdrop-filter: blur(28px) saturate(1.8) brightness(0.7);
   border-bottom: 1px solid rgba(180, 30, 0, 0.45);
@@ -245,9 +243,17 @@ transition:text-shadow .3s}
 .nav-logo:hover{text-shadow:0 0 35px rgba(255,80,0,.8)}
 
 .nav-links{display:flex;gap:36px;align-items:center}
-.nav-links a{font-family:var(--font-mono);font-size:10px;letter-spacing:.25em;text-transform:uppercase;
-color:#7a6a58;color:var(--white-dim);text-decoration:none;transition:color .2s}
+.nav-links a{
+  font-family:var(--font-mono);font-size:10px;letter-spacing:.25em;text-transform:uppercase;
+  color:#7a6a58;color:var(--white-dim);text-decoration:none;transition:color .2s;
+  position:relative;padding-bottom:3px;
+}
+.nav-links a::after{
+  content:'';position:absolute;bottom:0;left:0;width:0;height:1px;
+  background:var(--fire);transition:width .3s cubic-bezier(.4,0,.2,1);
+}
 .nav-links a:hover{color:#ede0cc;color:var(--white)}
+.nav-links a:hover::after{width:100%}
 
 .nav-lang{font-family:var(--font-mono);font-size:10px;letter-spacing:.2em;color:var(--white-dim);
 border:1px solid rgba(255,255,255,.1);padding:6px 14px;cursor:pointer;transition:all .2s;background:none;
@@ -344,7 +350,7 @@ opacity:0;animation:fadeUp .7s ease .7s forwards}
 .countdown-bar{
   position:absolute;bottom:0;right:48px;z-index:3;
   display:flex;gap:24px;padding:20px 28px;
-  background: rgba(18,3,2,0.65);
+  background: rgba(7,3,3,0.62);
   backdrop-filter: blur(20px) saturate(1.6);
   -webkit-backdrop-filter: blur(20px) saturate(1.6);
   border:1px solid rgba(180,40,0,0.25);
@@ -369,7 +375,7 @@ color:inherit}
 .btn-ghost{
   color:#7a6a58;color:var(--white-dim);
   border-color:rgba(255,255,255,.12);
-  background:rgba(20,3,2,0.50);
+  background:rgba(8,3,3,0.45);
   backdrop-filter:blur(10px);
   -webkit-backdrop-filter:blur(10px);
   box-shadow:inset 0 1px 0 rgba(255,255,255,0.08),0 4px 16px rgba(0,0,0,0.3);
@@ -377,9 +383,9 @@ color:inherit}
 .btn-ghost:hover{color:#ede0cc;color:var(--white);border-color:rgba(255,255,255,.3);background:rgba(255,255,255,0.08)}
 
 /* ── TAPE ── */
-.tape{background:rgba(120,20,0,0.85);backdrop-filter:blur(8px);padding:10px 0;overflow:hidden;white-space:nowrap;border-top:1px solid rgba(255,60,0,0.3);border-bottom:1px solid rgba(255,60,0,0.3)}
+.tape{background:rgba(20,4,2,0.7);backdrop-filter:blur(8px);padding:7px 0;overflow:hidden;white-space:nowrap;border-top:1px solid rgba(180,30,0,0.2);border-bottom:1px solid rgba(180,30,0,0.2)}
 .tape-inner{display:inline-block;animation:marquee 22s linear infinite;
-font-family:var(--font-mono);font-size:11px;letter-spacing:.3em;color:rgba(255,180,120,0.85)}
+font-family:var(--font-mono);font-size:10px;letter-spacing:.3em;color:rgba(200,100,60,0.65)}
 @keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 
 /* ── LAYOUT ── */
@@ -398,7 +404,7 @@ line-height:.92;letter-spacing:.02em;color:var(--white);margin-bottom:48px}
 .about-poster::after{content:'';position:absolute;inset:0;
 background:linear-gradient(0deg,rgba(5,4,3,.4) 0%,transparent 50%)}
 .about-text{
-  background: rgba(18,3,2,0.45);
+  background: rgba(7,3,3,0.42);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border: 1px solid rgba(180,40,0,0.12);
@@ -420,7 +426,7 @@ padding:7px 16px;border:1px solid rgba(255,255,255,.08);color:var(--white-dim);t
 .chars-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;
 background:rgba(232,80,0,.06);border:1px solid rgba(232,80,0,.06)}
 .char-card{
-  background: rgba(20,3,2,0.60);
+  background: rgba(8,3,3,0.55);
   backdrop-filter: blur(16px) saturate(1.3);
   -webkit-backdrop-filter: blur(16px) saturate(1.3);
   border: 1px solid rgba(200,30,0,0.22);
@@ -429,7 +435,7 @@ background:rgba(232,80,0,.06);border:1px solid rgba(232,80,0,.06)}
   padding:32px 24px;transition:all .3s;position:relative;overflow:hidden
 }
 .char-card:hover{
-  background: rgba(30,4,2,0.75);
+  background: rgba(12,4,4,0.72);
   border-color: rgba(232,80,0,0.35);
   box-shadow: 0 12px 48px rgba(0,0,0,0.6), 0 0 20px rgba(180,40,0,0.12), inset 0 1px 0 rgba(255,100,0,0.1);
   transform: translateY(-2px);
@@ -455,7 +461,7 @@ letter-spacing:.2em;padding:4px 10px;border:1px solid}
 .syn-list{display:flex;flex-direction:column;gap:1px;margin-top:48px}
 .syn-item{display:grid;grid-template-columns:80px 1fr auto;align-items:start;gap:32px;
 padding:32px 28px;
-background: rgba(18,3,2,0.55);
+background: rgba(7,3,3,0.50);
 backdrop-filter: blur(12px) saturate(1.3);
 -webkit-backdrop-filter: blur(12px) saturate(1.3);
 border:1px solid rgba(180,40,0,.12);
@@ -500,7 +506,7 @@ border:1px solid #00ff50;color:#000;text-decoration:none;transition:all .2s;curs
 
 /* ── FOOTER ── */
 footer{
-  background: rgba(16,2,2,0.65);
+  background: rgba(6,2,2,0.62);
   backdrop-filter: blur(20px) saturate(1.4);
   -webkit-backdrop-filter: blur(20px) saturate(1.4);
   border-top:1px solid rgba(180,30,0,0.25);
@@ -614,6 +620,33 @@ transition:opacity .9s cubic-bezier(.4,0,.2,1),transform .9s cubic-bezier(.4,0,.
   .btn{padding:11px 16px;font-size:9px;letter-spacing:.15em}
 }
 
+
+/* ── CUSTOM CURSOR ── */
+*{cursor:none}
+.cursor-dot{
+  position:fixed;top:0;left:0;z-index:99999;pointer-events:none;
+  width:6px;height:6px;background:#ff2200;border-radius:50%;
+  transform:translate(-50%,-50%);
+  transition:transform .1s ease, background .2s ease;
+  box-shadow:0 0 8px rgba(255,34,0,0.8);
+}
+.cursor-ring{
+  position:fixed;top:0;left:0;z-index:99998;pointer-events:none;
+  width:28px;height:28px;border:1px solid rgba(255,34,0,0.5);
+  border-radius:50%;transform:translate(-50%,-50%);
+  transition:transform .15s ease, width .2s ease, height .2s ease, border-color .2s ease;
+}
+/* Прицел — горизонтальные и вертикальные линии */
+.cursor-ring::before,.cursor-ring::after{
+  content:'';position:absolute;background:rgba(255,34,0,0.35);
+}
+.cursor-ring::before{width:1px;height:8px;left:50%;top:-10px;transform:translateX(-50%)}
+.cursor-ring::after{ width:8px;height:1px;top:50%;left:-10px;transform:translateY(-50%)}
+/* Hover state */
+body.cursor-hover .cursor-dot{transform:translate(-50%,-50%) scale(1.5);background:#ff6a00}
+body.cursor-hover .cursor-ring{width:40px;height:40px;border-color:rgba(255,106,0,0.6)}
+/* На мобиле — обычный курсор */
+@media(max-width:900px){*{cursor:auto}.cursor-dot,.cursor-ring{display:none}}
 </style>
 </head>
 <body>
@@ -629,6 +662,8 @@ transition:opacity .9s cubic-bezier(.4,0,.2,1),transform .9s cubic-bezier(.4,0,.
   <button class="intro-skip" id="introSkip">[ ПРОПУСТИТЬ ]</button>
 </div>
 
+<div class="cursor-dot" id="cursorDot"></div>
+<div class="cursor-ring" id="cursorRing"></div>
 <div class="bg-canvas"></div>
 <div class="bg-layers"></div>
 <div class="bg-ember"></div>
@@ -725,6 +760,47 @@ transition:opacity .9s cubic-bezier(.4,0,.2,1),transform .9s cubic-bezier(.4,0,.
 <div class="divider"></div>
 
 <!-- ── CHARACTERS ── -->
+
+<section id="trailer" style="padding:80px 0 0">
+  <div class="container">
+    <span class="label i18n" data-ru="// ТРЕЙЛЕР" data-en="// TRAILER">// ТРЕЙЛЕР</span>
+    <div class="trailer-wrap glass-reflect reflect-hover" style="
+      margin-top:32px;position:relative;aspect-ratio:16/9;max-width:900px;
+      background:rgba(8,3,3,0.6);
+      backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+      border:1px solid rgba(180,30,0,0.25);
+      border-top:1px solid rgba(255,255,255,0.05);
+      box-shadow:0 16px 60px rgba(0,0,0,0.6),inset 0 1px 0 rgba(255,60,0,0.06);
+      display:flex;align-items:center;justify-content:center;overflow:hidden;
+    ">
+      <!-- Scanlines overlay -->
+      <div style="position:absolute;inset:0;pointer-events:none;opacity:.06;
+        background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(0,0,0,1) 3px,rgba(0,0,0,1) 4px)"></div>
+      <!-- Corner brackets -->
+      <div style="position:absolute;top:16px;left:16px;width:24px;height:24px;
+        border-top:2px solid rgba(232,80,0,.5);border-left:2px solid rgba(232,80,0,.5)"></div>
+      <div style="position:absolute;top:16px;right:16px;width:24px;height:24px;
+        border-top:2px solid rgba(232,80,0,.5);border-right:2px solid rgba(232,80,0,.5)"></div>
+      <div style="position:absolute;bottom:16px;left:16px;width:24px;height:24px;
+        border-bottom:2px solid rgba(232,80,0,.5);border-left:2px solid rgba(232,80,0,.5)"></div>
+      <div style="position:absolute;bottom:16px;right:16px;width:24px;height:24px;
+        border-bottom:2px solid rgba(232,80,0,.5);border-right:2px solid rgba(232,80,0,.5)"></div>
+      <!-- Play button -->
+      <div style="display:flex;flex-direction:column;align-items:center;gap:20px;z-index:1">
+        <div style="width:72px;height:72px;border:2px solid rgba(232,80,0,0.6);border-radius:50%;
+          display:flex;align-items:center;justify-content:center;
+          box-shadow:0 0 30px rgba(232,80,0,0.2),inset 0 0 20px rgba(232,80,0,0.05);">
+          <div style="width:0;height:0;border-top:14px solid transparent;
+            border-bottom:14px solid transparent;border-left:22px solid rgba(232,80,0,0.8);
+            margin-left:4px"></div>
+        </div>
+        <span style="font-family:var(--font-mono);font-size:10px;letter-spacing:.4em;
+          color:rgba(200,100,60,0.6)" class="i18n" data-ru="ТРЕЙЛЕР — СКОРО" data-en="TRAILER — COMING SOON">ТРЕЙЛЕР — СКОРО</span>
+      </div>
+    </div>
+  </div>
+</section>
+
 <section id="chars">
   <div class="container">
     <span class="label reveal i18n" data-ru="// ДОСЬЕ" data-en="// CASE FILES">// ДОСЬЕ</span>
@@ -1199,7 +1275,7 @@ title.addEventListener('mouseleave',()=>{clearInterval(gt);title.style.textShado
     }
     // Темнее когда не на самом верху
     if(y > 20){
-      nav.style.background = 'rgba(18,2,2,0.92)';
+      nav.style.background = 'rgba(6,2,2,0.94)';
       nav.style.boxShadow = '0 8px 40px rgba(0,0,0,0.9), inset 0 -1px 0 rgba(180,20,0,0.25)';
     } else {
       nav.style.background = '';
