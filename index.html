@@ -622,21 +622,19 @@ transition:opacity .9s cubic-bezier(.4,0,.2,1),transform .9s cubic-bezier(.4,0,.
 /* ── CUSTOM CURSOR ── */
 *{cursor:none}
 .cursor-dot{
-  position:fixed;z-index:99999;pointer-events:none;
+  position:fixed;top:0;left:0;z-index:99999;pointer-events:none;
   width:6px;height:6px;
   background:#ff2200;border-radius:50%;
-  transform:translate(-50%,-50%);
-  will-change:left,top;
+  will-change:transform;
   box-shadow:0 0 8px rgba(255,34,0,0.8);
   display:none;
 }
 .cursor-ring{
-  position:fixed;z-index:99998;pointer-events:none;
+  position:fixed;top:0;left:0;z-index:99998;pointer-events:none;
   width:28px;height:28px;
   border:1px solid rgba(255,34,0,0.5);
   border-radius:50%;
-  transform:translate(-50%,-50%);
-  will-change:left,top;
+  will-change:transform;
   display:none;
 }
 .cursor-ring::before,.cursor-ring::after{display:none}
@@ -1314,7 +1312,7 @@ title.addEventListener('mouseleave',()=>{clearInterval(gt);title.style.textShado
   });
 })();
 
-/* ── CUSTOM CURSOR ── */
+/* ── CUSTOM CURSOR — GPU accelerated via transform ── */
 (function(){
   if('ontouchstart' in window || window.innerWidth <= 900) return;
   const dot  = document.getElementById('cursorDot');
@@ -1324,31 +1322,30 @@ title.addEventListener('mouseleave',()=>{clearInterval(gt);title.style.textShado
   let mx = 0, my = 0;
   let rx = 0, ry = 0;
   let started = false;
+  const dOff = 3, rOff = 14; // half-sizes for centering
 
   document.addEventListener('mousemove', e => {
     mx = e.clientX;
     my = e.clientY;
-
-    // Show cursors on very first move
     if(!started){
       started = true;
+      rx = mx; ry = my;
       dot.style.display  = 'block';
       ring.style.display = 'block';
-      rx = mx; ry = my; // snap ring to current pos instantly
     }
-
-    dot.style.left = mx + 'px';
-    dot.style.top  = my + 'px';
+    // Dot instant — GPU transform, no layout
+    dot.style.transform = 'translate('+(mx-dOff)+'px,'+(my-dOff)+'px)';
   }, {passive:true});
 
-  // Ring lerp — объединён с параллакс loop в единый RAF
+  // Single RAF — ring + parallax
   (function loop(){
-    rx += (mx - rx) * 0.08;
-    ry += (my - ry) * 0.08;
-    ring.style.left = rx.toFixed(1) + 'px';
-    ring.style.top  = ry.toFixed(1) + 'px';
-    // Параллакс постера — обновляем тут же
-    if(window.__poster){
+    rx += (mx - rx) * 0.10;
+    ry += (my - ry) * 0.10;
+    // GPU transform — no layout reflow
+    ring.style.transform = 'translate('+(rx-rOff).toFixed(1)+'px,'+(ry-rOff).toFixed(1)+'px)';
+
+    // Параллакс постера
+    if(window.__poster && window.__lerp){
       window.__px = window.__lerp(window.__px, window.__tx(), 0.05);
       window.__py = window.__lerp(window.__py, window.__ty(), 0.05);
       window.__poster.style.transform = 'scale(1.15) translate('+window.__px.toFixed(2)+'px,'+window.__py.toFixed(2)+'px)';
@@ -1356,22 +1353,12 @@ title.addEventListener('mouseleave',()=>{clearInterval(gt);title.style.textShado
     requestAnimationFrame(loop);
   })();
 
-  // Hover states
   document.querySelectorAll('a,button,.nav-secret,.char-card,.syn-item,.btn,.trailer-wrap').forEach(el => {
     el.addEventListener('mouseenter', () => document.body.classList.add('cursor-hover'));
     el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-hover'));
   });
-
-  document.addEventListener('mouseleave', () => {
-    dot.style.display  = 'none';
-    ring.style.display = 'none';
-  });
-  document.addEventListener('mouseenter', () => {
-    if(started){
-      dot.style.display  = 'block';
-      ring.style.display = 'block';
-    }
-  });
+  document.addEventListener('mouseleave', () => { dot.style.display='none'; ring.style.display='none'; });
+  document.addEventListener('mouseenter', () => { if(started){ dot.style.display='block'; ring.style.display='block'; }});
 })();
 </script>
 </body>
