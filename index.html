@@ -459,8 +459,8 @@ backdrop-filter: blur(12px) saturate(1.3);
 border:1px solid rgba(180,40,0,.12);
 border-top:1px solid rgba(255,255,255,.04);
 box-shadow: 0 4px 24px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,60,0,0.05);
-transition:background .3s,border-color .3s,box-shadow .3s;position:relative;overflow:hidden}
-.syn-item:hover{
+transition:background .3s,border-color .3s,box-shadow .3s,transform .2s;position:relative;overflow:hidden}
+.syn-item:hover{transform:translateX(4px);
   background:rgba(28,4,2,0.72);
   border-color:rgba(232,80,0,.22);
   box-shadow: 0 8px 32px rgba(0,0,0,0.4), 0 0 20px rgba(180,40,0,0.08), inset 0 1px 0 rgba(255,80,0,0.08);
@@ -637,6 +637,48 @@ body.cursor-hover .cursor-ring{width:40px;height:40px;border-color:rgba(255,106,
 @media(max-width:900px){*{cursor:auto}.cursor-dot,.cursor-ring{display:none}}
 *:hover{cursor:none!important}
 
+
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-track{background:#000}
+::-webkit-scrollbar-thumb{background:rgba(232,80,0,.4);border-radius:2px}
+::-webkit-scrollbar-thumb:hover{background:rgba(232,80,0,.7)}
+
+
+/* ── SOUND BTN ── */
+.sound-btn{position:fixed;bottom:24px;right:24px;z-index:9000;font-family:var(--font-mono);font-size:9px;letter-spacing:.2em;color:rgba(0,255,80,.3);border:1px solid rgba(0,255,80,.1);background:rgba(0,10,5,.7);backdrop-filter:blur(10px);padding:8px 14px;cursor:pointer;transition:all .2s;border-radius:2px}
+.sound-btn:hover{color:rgba(0,255,80,.6);border-color:rgba(0,255,80,.3)}
+@media(max-width:480px){.sound-btn{display:none}}
+
+
+/* ── HERO TITLE GLITCH ── */
+.hero-title{position:relative}
+.hero-title::before,.hero-title::after{
+  content:attr(data-text);position:absolute;top:0;left:0;width:100%;
+  font-family:inherit;font-size:inherit;line-height:inherit;letter-spacing:inherit;
+}
+.hero-title::before{color:rgba(0,255,80,.5);clip-path:polygon(0 0,100% 0,100% 45%,0 45%);animation:glitch-top 5s infinite;opacity:0}
+.hero-title::after{color:rgba(255,34,0,.7);clip-path:polygon(0 55%,100% 55%,100% 100%,0 100%);animation:glitch-bot 5s infinite;opacity:0}
+@keyframes glitch-top{0%,88%,100%{opacity:0;transform:none}89%{opacity:1;transform:translate(-3px,0) skewX(-2deg)}91%{opacity:1;transform:translate(3px,0)}93%{opacity:0}}
+@keyframes glitch-bot{0%,88%,100%{opacity:0;transform:none}90%{opacity:1;transform:translate(3px,0) skewX(2deg)}92%{opacity:1;transform:translate(-2px,0)}94%{opacity:0}}
+
+
+/* ── POSTER CORNERS ── */
+.about-poster::before{
+  content:'';position:absolute;inset:0;z-index:2;pointer-events:none;
+  background:
+    linear-gradient(to right,rgba(232,80,0,.5) 1px,transparent 1px) 0 0/20px 20px no-repeat,
+    linear-gradient(to bottom,rgba(232,80,0,.5) 1px,transparent 1px) 0 0/20px 20px no-repeat,
+    linear-gradient(to left,rgba(232,80,0,.5) 1px,transparent 1px) 100% 0/20px 20px no-repeat,
+    linear-gradient(to bottom,rgba(232,80,0,.5) 1px,transparent 1px) 100% 0/20px 20px no-repeat,
+    linear-gradient(to right,rgba(232,80,0,.5) 1px,transparent 1px) 0 100%/20px 20px no-repeat,
+    linear-gradient(to top,rgba(232,80,0,.5) 1px,transparent 1px) 0 100%/20px 20px no-repeat,
+    linear-gradient(to left,rgba(232,80,0,.5) 1px,transparent 1px) 100% 100%/20px 20px no-repeat,
+    linear-gradient(to top,rgba(232,80,0,.5) 1px,transparent 1px) 100% 100%/20px 20px no-repeat;
+}
+.about-poster img{transition:transform .6s ease}
+.about-poster:hover img{transform:scale(1.04)}
+
 /* ── REDUCED MOTION — уважаем системные настройки ── */
 @media(prefers-reduced-motion:reduce){
   *{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
@@ -751,6 +793,7 @@ body.cursor-hover .cursor-ring{width:40px;height:40px;border-color:rgba(255,106,
   ОБЪЕКТ #<span id="visitorNum">????</span> ИДЕНТИФИЦИРОВАН<br>
   СЕССИЯ: <span id="sessionTime">00:00</span>
 </div>
+<canvas id="particleCanvas" style="position:fixed;inset:0;z-index:1;pointer-events:none;opacity:.3"></canvas>
 <div class="cursor-dot" id="cursorDot"></div>
 <div class="cursor-ring" id="cursorRing"></div>
 <div class="bg-canvas"></div>
@@ -758,6 +801,8 @@ body.cursor-hover .cursor-ring{width:40px;height:40px;border-color:rgba(255,106,
 <div class="bg-ember"></div>
 <div class="vignette"></div>
 <div class="grain"></div>
+
+<button class="sound-btn" id="soundBtn">♪ SFX: ON</button>
 
 <!-- ── NAV ── -->
 <nav class="glass-reflect">
@@ -806,7 +851,7 @@ body.cursor-hover .cursor-ring{width:40px;height:40px;border-color:rgba(255,106,
 
   <div class="hero-content">
     <div class="hero-eyebrow i18n" data-ru="// FIB — ЗАСЕКРЕЧЕННЫЙ РЕЛИЗ — 2025" data-en="// FIB — CLASSIFIED RELEASE — 2025">// FIB — ЗАСЕКРЕЧЕННЫЙ РЕЛИЗ — 2025</div>
-    <h1 class="hero-title" id="heroTitle">UNTRACEABLES</h1>
+    <h1 class="hero-title" id="heroTitle" data-text="UNTRACEABLES">UNTRACEABLES</h1>
     <p class="hero-sub i18n" data-ru="НЕКОТОРЫХ ЛУЧШЕ НЕ ИСКАТЬ" data-en="SOME ARE BETTER LEFT UNFOUND">НЕКОТОРЫХ ЛУЧШЕ НЕ ИСКАТЬ</p>
     <div class="hero-meta">
       <div class="hm-item"><span class="hm-label i18n" data-ru="Жанр" data-en="Genre">Жанр</span><span class="hm-val fire i18n" data-ru="Криминал · Хоррор · Детектив" data-en="Crime · Horror · Detective">Криминал · Хоррор · Детектив</span></div>
@@ -1134,6 +1179,8 @@ let lang = 'ru';
 document.getElementById('tapeEl').innerHTML = TAPES.ru;
 
 function setLang(l){
+  const ht = document.getElementById('heroTitle');
+  if(ht) setTimeout(()=>ht.setAttribute('data-text', ht.textContent.trim()), 10);
   lang = l;
   ['langBtn','langBtnMob'].forEach(id=>{
     const el=document.getElementById(id);
@@ -1693,6 +1740,51 @@ title.addEventListener('mouseleave',()=>{clearInterval(gt);title.style.textShado
   document.addEventListener('mouseleave', () => { dot.style.display='none'; ring.style.display='none'; });
   document.addEventListener('mouseenter', () => { if(started){ dot.style.display='block'; ring.style.display='block'; }});
 })();
+
+/* ── PARTICLES ── */
+(function(){
+  const canvas = document.getElementById('particleCanvas');
+  if(!canvas) return;
+  const ctx = canvas.getContext('2d');
+  let W, H, particles = [];
+  function resize(){ W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
+  resize(); window.addEventListener('resize', resize);
+  function rand(a,b){ return a + Math.random()*(b-a); }
+  function mkP(){ return {x:rand(0,W),y:rand(H*.3,H),vx:rand(-.1,.1),vy:rand(-.25,-.05),size:rand(.5,1.8),alpha:rand(.04,.2),color:Math.random()>.7?'#ff3300':'#cc3300',life:rand(.4,1)}; }
+  for(let i=0;i<55;i++) particles.push(mkP());
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    particles.forEach((p,i)=>{
+      p.x+=p.vx; p.y+=p.vy; p.life-=.003;
+      if(p.life<=0||p.y<-10) particles[i]=mkP();
+      ctx.save(); ctx.globalAlpha=p.alpha*(p.life); ctx.fillStyle=p.color;
+      ctx.beginPath(); ctx.arc(p.x,p.y,p.size,0,Math.PI*2); ctx.fill(); ctx.restore();
+    });
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+/* ── SOUND FX ── */
+let sfxOn = true;
+const AudioCtx = window.AudioContext || window.webkitAudioContext;
+let actx = null;
+function getACtx(){ if(!actx) actx = new AudioCtx(); return actx; }
+function playClick(){
+  if(!sfxOn) return;
+  try{ const a=getACtx(),o=a.createOscillator(),g=a.createGain();o.connect(g);g.connect(a.destination);o.frequency.setValueAtTime(700,a.currentTime);o.frequency.exponentialRampToValueAtTime(150,a.currentTime+.09);g.gain.setValueAtTime(.07,a.currentTime);g.gain.exponentialRampToValueAtTime(.001,a.currentTime+.09);o.start();o.stop(a.currentTime+.09);}catch(e){}
+}
+function playHover(){
+  if(!sfxOn) return;
+  try{ const a=getACtx(),o=a.createOscillator(),g=a.createGain();o.connect(g);g.connect(a.destination);o.frequency.setValueAtTime(350,a.currentTime);g.gain.setValueAtTime(.02,a.currentTime);g.gain.exponentialRampToValueAtTime(.001,a.currentTime+.04);o.start();o.stop(a.currentTime+.04);}catch(e){}
+}
+const sBtn = document.getElementById('soundBtn');
+if(sBtn) sBtn.addEventListener('click',()=>{ sfxOn=!sfxOn; sBtn.textContent='♪ SFX: '+(sfxOn?'ON':'OFF'); playClick(); });
+document.querySelectorAll('a,button,.char-card,.syn-item,.genre-chip,.nav-secret').forEach(el=>{
+  el.addEventListener('mouseenter', playHover);
+  el.addEventListener('click', playClick);
+});
+
 </script>
 </body>
 </html>
