@@ -679,6 +679,213 @@ body.cursor-hover .cursor-ring{width:40px;height:40px;border-color:rgba(255,106,
 .about-poster img{transition:transform .6s ease}
 .about-poster:hover img{transform:scale(1.04)}
 
+
+/* ── PASSWORD OVERLAY ── */
+#pwOverlay{
+  position:fixed;inset:0;z-index:99990;
+  background:rgba(0,0,0,.92);backdrop-filter:blur(12px);
+  display:none;align-items:center;justify-content:center;flex-direction:column;
+}
+#pwOverlay.show{display:flex}
+.pw-box{
+  width:min(480px,90vw);
+  border:1px solid rgba(0,255,80,.2);
+  background:rgba(0,8,4,.95);
+  padding:48px 40px;
+  position:relative;
+  animation:pw-in .3s ease;
+}
+@keyframes pw-in{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+.pw-scanlines{
+  position:absolute;inset:0;pointer-events:none;
+  background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(0,0,0,.15) 3px,rgba(0,0,0,.15) 4px);
+}
+.pw-label{
+  font-family:var(--font-mono);font-size:9px;letter-spacing:.45em;
+  color:rgba(0,255,80,.4);text-transform:uppercase;margin-bottom:8px;
+}
+.pw-title{
+  font-family:'Bebas Neue',sans-serif;font-size:clamp(32px,6vw,52px);
+  color:#00ff50;letter-spacing:.08em;margin-bottom:6px;
+  text-shadow:0 0 20px rgba(0,255,80,.3);
+}
+.pw-sub{
+  font-family:var(--font-mono);font-size:10px;color:#004d18;
+  letter-spacing:.2em;margin-bottom:40px;
+}
+.pw-digits{
+  display:flex;gap:16px;justify-content:center;margin-bottom:36px;
+}
+.pw-digit{
+  width:56px;height:72px;
+  border:1px solid rgba(0,255,80,.2);
+  background:rgba(0,20,10,.8);
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Bebas Neue',sans-serif;font-size:44px;
+  color:#00ff50;text-shadow:0 0 16px rgba(0,255,80,.5);
+  transition:border-color .15s,box-shadow .15s;
+  position:relative;
+}
+.pw-digit.active{
+  border-color:rgba(0,255,80,.7);
+  box-shadow:0 0 20px rgba(0,255,80,.15);
+}
+.pw-digit.filled{border-color:rgba(0,255,80,.4)}
+.pw-digit.error{
+  border-color:rgba(255,34,0,.7)!important;
+  color:#ff2200!important;
+  text-shadow:0 0 16px rgba(255,34,0,.5)!important;
+  animation:shake .3s ease;
+}
+@keyframes shake{0%,100%{transform:none}25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
+.pw-cursor{
+  position:absolute;bottom:8px;left:50%;transform:translateX(-50%);
+  width:24px;height:2px;background:#00ff50;
+  animation:blink 1s step-end infinite;
+}
+@keyframes blink{50%{opacity:0}}
+.pw-hint{
+  font-family:var(--font-mono);font-size:9px;letter-spacing:.25em;
+  color:rgba(0,255,80,.2);text-align:center;margin-bottom:32px;
+  min-height:16px;transition:color .3s;
+}
+.pw-hint.err{color:rgba(255,34,0,.6)}
+.pw-hint.ok{color:rgba(0,255,80,.6)}
+.pw-close{
+  position:absolute;top:16px;right:20px;
+  font-family:var(--font-mono);font-size:9px;letter-spacing:.2em;
+  color:rgba(0,255,80,.2);background:none;border:none;cursor:pointer;
+  transition:color .2s;
+}
+.pw-close:hover{color:rgba(0,255,80,.5)}
+.pw-numpad{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.pw-key{
+  font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:.05em;
+  color:rgba(0,255,80,.5);background:rgba(0,15,8,.8);
+  border:1px solid rgba(0,255,80,.1);padding:14px 0;
+  cursor:pointer;transition:all .15s;text-align:center;
+  -webkit-tap-highlight-color:transparent;
+}
+.pw-key:hover{color:#00ff50;border-color:rgba(0,255,80,.35);background:rgba(0,30,15,.8)}
+.pw-key:active{transform:scale(.95)}
+.pw-key.del{font-size:16px;color:rgba(255,80,80,.4)}
+.pw-key.del:hover{color:rgba(255,80,80,.8);border-color:rgba(255,80,80,.3)}
+
+
+/* ── PASSWORD OVERLAY ── */
+#pwOverlay{
+  position:fixed;inset:0;z-index:99997;
+  background:rgba(0,0,0,.92);backdrop-filter:blur(12px);
+  display:none;flex-direction:column;align-items:center;justify-content:center;
+}
+#pwOverlay.open{display:flex}
+.pw-box{
+  width:min(480px,90vw);
+  border:1px solid rgba(0,255,80,.2);
+  background:rgba(0,8,4,.95);
+  padding:48px 40px;position:relative;
+}
+.pw-box::before{
+  content:'';position:absolute;inset:0;pointer-events:none;
+  background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(0,0,0,.12) 3px,rgba(0,0,0,.12) 4px);
+}
+.pw-title{
+  font-family:var(--font-mono);font-size:clamp(18px,3vw,28px);
+  color:#00ff50;letter-spacing:.08em;text-shadow:0 0 20px rgba(0,255,80,.4);
+  margin-bottom:8px;
+}
+.pw-sub{font-family:var(--font-mono);font-size:10px;color:#005520;letter-spacing:.2em;margin-bottom:40px}
+.pw-dots{display:flex;gap:20px;justify-content:center;margin-bottom:40px}
+.pw-dot{
+  width:44px;height:44px;border:1px solid rgba(0,255,80,.2);
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--font-mono);font-size:24px;color:#00ff50;
+  transition:border-color .15s,box-shadow .15s;
+}
+.pw-dot.filled{border-color:rgba(0,255,80,.6);box-shadow:0 0 12px rgba(0,255,80,.15)}
+.pw-dot.error{border-color:rgba(255,34,0,.6);color:#ff2200;animation:shake .3s ease}
+.pw-dot.success{border-color:rgba(0,255,80,1);box-shadow:0 0 20px rgba(0,255,80,.4)}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.pw-numpad{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;max-width:240px;margin:0 auto}
+.pw-key{
+  font-family:var(--font-mono);font-size:16px;letter-spacing:.1em;
+  color:#00cc40;background:rgba(0,20,10,.8);
+  border:1px solid rgba(0,255,80,.1);padding:14px;
+  cursor:pointer;transition:all .15s;text-align:center;
+}
+.pw-key:hover{background:rgba(0,40,20,.9);border-color:rgba(0,255,80,.35);color:#00ff50;box-shadow:0 0 10px rgba(0,255,80,.1)}
+.pw-key:active{transform:scale(.95)}
+.pw-key.del{color:rgba(255,80,80,.6);border-color:rgba(255,80,80,.1)}
+.pw-key.del:hover{color:#ff5050;border-color:rgba(255,80,80,.35)}
+.pw-close{
+  position:absolute;top:16px;right:16px;
+  font-family:var(--font-mono);font-size:9px;letter-spacing:.25em;
+  color:rgba(0,255,80,.2);background:none;border:none;cursor:pointer;transition:color .2s;
+}
+.pw-close:hover{color:rgba(0,255,80,.5)}
+.pw-error-msg{
+  font-family:var(--font-mono);font-size:10px;letter-spacing:.2em;
+  color:#ff2200;text-align:center;margin-top:20px;
+  height:18px;transition:opacity .3s;
+}
+
+
+/* ── PASSWORD OVERLAY ── */
+#pwOverlay{
+  position:fixed;inset:0;z-index:99990;
+  background:rgba(0,0,0,.92);
+  backdrop-filter:blur(12px);
+  display:none;align-items:center;justify-content:center;
+}
+#pwOverlay.open{display:flex}
+.pw-box{
+  width:min(480px,90vw);
+  border:1px solid rgba(0,255,80,.2);
+  background:rgba(0,8,4,.95);
+  padding:48px 40px;position:relative;
+  box-shadow:0 0 60px rgba(0,255,80,.05);
+}
+.pw-box::before{
+  content:'';position:absolute;inset:0;pointer-events:none;
+  background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(0,0,0,.15) 3px,rgba(0,0,0,.15) 4px);
+}
+.pw-title{
+  font-family:var(--font-mono);font-size:clamp(18px,3vw,28px);
+  color:#00ff50;letter-spacing:.1em;margin-bottom:8px;
+  text-shadow:0 0 20px rgba(0,255,80,.3);
+}
+.pw-sub{font-family:var(--font-mono);font-size:10px;color:#005520;letter-spacing:.2em;margin-bottom:36px}
+.pw-dots{display:flex;gap:16px;justify-content:center;margin-bottom:36px}
+.pw-dot{
+  width:48px;height:60px;
+  border:1px solid rgba(0,255,80,.2);
+  background:rgba(0,20,10,.8);
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--font-mono);font-size:28px;color:#00ff50;
+  transition:border-color .15s,box-shadow .15s;
+  position:relative;
+}
+.pw-dot.filled{border-color:rgba(0,255,80,.5);box-shadow:0 0 12px rgba(0,255,80,.1)}
+.pw-dot.active{border-color:#00ff50;box-shadow:0 0 16px rgba(0,255,80,.2)}
+.pw-dot.err{border-color:rgba(255,34,0,.6);box-shadow:0 0 12px rgba(255,34,0,.15);animation:shake .3s ease}
+.pw-dot.ok{border-color:rgba(0,255,80,.8);box-shadow:0 0 20px rgba(0,255,80,.3)}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+.pw-keypad{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;max-width:280px;margin:0 auto}
+.pw-key{
+  font-family:var(--font-mono);font-size:16px;letter-spacing:.1em;
+  color:#00cc40;border:1px solid rgba(0,255,80,.12);
+  background:rgba(0,15,8,.8);padding:16px;
+  cursor:pointer;transition:all .15s;text-align:center;
+}
+.pw-key:hover{background:rgba(0,40,20,.8);border-color:rgba(0,255,80,.3);color:#00ff50}
+.pw-key:active{transform:scale(.95)}
+.pw-key.del{color:rgba(255,80,80,.6);border-color:rgba(255,34,0,.1)}
+.pw-key.del:hover{color:#ff4444;border-color:rgba(255,34,0,.3);background:rgba(20,0,0,.8)}
+.pw-hint{font-family:var(--font-mono);font-size:9px;color:rgba(0,255,80,.2);letter-spacing:.25em;text-align:center;margin-top:28px}
+.pw-err-msg{font-family:var(--font-mono);font-size:10px;color:#ff2200;letter-spacing:.2em;text-align:center;margin-top:16px;min-height:18px;transition:opacity .3s}
+.pw-close{position:absolute;top:16px;right:16px;font-family:var(--font-mono);font-size:9px;letter-spacing:.2em;color:rgba(0,255,80,.2);background:none;border:none;cursor:pointer;padding:4px 8px;transition:color .2s}
+.pw-close:hover{color:rgba(0,255,80,.5)}
+
 /* ── REDUCED MOTION — уважаем системные настройки ── */
 @media(prefers-reduced-motion:reduce){
   *{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
@@ -1147,7 +1354,7 @@ body.cursor-hover .cursor-ring{width:40px;height:40px;border-color:rgba(255,106,
         <div class="t-line dim i18n" data-ru="> 19 объектов в базе данных. Тихоня — один из них." data-en="> 19 objects in the database. Tikhonya is one of them.">> 19 объектов в базе данных. Тихоня — один из них.</div>
         <div class="t-line warn i18n" data-ru="> Найди что скрыто. Он уже знает что ты здесь." data-en="> Find what is hidden. He already knows you're here.">> Найди что скрыто. Он уже знает что ты здесь.</div>
       </div>
-      <a href="#" class="t-btn i18n" data-ru="▼  СКАЧАТЬ ТЕРМИНАЛ" data-en="▼  DOWNLOAD TERMINAL">▼ &nbsp; СКАЧАТЬ ТЕРМИНАЛ</a>
+      <button onclick="openPwOverlay()" class="t-btn i18n" data-ru="▼  СКАЧАТЬ ТЕРМИНАЛ" data-en="▼  DOWNLOAD TERMINAL">▼ &nbsp; СКАЧАТЬ ТЕРМИНАЛ</button>
       <div class="t-warn i18n"
         data-ru="// ВНИМАНИЕ: программа читает аппаратную конфигурацию системы.<br>// OBSERVER будет присутствовать на протяжении всей сессии.<br>// FIB CORP не несёт ответственности за найденное в базе данных."
         data-en="// WARNING: reads your system hardware configuration.<br>// OBSERVER will be present throughout your session.<br>// FIB CORP takes no responsibility for what you find in the database.">
@@ -1786,5 +1993,70 @@ document.querySelectorAll('a,button,.char-card,.syn-item,.genre-chip,.nav-secret
 });
 
 </script>
+
+<!-- ── PASSWORD OVERLAY ── -->
+<div id="pwOverlay">
+  <div class="pw-box">
+    <div class="pw-scanlines"></div>
+    <button class="pw-close" id="pwClose">[ ESC ]</button>
+    <div class="pw-label">// FIB CORP — SECURE DOWNLOAD</div>
+    <div class="pw-title" id="pwTitle">КОД ДОСТУПА</div>
+    <div class="pw-sub" id="pwSub">ВВЕДИТЕ 4-ЗНАЧНЫЙ КОД</div>
+    <div class="pw-digits" id="pwDigits">
+      <div class="pw-digit active" id="pd0"><div class="pw-cursor"></div></div>
+      <div class="pw-digit" id="pd1"></div>
+      <div class="pw-digit" id="pd2"></div>
+      <div class="pw-digit" id="pd3"></div>
+    </div>
+    <div class="pw-hint" id="pwHint">// ДОСТУП К ФАЙЛАМ АРХИВА FIB</div>
+    <!-- Numpad для мобільних -->
+    <div class="pw-numpad" id="pwNumpad">
+      <div class="pw-key" data-k="1">1</div>
+      <div class="pw-key" data-k="2">2</div>
+      <div class="pw-key" data-k="3">3</div>
+      <div class="pw-key" data-k="4">4</div>
+      <div class="pw-key" data-k="5">5</div>
+      <div class="pw-key" data-k="6">6</div>
+      <div class="pw-key" data-k="7">7</div>
+      <div class="pw-key" data-k="8">8</div>
+      <div class="pw-key" data-k="9">9</div>
+      <div class="pw-key" data-k="clr">CLR</div>
+      <div class="pw-key" data-k="0">0</div>
+      <div class="pw-key del" data-k="del">⌫</div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ── PASSWORD OVERLAY ── -->
+<div id="pwOverlay">
+  <div class="pw-box">
+    <button class="pw-close" onclick="closePwOverlay()">[ ESC ]</button>
+    <div class="pw-title">ACCESS REQUIRED</div>
+    <div class="pw-sub" id="pwSub">ENTER 4-DIGIT CLEARANCE CODE</div>
+    <div class="pw-dots" id="pwDots">
+      <div class="pw-dot" id="pwd0">_</div>
+      <div class="pw-dot" id="pwd1">_</div>
+      <div class="pw-dot" id="pwd2">_</div>
+      <div class="pw-dot" id="pwd3">_</div>
+    </div>
+    <div class="pw-numpad">
+      <div class="pw-key" onclick="pwInput('1')">1</div>
+      <div class="pw-key" onclick="pwInput('2')">2</div>
+      <div class="pw-key" onclick="pwInput('3')">3</div>
+      <div class="pw-key" onclick="pwInput('4')">4</div>
+      <div class="pw-key" onclick="pwInput('5')">5</div>
+      <div class="pw-key" onclick="pwInput('6')">6</div>
+      <div class="pw-key" onclick="pwInput('7')">7</div>
+      <div class="pw-key" onclick="pwInput('8')">8</div>
+      <div class="pw-key" onclick="pwInput('9')">9</div>
+      <div class="pw-key del" onclick="pwDel()">⌫</div>
+      <div class="pw-key" onclick="pwInput('0')">0</div>
+      <div class="pw-key del" onclick="closePwOverlay()">✕</div>
+    </div>
+    <div class="pw-error-msg" id="pwErr"></div>
+  </div>
+</div>
+
 </body>
 </html>
