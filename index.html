@@ -459,8 +459,8 @@ backdrop-filter: blur(12px) saturate(1.3);
 border:1px solid rgba(180,40,0,.12);
 border-top:1px solid rgba(255,255,255,.04);
 box-shadow: 0 4px 24px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,60,0,0.05);
-transition:background .3s,border-color .3s,box-shadow .3s,transform .2s;position:relative;overflow:hidden}
-.syn-item:hover{transform:translateX(4px);
+transition:background .3s,border-color .3s,box-shadow .3s;position:relative;overflow:hidden}
+.syn-item:hover{
   background:rgba(28,4,2,0.72);
   border-color:rgba(232,80,0,.22);
   box-shadow: 0 8px 32px rgba(0,0,0,0.4), 0 0 20px rgba(180,40,0,0.08), inset 0 1px 0 rgba(255,80,0,0.08);
@@ -637,255 +637,6 @@ body.cursor-hover .cursor-ring{width:40px;height:40px;border-color:rgba(255,106,
 @media(max-width:900px){*{cursor:auto}.cursor-dot,.cursor-ring{display:none}}
 *:hover{cursor:none!important}
 
-
-/* ── SCROLLBAR ── */
-::-webkit-scrollbar{width:4px}
-::-webkit-scrollbar-track{background:#000}
-::-webkit-scrollbar-thumb{background:rgba(232,80,0,.4);border-radius:2px}
-::-webkit-scrollbar-thumb:hover{background:rgba(232,80,0,.7)}
-
-
-/* ── SOUND BTN ── */
-.sound-btn{position:fixed;bottom:24px;right:24px;z-index:9000;font-family:var(--font-mono);font-size:9px;letter-spacing:.2em;color:rgba(0,255,80,.3);border:1px solid rgba(0,255,80,.1);background:rgba(0,10,5,.7);backdrop-filter:blur(10px);padding:8px 14px;cursor:pointer;transition:all .2s;border-radius:2px}
-.sound-btn:hover{color:rgba(0,255,80,.6);border-color:rgba(0,255,80,.3)}
-@media(max-width:480px){.sound-btn{display:none}}
-
-
-/* ── HERO TITLE GLITCH ── */
-.hero-title{position:relative}
-.hero-title::before,.hero-title::after{
-  content:attr(data-text);position:absolute;top:0;left:0;width:100%;
-  font-family:inherit;font-size:inherit;line-height:inherit;letter-spacing:inherit;
-}
-.hero-title::before{color:rgba(0,255,80,.5);clip-path:polygon(0 0,100% 0,100% 45%,0 45%);animation:glitch-top 5s infinite;opacity:0}
-.hero-title::after{color:rgba(255,34,0,.7);clip-path:polygon(0 55%,100% 55%,100% 100%,0 100%);animation:glitch-bot 5s infinite;opacity:0}
-@keyframes glitch-top{0%,88%,100%{opacity:0;transform:none}89%{opacity:1;transform:translate(-3px,0) skewX(-2deg)}91%{opacity:1;transform:translate(3px,0)}93%{opacity:0}}
-@keyframes glitch-bot{0%,88%,100%{opacity:0;transform:none}90%{opacity:1;transform:translate(3px,0) skewX(2deg)}92%{opacity:1;transform:translate(-2px,0)}94%{opacity:0}}
-
-
-/* ── POSTER CORNERS ── */
-.about-poster::before{
-  content:'';position:absolute;inset:0;z-index:2;pointer-events:none;
-  background:
-    linear-gradient(to right,rgba(232,80,0,.5) 1px,transparent 1px) 0 0/20px 20px no-repeat,
-    linear-gradient(to bottom,rgba(232,80,0,.5) 1px,transparent 1px) 0 0/20px 20px no-repeat,
-    linear-gradient(to left,rgba(232,80,0,.5) 1px,transparent 1px) 100% 0/20px 20px no-repeat,
-    linear-gradient(to bottom,rgba(232,80,0,.5) 1px,transparent 1px) 100% 0/20px 20px no-repeat,
-    linear-gradient(to right,rgba(232,80,0,.5) 1px,transparent 1px) 0 100%/20px 20px no-repeat,
-    linear-gradient(to top,rgba(232,80,0,.5) 1px,transparent 1px) 0 100%/20px 20px no-repeat,
-    linear-gradient(to left,rgba(232,80,0,.5) 1px,transparent 1px) 100% 100%/20px 20px no-repeat,
-    linear-gradient(to top,rgba(232,80,0,.5) 1px,transparent 1px) 100% 100%/20px 20px no-repeat;
-}
-.about-poster img{transition:transform .6s ease}
-.about-poster:hover img{transform:scale(1.04)}
-
-
-/* ── PASSWORD OVERLAY ── */
-#pwOverlay{
-  position:fixed;inset:0;z-index:99990;
-  background:rgba(0,0,0,.92);backdrop-filter:blur(12px);
-  display:none;align-items:center;justify-content:center;flex-direction:column;
-}
-#pwOverlay.show{display:flex}
-.pw-box{
-  width:min(480px,90vw);
-  border:1px solid rgba(0,255,80,.2);
-  background:rgba(0,8,4,.95);
-  padding:48px 40px;
-  position:relative;
-  animation:pw-in .3s ease;
-}
-@keyframes pw-in{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
-.pw-scanlines{
-  position:absolute;inset:0;pointer-events:none;
-  background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(0,0,0,.15) 3px,rgba(0,0,0,.15) 4px);
-}
-.pw-label{
-  font-family:var(--font-mono);font-size:9px;letter-spacing:.45em;
-  color:rgba(0,255,80,.4);text-transform:uppercase;margin-bottom:8px;
-}
-.pw-title{
-  font-family:'Bebas Neue',sans-serif;font-size:clamp(32px,6vw,52px);
-  color:#00ff50;letter-spacing:.08em;margin-bottom:6px;
-  text-shadow:0 0 20px rgba(0,255,80,.3);
-}
-.pw-sub{
-  font-family:var(--font-mono);font-size:10px;color:#004d18;
-  letter-spacing:.2em;margin-bottom:40px;
-}
-.pw-digits{
-  display:flex;gap:16px;justify-content:center;margin-bottom:36px;
-}
-.pw-digit{
-  width:56px;height:72px;
-  border:1px solid rgba(0,255,80,.2);
-  background:rgba(0,20,10,.8);
-  display:flex;align-items:center;justify-content:center;
-  font-family:'Bebas Neue',sans-serif;font-size:44px;
-  color:#00ff50;text-shadow:0 0 16px rgba(0,255,80,.5);
-  transition:border-color .15s,box-shadow .15s;
-  position:relative;
-}
-.pw-digit.active{
-  border-color:rgba(0,255,80,.7);
-  box-shadow:0 0 20px rgba(0,255,80,.15);
-}
-.pw-digit.filled{border-color:rgba(0,255,80,.4)}
-.pw-digit.error{
-  border-color:rgba(255,34,0,.7)!important;
-  color:#ff2200!important;
-  text-shadow:0 0 16px rgba(255,34,0,.5)!important;
-  animation:shake .3s ease;
-}
-@keyframes shake{0%,100%{transform:none}25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
-.pw-cursor{
-  position:absolute;bottom:8px;left:50%;transform:translateX(-50%);
-  width:24px;height:2px;background:#00ff50;
-  animation:blink 1s step-end infinite;
-}
-@keyframes blink{50%{opacity:0}}
-.pw-hint{
-  font-family:var(--font-mono);font-size:9px;letter-spacing:.25em;
-  color:rgba(0,255,80,.2);text-align:center;margin-bottom:32px;
-  min-height:16px;transition:color .3s;
-}
-.pw-hint.err{color:rgba(255,34,0,.6)}
-.pw-hint.ok{color:rgba(0,255,80,.6)}
-.pw-close{
-  position:absolute;top:16px;right:20px;
-  font-family:var(--font-mono);font-size:9px;letter-spacing:.2em;
-  color:rgba(0,255,80,.2);background:none;border:none;cursor:pointer;
-  transition:color .2s;
-}
-.pw-close:hover{color:rgba(0,255,80,.5)}
-.pw-numpad{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
-.pw-key{
-  font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:.05em;
-  color:rgba(0,255,80,.5);background:rgba(0,15,8,.8);
-  border:1px solid rgba(0,255,80,.1);padding:14px 0;
-  cursor:pointer;transition:all .15s;text-align:center;
-  -webkit-tap-highlight-color:transparent;
-}
-.pw-key:hover{color:#00ff50;border-color:rgba(0,255,80,.35);background:rgba(0,30,15,.8)}
-.pw-key:active{transform:scale(.95)}
-.pw-key.del{font-size:16px;color:rgba(255,80,80,.4)}
-.pw-key.del:hover{color:rgba(255,80,80,.8);border-color:rgba(255,80,80,.3)}
-
-
-/* ── PASSWORD OVERLAY ── */
-#pwOverlay{
-  position:fixed;inset:0;z-index:99997;
-  background:rgba(0,0,0,.92);backdrop-filter:blur(12px);
-  display:none;flex-direction:column;align-items:center;justify-content:center;
-}
-#pwOverlay.open{display:flex}
-.pw-box{
-  width:min(480px,90vw);
-  border:1px solid rgba(0,255,80,.2);
-  background:rgba(0,8,4,.95);
-  padding:48px 40px;position:relative;
-}
-.pw-box::before{
-  content:'';position:absolute;inset:0;pointer-events:none;
-  background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(0,0,0,.12) 3px,rgba(0,0,0,.12) 4px);
-}
-.pw-title{
-  font-family:var(--font-mono);font-size:clamp(18px,3vw,28px);
-  color:#00ff50;letter-spacing:.08em;text-shadow:0 0 20px rgba(0,255,80,.4);
-  margin-bottom:8px;
-}
-.pw-sub{font-family:var(--font-mono);font-size:10px;color:#005520;letter-spacing:.2em;margin-bottom:40px}
-.pw-dots{display:flex;gap:20px;justify-content:center;margin-bottom:40px}
-.pw-dot{
-  width:44px;height:44px;border:1px solid rgba(0,255,80,.2);
-  display:flex;align-items:center;justify-content:center;
-  font-family:var(--font-mono);font-size:24px;color:#00ff50;
-  transition:border-color .15s,box-shadow .15s;
-}
-.pw-dot.filled{border-color:rgba(0,255,80,.6);box-shadow:0 0 12px rgba(0,255,80,.15)}
-.pw-dot.error{border-color:rgba(255,34,0,.6);color:#ff2200;animation:shake .3s ease}
-.pw-dot.success{border-color:rgba(0,255,80,1);box-shadow:0 0 20px rgba(0,255,80,.4)}
-@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
-.pw-numpad{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;max-width:240px;margin:0 auto}
-.pw-key{
-  font-family:var(--font-mono);font-size:16px;letter-spacing:.1em;
-  color:#00cc40;background:rgba(0,20,10,.8);
-  border:1px solid rgba(0,255,80,.1);padding:14px;
-  cursor:pointer;transition:all .15s;text-align:center;
-}
-.pw-key:hover{background:rgba(0,40,20,.9);border-color:rgba(0,255,80,.35);color:#00ff50;box-shadow:0 0 10px rgba(0,255,80,.1)}
-.pw-key:active{transform:scale(.95)}
-.pw-key.del{color:rgba(255,80,80,.6);border-color:rgba(255,80,80,.1)}
-.pw-key.del:hover{color:#ff5050;border-color:rgba(255,80,80,.35)}
-.pw-close{
-  position:absolute;top:16px;right:16px;
-  font-family:var(--font-mono);font-size:9px;letter-spacing:.25em;
-  color:rgba(0,255,80,.2);background:none;border:none;cursor:pointer;transition:color .2s;
-}
-.pw-close:hover{color:rgba(0,255,80,.5)}
-.pw-error-msg{
-  font-family:var(--font-mono);font-size:10px;letter-spacing:.2em;
-  color:#ff2200;text-align:center;margin-top:20px;
-  height:18px;transition:opacity .3s;
-}
-
-
-/* ── PASSWORD OVERLAY ── */
-#pwOverlay{
-  position:fixed;inset:0;z-index:99990;
-  background:rgba(0,0,0,.92);
-  backdrop-filter:blur(12px);
-  display:none;align-items:center;justify-content:center;
-}
-#pwOverlay.open{display:flex}
-.pw-box{
-  width:min(480px,90vw);
-  border:1px solid rgba(0,255,80,.2);
-  background:rgba(0,8,4,.95);
-  padding:48px 40px;position:relative;
-  box-shadow:0 0 60px rgba(0,255,80,.05);
-}
-.pw-box::before{
-  content:'';position:absolute;inset:0;pointer-events:none;
-  background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(0,0,0,.15) 3px,rgba(0,0,0,.15) 4px);
-}
-.pw-title{
-  font-family:var(--font-mono);font-size:clamp(18px,3vw,28px);
-  color:#00ff50;letter-spacing:.1em;margin-bottom:8px;
-  text-shadow:0 0 20px rgba(0,255,80,.3);
-}
-.pw-sub{font-family:var(--font-mono);font-size:10px;color:#005520;letter-spacing:.2em;margin-bottom:36px}
-.pw-dots{display:flex;gap:16px;justify-content:center;margin-bottom:36px}
-.pw-dot{
-  width:48px;height:60px;
-  border:1px solid rgba(0,255,80,.2);
-  background:rgba(0,20,10,.8);
-  display:flex;align-items:center;justify-content:center;
-  font-family:var(--font-mono);font-size:28px;color:#00ff50;
-  transition:border-color .15s,box-shadow .15s;
-  position:relative;
-}
-.pw-dot.filled{border-color:rgba(0,255,80,.5);box-shadow:0 0 12px rgba(0,255,80,.1)}
-.pw-dot.active{border-color:#00ff50;box-shadow:0 0 16px rgba(0,255,80,.2)}
-.pw-dot.err{border-color:rgba(255,34,0,.6);box-shadow:0 0 12px rgba(255,34,0,.15);animation:shake .3s ease}
-.pw-dot.ok{border-color:rgba(0,255,80,.8);box-shadow:0 0 20px rgba(0,255,80,.3)}
-@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
-.pw-keypad{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;max-width:280px;margin:0 auto}
-.pw-key{
-  font-family:var(--font-mono);font-size:16px;letter-spacing:.1em;
-  color:#00cc40;border:1px solid rgba(0,255,80,.12);
-  background:rgba(0,15,8,.8);padding:16px;
-  cursor:pointer;transition:all .15s;text-align:center;
-}
-.pw-key:hover{background:rgba(0,40,20,.8);border-color:rgba(0,255,80,.3);color:#00ff50}
-.pw-key:active{transform:scale(.95)}
-.pw-key.del{color:rgba(255,80,80,.6);border-color:rgba(255,34,0,.1)}
-.pw-key.del:hover{color:#ff4444;border-color:rgba(255,34,0,.3);background:rgba(20,0,0,.8)}
-.pw-hint{font-family:var(--font-mono);font-size:9px;color:rgba(0,255,80,.2);letter-spacing:.25em;text-align:center;margin-top:28px}
-.pw-err-msg{font-family:var(--font-mono);font-size:10px;color:#ff2200;letter-spacing:.2em;text-align:center;margin-top:16px;min-height:18px;transition:opacity .3s}
-.pw-close{position:absolute;top:16px;right:16px;font-family:var(--font-mono);font-size:9px;letter-spacing:.2em;color:rgba(0,255,80,.2);background:none;border:none;cursor:pointer;padding:4px 8px;transition:color .2s}
-.pw-close:hover{color:rgba(0,255,80,.5)}
-
 /* ── REDUCED MOTION — уважаем системные настройки ── */
 @media(prefers-reduced-motion:reduce){
   *{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
@@ -980,6 +731,9 @@ body.cursor-hover .cursor-ring{width:40px;height:40px;border-color:rgba(255,106,
 }
 .fib-counter span{color:rgba(200,80,0,0.75)}
 @media(max-width:900px){.fib-counter{display:none}}
+
+.pw-input{font-family:var(--font-mono);font-size:22px;letter-spacing:.3em;background:rgba(0,20,10,.8);border:1px solid rgba(0,255,80,.3);color:#00ff50;padding:16px 20px;width:100%;text-align:center;outline:none;transition:border-color .2s,box-shadow .2s;text-transform:uppercase;}
+.pw-input:focus{border-color:#00ff50;box-shadow:0 0 16px rgba(0,255,80,.15)}
 </style>
 </head>
 <body>
@@ -1000,7 +754,6 @@ body.cursor-hover .cursor-ring{width:40px;height:40px;border-color:rgba(255,106,
   ОБЪЕКТ #<span id="visitorNum">????</span> ИДЕНТИФИЦИРОВАН<br>
   СЕССИЯ: <span id="sessionTime">00:00</span>
 </div>
-<canvas id="particleCanvas" style="position:fixed;inset:0;z-index:1;pointer-events:none;opacity:.3"></canvas>
 <div class="cursor-dot" id="cursorDot"></div>
 <div class="cursor-ring" id="cursorRing"></div>
 <div class="bg-canvas"></div>
@@ -1008,8 +761,6 @@ body.cursor-hover .cursor-ring{width:40px;height:40px;border-color:rgba(255,106,
 <div class="bg-ember"></div>
 <div class="vignette"></div>
 <div class="grain"></div>
-
-<button class="sound-btn" id="soundBtn">♪ SFX: ON</button>
 
 <!-- ── NAV ── -->
 <nav class="glass-reflect">
@@ -1058,7 +809,7 @@ body.cursor-hover .cursor-ring{width:40px;height:40px;border-color:rgba(255,106,
 
   <div class="hero-content">
     <div class="hero-eyebrow i18n" data-ru="// FIB — ЗАСЕКРЕЧЕННЫЙ РЕЛИЗ — 2025" data-en="// FIB — CLASSIFIED RELEASE — 2025">// FIB — ЗАСЕКРЕЧЕННЫЙ РЕЛИЗ — 2025</div>
-    <h1 class="hero-title" id="heroTitle" data-text="UNTRACEABLES">UNTRACEABLES</h1>
+    <h1 class="hero-title" id="heroTitle">UNTRACEABLES</h1>
     <p class="hero-sub i18n" data-ru="НЕКОТОРЫХ ЛУЧШЕ НЕ ИСКАТЬ" data-en="SOME ARE BETTER LEFT UNFOUND">НЕКОТОРЫХ ЛУЧШЕ НЕ ИСКАТЬ</p>
     <div class="hero-meta">
       <div class="hm-item"><span class="hm-label i18n" data-ru="Жанр" data-en="Genre">Жанр</span><span class="hm-val fire i18n" data-ru="Криминал · Хоррор · Детектив" data-en="Crime · Horror · Detective">Криминал · Хоррор · Детектив</span></div>
@@ -1347,7 +1098,7 @@ body.cursor-hover .cursor-ring{width:40px;height:40px;border-color:rgba(255,106,
     <h2 style="font-family:var(--font-mono);font-size:clamp(32px,5vw,72px);color:#00ff50;text-shadow:0 0 30px rgba(0,255,80,.3);margin-bottom:40px;letter-spacing:.05em">FIB TERMINAL</h2>
     <div class="terminal-box glass-reflect reflect-hover">
       <div class="t-title">FIB_TERMINAL.exe</div>
-      <div class="t-sub i18n" data-ru="ИНТЕРАКТИВНЫЙ ТЕРМИНАЛ — v99.99 — by FNGYT" data-en="INTERACTIVE TERMINAL — v99.99 — by FNGYT">ИНТЕРАКТИВНЫЙ ТЕРМИНАЛ — v99.99 — by FNGYT</div>
+      <div class="t-sub i18n" data-ru="ИНТЕРАКТИВНЫЙ ТЕРМИНАЛ — v11 — by FNGYT" data-en="INTERACTIVE TERMINAL — v11 — by FNGYT">ИНТЕРАКТИВНЫЙ ТЕРМИНАЛ — v11 — by FNGYT</div>
       <div class="t-lines">
         <div class="t-line on i18n" data-ru="> Интерактивный терминал по вселенной UNTRACEABLES." data-en="> Interactive terminal set in the UNTRACEABLES universe.">> Интерактивный терминал по вселенной UNTRACEABLES.</div>
         <div class="t-line dim i18n" data-ru="> OBSERVER следит за тобой в реальном времени." data-en="> OBSERVER watches you in real time.">> OBSERVER следит за тобой в реальном времени.</div>
@@ -1355,15 +1106,9 @@ body.cursor-hover .cursor-ring{width:40px;height:40px;border-color:rgba(255,106,
         <div class="t-line warn i18n" data-ru="> Найди что скрыто. Он уже знает что ты здесь." data-en="> Find what is hidden. He already knows you're here.">> Найди что скрыто. Он уже знает что ты здесь.</div>
       </div>
       <button onclick="openPwOverlay()" class="t-btn i18n" data-ru="▼  СКАЧАТЬ ТЕРМИНАЛ" data-en="▼  DOWNLOAD TERMINAL">▼ &nbsp; СКАЧАТЬ ТЕРМИНАЛ</button>
-
       <div style="margin-top:16px;font-family:var(--font-mono);font-size:10px;letter-spacing:.3em;color:#003d14">
         // <span class="i18n" data-ru="ХОЧЕШЬ НАЙТИ ПАРОЛЬ?" data-en="WANT TO FIND THE PASSWORD?">ХОЧЕШЬ НАЙТИ ПАРОЛЬ?</span>
-        &nbsp;
-        <a href="arg.html" style="color:#00cc40;text-decoration:none;border-bottom:1px solid rgba(0,255,65,.3);transition:border-color .2s"
-           onmouseover="this.style.borderColor='rgba(0,255,65,.8)'"
-           onmouseout="this.style.borderColor='rgba(0,255,65,.3)'">
-          <span class="i18n" data-ru="ИЩИ ЗДЕСЬ →" data-en="SEARCH HERE →">ИЩИ ЗДЕСЬ →</span>
-        </a>
+        &nbsp;<a href="arg.html" style="color:#00cc40;text-decoration:none;border-bottom:1px solid rgba(0,255,65,.3)" onmouseover="this.style.borderColor='rgba(0,255,65,.8)'" onmouseout="this.style.borderColor='rgba(0,255,65,.3)'"><span class="i18n" data-ru="ИЩИ ЗДЕСЬ →" data-en="SEARCH HERE →">ИЩИ ЗДЕСЬ →</span></a>
       </div>
       <div class="t-warn i18n"
         data-ru="// ВНИМАНИЕ: программа читает аппаратную конфигурацию системы.<br>// OBSERVER будет присутствовать на протяжении всей сессии.<br>// FIB CORP не несёт ответственности за найденное в базе данных."
@@ -1396,8 +1141,6 @@ let lang = 'ru';
 document.getElementById('tapeEl').innerHTML = TAPES.ru;
 
 function setLang(l){
-  const ht = document.getElementById('heroTitle');
-  if(ht) setTimeout(()=>ht.setAttribute('data-text', ht.textContent.trim()), 10);
   lang = l;
   ['langBtn','langBtnMob'].forEach(id=>{
     const el=document.getElementById(id);
@@ -1958,113 +1701,54 @@ title.addEventListener('mouseleave',()=>{clearInterval(gt);title.style.textShado
   document.addEventListener('mouseenter', () => { if(started){ dot.style.display='block'; ring.style.display='block'; }});
 })();
 
-/* ── PARTICLES ── */
-(function(){
-  const canvas = document.getElementById('particleCanvas');
-  if(!canvas) return;
-  const ctx = canvas.getContext('2d');
-  let W, H, particles = [];
-  function resize(){ W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
-  resize(); window.addEventListener('resize', resize);
-  function rand(a,b){ return a + Math.random()*(b-a); }
-  function mkP(){ return {x:rand(0,W),y:rand(H*.3,H),vx:rand(-.1,.1),vy:rand(-.25,-.05),size:rand(.5,1.8),alpha:rand(.04,.2),color:Math.random()>.7?'#ff3300':'#cc3300',life:rand(.4,1)}; }
-  for(let i=0;i<55;i++) particles.push(mkP());
-  function draw(){
-    ctx.clearRect(0,0,W,H);
-    particles.forEach((p,i)=>{
-      p.x+=p.vx; p.y+=p.vy; p.life-=.003;
-      if(p.life<=0||p.y<-10) particles[i]=mkP();
-      ctx.save(); ctx.globalAlpha=p.alpha*(p.life); ctx.fillStyle=p.color;
-      ctx.beginPath(); ctx.arc(p.x,p.y,p.size,0,Math.PI*2); ctx.fill(); ctx.restore();
-    });
-    requestAnimationFrame(draw);
+/* ── PASSWORD OVERLAY ── */
+const PW_CORRECT = 'D9L1TIT';
+function openPwOverlay(){
+  const inp=document.getElementById('pwInput');if(!inp)return;
+  inp.value='';inp.style.borderColor='rgba(0,255,80,.3)';inp.style.boxShadow='none';
+  document.getElementById('pwErrMsg').textContent='';
+  document.getElementById('pwOverlay').classList.add('open');
+  document.body.style.overflow='hidden';
+  setTimeout(()=>inp.focus(),100);
+}
+function closePwOverlay(){
+  document.getElementById('pwOverlay').classList.remove('open');
+  document.body.style.overflow='';
+}
+function checkPw(){
+  const inp=document.getElementById('pwInput');
+  const val=inp.value.trim().toUpperCase();
+  if(val===PW_CORRECT){
+    inp.style.borderColor='rgba(0,255,80,.8)';inp.style.boxShadow='0 0 20px rgba(0,255,80,.3)';
+    document.getElementById('pwErrMsg').style.color='#00ff50';
+    document.getElementById('pwErrMsg').textContent='// ACCESS GRANTED';
+    setTimeout(()=>{closePwOverlay();const a=document.createElement('a');a.href='FIB_TERMINAL.exe';a.download='FIB_TERMINAL.exe';a.click();},900);
+  } else {
+    inp.style.borderColor='rgba(255,34,0,.6)';inp.style.animation='shake .3s ease';
+    document.getElementById('pwErrMsg').style.color='#ff2200';
+    document.getElementById('pwErrMsg').textContent='// ACCESS DENIED — INCORRECT CODE';
+    setTimeout(()=>{inp.style.borderColor='rgba(0,255,80,.3)';inp.style.animation='';inp.value='';document.getElementById('pwErrMsg').textContent='';},1200);
   }
-  draw();
-})();
-
-/* ── SOUND FX ── */
-let sfxOn = true;
-const AudioCtx = window.AudioContext || window.webkitAudioContext;
-let actx = null;
-function getACtx(){ if(!actx) actx = new AudioCtx(); return actx; }
-function playClick(){
-  if(!sfxOn) return;
-  try{ const a=getACtx(),o=a.createOscillator(),g=a.createGain();o.connect(g);g.connect(a.destination);o.frequency.setValueAtTime(700,a.currentTime);o.frequency.exponentialRampToValueAtTime(150,a.currentTime+.09);g.gain.setValueAtTime(.07,a.currentTime);g.gain.exponentialRampToValueAtTime(.001,a.currentTime+.09);o.start();o.stop(a.currentTime+.09);}catch(e){}
 }
-function playHover(){
-  if(!sfxOn) return;
-  try{ const a=getACtx(),o=a.createOscillator(),g=a.createGain();o.connect(g);g.connect(a.destination);o.frequency.setValueAtTime(350,a.currentTime);g.gain.setValueAtTime(.02,a.currentTime);g.gain.exponentialRampToValueAtTime(.001,a.currentTime+.04);o.start();o.stop(a.currentTime+.04);}catch(e){}
-}
-const sBtn = document.getElementById('soundBtn');
-if(sBtn) sBtn.addEventListener('click',()=>{ sfxOn=!sfxOn; sBtn.textContent='♪ SFX: '+(sfxOn?'ON':'OFF'); playClick(); });
-document.querySelectorAll('a,button,.char-card,.syn-item,.genre-chip,.nav-secret').forEach(el=>{
-  el.addEventListener('mouseenter', playHover);
-  el.addEventListener('click', playClick);
+document.addEventListener('keydown',e=>{
+  if(!document.getElementById('pwOverlay').classList.contains('open')) return;
+  if(e.key==='Escape') closePwOverlay();
+  if(e.key==='Enter') checkPw();
 });
 
 </script>
-
-<!-- ── PASSWORD OVERLAY ── -->
-<div id="pwOverlay">
-  <div class="pw-box">
-    <div class="pw-scanlines"></div>
-    <button class="pw-close" id="pwClose">[ ESC ]</button>
-    <div class="pw-label">// FIB CORP — SECURE DOWNLOAD</div>
-    <div class="pw-title" id="pwTitle">КОД ДОСТУПА</div>
-    <div class="pw-sub" id="pwSub">ВВЕДИТЕ 4-ЗНАЧНЫЙ КОД</div>
-    <div class="pw-digits" id="pwDigits">
-      <div class="pw-digit active" id="pd0"><div class="pw-cursor"></div></div>
-      <div class="pw-digit" id="pd1"></div>
-      <div class="pw-digit" id="pd2"></div>
-      <div class="pw-digit" id="pd3"></div>
-    </div>
-    <div class="pw-hint" id="pwHint">// ДОСТУП К ФАЙЛАМ АРХИВА FIB</div>
-    <!-- Numpad для мобільних -->
-    <div class="pw-numpad" id="pwNumpad">
-      <div class="pw-key" data-k="1">1</div>
-      <div class="pw-key" data-k="2">2</div>
-      <div class="pw-key" data-k="3">3</div>
-      <div class="pw-key" data-k="4">4</div>
-      <div class="pw-key" data-k="5">5</div>
-      <div class="pw-key" data-k="6">6</div>
-      <div class="pw-key" data-k="7">7</div>
-      <div class="pw-key" data-k="8">8</div>
-      <div class="pw-key" data-k="9">9</div>
-      <div class="pw-key" data-k="clr">CLR</div>
-      <div class="pw-key" data-k="0">0</div>
-      <div class="pw-key del" data-k="del">⌫</div>
-    </div>
-  </div>
-</div>
-
-
 <!-- ── PASSWORD OVERLAY ── -->
 <div id="pwOverlay">
   <div class="pw-box">
     <button class="pw-close" onclick="closePwOverlay()">[ ESC ]</button>
     <div class="pw-title">ACCESS REQUIRED</div>
-    <div class="pw-sub" id="pwSub">ENTER 4-DIGIT CLEARANCE CODE</div>
-    <div class="pw-dots" id="pwDots">
-      <div class="pw-dot" id="pwd0">_</div>
-      <div class="pw-dot" id="pwd1">_</div>
-      <div class="pw-dot" id="pwd2">_</div>
-      <div class="pw-dot" id="pwd3">_</div>
+    <div class="pw-sub">ВВЕДИТЕ КОД ДОСТУПА<br>// ENTER ACCESS CODE</div>
+    <input class="pw-input" id="pwInput" maxlength="16" placeholder="_ _ _ _ _ _ _" autocomplete="off" spellcheck="false">
+    <div style="display:flex;justify-content:center;margin-top:16px">
+      <button onclick="checkPw()" class="btn btn-fire" style="font-size:10px;padding:10px 32px;letter-spacing:.2em">CONFIRM</button>
     </div>
-    <div class="pw-numpad">
-      <div class="pw-key" onclick="pwInput('1')">1</div>
-      <div class="pw-key" onclick="pwInput('2')">2</div>
-      <div class="pw-key" onclick="pwInput('3')">3</div>
-      <div class="pw-key" onclick="pwInput('4')">4</div>
-      <div class="pw-key" onclick="pwInput('5')">5</div>
-      <div class="pw-key" onclick="pwInput('6')">6</div>
-      <div class="pw-key" onclick="pwInput('7')">7</div>
-      <div class="pw-key" onclick="pwInput('8')">8</div>
-      <div class="pw-key" onclick="pwInput('9')">9</div>
-      <div class="pw-key del" onclick="pwDel()">⌫</div>
-      <div class="pw-key" onclick="pwInput('0')">0</div>
-      <div class="pw-key del" onclick="closePwOverlay()">✕</div>
-    </div>
-    <div class="pw-error-msg" id="pwErr"></div>
+    <div id="pwErrMsg" style="font-family:var(--font-mono);font-size:10px;letter-spacing:.2em;text-align:center;margin-top:14px;min-height:18px;color:#ff2200"></div>
+    <div style="font-family:var(--font-mono);font-size:9px;color:rgba(0,255,80,.12);letter-spacing:.25em;text-align:center;margin-top:16px">// FIB CLASSIFIED ACCESS TERMINAL</div>
   </div>
 </div>
 
