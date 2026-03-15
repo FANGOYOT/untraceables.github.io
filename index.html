@@ -2,18 +2,16 @@
 <html lang="ru" id="htmlRoot">
 <head>
 <meta charset="UTF-8">
-<meta property="og:title" content="PAX FALSA — Official Site">
+<meta property="og:title" content="UNTRACEABLES — Official Site">
 <meta property="og:description" content="Секретный терминал. Засекреченные данные. Тихоня скрывается — найди его.">
 <meta property="og:type" content="website">
 <meta property="og:image" content="og-image.png">
 <meta name="twitter:image" content="og-image.png">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="PAX FALSA">
+<meta name="twitter:title" content="UNTRACEABLES">
 <meta name="twitter:description" content="FIB TERMINAL — Interactive ARG experience">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>PAX FALSA — Official Site</title>
-<link rel="icon" type="image/png" href="favicon.png">
-<link rel="shortcut icon" href="favicon.png">
+<title>UNTRACEABLES — Official Site</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Share+Tech+Mono&family=Oswald:wght@200;400;700&display=swap" rel="stylesheet">
@@ -78,122 +76,270 @@
 html{scroll-behavior:smooth;scroll-padding-top:70px;background:var(--bg)}
 body{background:var(--bg);color:var(--white);font-family:var(--font-body);overflow-x:hidden;min-height:100vh}
 
-.bg-canvas{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;}
+/* ── ЖИВОЙ ФОН — глубокий красный с текстурой ── */
+.bg-canvas{
+  position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;
+}
 .bg-canvas::before{
-  content:'';position:absolute;inset:-30%;
+  content:'';
+  position:absolute;inset:-30%;
   background:
     radial-gradient(ellipse 90% 50% at 50% 100%, rgba(120,10,0,0.22) 0%, transparent 60%),
     radial-gradient(ellipse 50% 40% at 20% 80%,  rgba(80,5,0,0.14)   0%, transparent 55%),
     radial-gradient(ellipse 40% 50% at 80% 70%,  rgba(90,6,0,0.12)   0%, transparent 50%);
-  animation: smoke-drift 25s ease-in-out infinite alternate;will-change:transform;
+  animation: smoke-drift 25s ease-in-out infinite alternate;
+  will-change: transform;
 }
 .bg-canvas::after{
-  content:'';position:absolute;inset:-30%;
+  content:'';
+  position:absolute;inset:-30%;
   background:
     radial-gradient(ellipse 60% 30% at 60% 90%,  rgba(100,8,0,0.15)  0%, transparent 55%),
     radial-gradient(ellipse 40% 50% at 30% 60%,  rgba(60,4,0,0.10)   0%, transparent 50%);
-  animation: smoke-drift2 32s ease-in-out infinite alternate;will-change:transform;
+  animation: smoke-drift2 32s ease-in-out infinite alternate;
+  will-change: transform;
 }
+/* Горизонтальные слои — как на фото */
 .bg-layers{
   position:fixed;inset:0;z-index:0;pointer-events:none;
-  background:repeating-linear-gradient(175deg,transparent 0px,rgba(180,15,0,0.04) 20px,transparent 40px,rgba(80,3,0,0.06) 80px,transparent 120px,rgba(140,10,0,0.05) 180px,transparent 220px);
+  background:
+    repeating-linear-gradient(
+      175deg,
+      transparent                    0px,
+      rgba(180,15,0,0.04)           20px,
+      transparent                   40px,
+      rgba(80,3,0,0.06)             80px,
+      transparent                   120px,
+      rgba(140,10,0,0.05)           180px,
+      transparent                   220px
+    );
   animation: layers-shift 15s ease-in-out infinite alternate;
 }
-@keyframes layers-shift{0%{transform:translateY(0px) scaleX(1);}50%{transform:translateY(-8px) scaleX(1.02);}100%{transform:translateY(4px) scaleX(0.99);}}
-@keyframes smoke-drift{0%{transform:translate(0%,0%) scale(1);}33%{transform:translate(2%,-2%) scale(1.03);}66%{transform:translate(-2%,3%) scale(0.97);}100%{transform:translate(3%,1%) scale(1.02);}}
-@keyframes smoke-drift2{0%{transform:translate(0%,0%) scale(1);}33%{transform:translate(-3%,2%) scale(1.02);}66%{transform:translate(2%,-3%) scale(0.98);}100%{transform:translate(-2%,-1%) scale(1.03);}}
+@keyframes layers-shift{
+  0%  { transform: translateY(0px)   scaleX(1);    }
+  50% { transform: translateY(-8px)  scaleX(1.02); }
+  100%{ transform: translateY(4px)   scaleX(0.99); }
+}
+@keyframes smoke-drift{
+  0%  { transform: translate(0%,  0%)   scale(1);    }
+  33% { transform: translate(2%,  -2%)  scale(1.03); }
+  66% { transform: translate(-2%, 3%)   scale(0.97); }
+  100%{ transform: translate(3%,  1%)   scale(1.02); }
+}
+@keyframes smoke-drift2{
+  0%  { transform: translate(0%,  0%)   scale(1);    }
+  33% { transform: translate(-3%, 2%)   scale(1.02); }
+  66% { transform: translate(2%,  -3%)  scale(0.98); }
+  100%{ transform: translate(-2%, -1%)  scale(1.03); }
+}
 
+/* Уголёк — еле заметное свечение снизу страницы */
 .bg-ember{
   position:fixed;bottom:-120px;left:50%;transform:translateX(-50%);
   width:120%;height:280px;pointer-events:none;z-index:0;
-  background:radial-gradient(ellipse 60% 100% at 50% 100%,rgba(160,40,0,0.12) 0%,rgba(80,15,0,0.06) 45%,transparent 70%);
+  background:radial-gradient(ellipse 60% 100% at 50% 100%,
+    rgba(160,40,0,0.12) 0%,
+    rgba(80,15,0,0.06)  45%,
+    transparent 70%);
   animation: ember-pulse 6s ease-in-out infinite;
 }
-@keyframes ember-pulse{0%,100%{opacity:.7;transform:translateX(-50%) scaleX(1);}50%{opacity:1;transform:translateX(-50%) scaleX(1.08);}}
+@keyframes ember-pulse{
+  0%,100%{ opacity:.7; transform:translateX(-50%) scaleX(1);   }
+  50%    { opacity:1;   transform:translateX(-50%) scaleX(1.08); }
+}
 
+/* ── GRAIN + VIGNETTE ── */
 .grain{position:fixed;inset:0;z-index:2;pointer-events:none;opacity:.08;
 background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 background-size:160px;animation:grain .4s steps(3) infinite}
-@keyframes grain{0%{background-position:0 0}33%{background-position:-40px 20px}66%{background-position:20px -30px}100%{background-position:-15px 10px}}
-.vignette{position:fixed;inset:0;z-index:2;pointer-events:none;
-background:radial-gradient(ellipse 110% 110% at 50% 50%,transparent 45%,rgba(0,0,0,0.55) 100%)}
-
-nav {
-  position:fixed;top:0;left:0;right:0;z-index:9000;height:58px;
-  display:flex;align-items:center;justify-content:space-between;padding:0 48px;
-  background:rgba(8,3,3,0.65);backdrop-filter:blur(28px) saturate(1.8) brightness(0.7);
-  -webkit-backdrop-filter:blur(28px) saturate(1.8) brightness(0.7);
-  border-bottom:1px solid rgba(180,30,0,0.45);border-top:1px solid rgba(255,255,255,0.04);
-  box-shadow:0 8px 40px rgba(0,0,0,0.8),0 1px 0 rgba(255,255,255,0.05),inset 0 1px 0 rgba(255,60,0,0.08),inset 0 -1px 0 rgba(180,20,0,0.15);
-  transition:background .3s ease,box-shadow .3s ease;
+@keyframes grain{
+  0%  {background-position:0 0}
+  33% {background-position:-40px 20px}
+  66% {background-position:20px -30px}
+  100%{background-position:-15px 10px}
 }
-nav::before{content:'';position:absolute;inset:0;pointer-events:none;
-background:linear-gradient(110deg,rgba(255,255,255,0.03) 0%,rgba(255,255,255,0.06) 35%,rgba(255,40,0,0.03) 55%,transparent 100%);border-radius:inherit;}
-nav::after{content:'';position:absolute;bottom:-1px;left:0;right:0;height:1px;
-background:linear-gradient(90deg,transparent 0%,rgba(200,40,0,0.5) 25%,rgba(255,60,0,0.7) 50%,rgba(200,40,0,0.5) 75%,transparent 100%);animation:fire-line 4s ease-in-out infinite;}
-@keyframes fire-line{0%,100%{opacity:.5}50%{opacity:1}}
+/* Виньетка */
+.vignette{position:fixed;inset:0;z-index:2;pointer-events:none;
+background:radial-gradient(ellipse 110% 110% at 50% 50%,
+  transparent 45%, rgba(0,0,0,0.55) 100%)}
 
+/* ── NAV — Tinted glass panel ── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 9000;
+  height: 58px;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 48px;
+  background: rgba(8, 3, 3, 0.65);
+  backdrop-filter: blur(28px) saturate(1.8) brightness(0.7);
+  -webkit-backdrop-filter: blur(28px) saturate(1.8) brightness(0.7);
+  border-bottom: 1px solid rgba(180, 30, 0, 0.45);
+  border-top: 1px solid rgba(255, 255, 255, 0.04);
+  box-shadow:
+    0 8px 40px rgba(0,0,0,0.8),
+    0 1px 0 rgba(255,255,255,0.05),
+    inset 0 1px 0 rgba(255,60,0,0.08),
+    inset 0 -1px 0 rgba(180,20,0,0.15);
+  transition: background .3s ease, box-shadow .3s ease;
+}
+/* Glass surface sheen — diagonal light catch */
+nav::before {
+  content: '';
+  position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(
+    110deg,
+    rgba(255,255,255,0.03) 0%,
+    rgba(255,255,255,0.06) 35%,
+    rgba(255,40,0,0.03) 55%,
+    transparent 100%
+  );
+  border-radius: inherit;
+}
+/* Bottom red hairline */
+nav::after {
+  content: '';
+  position: absolute; bottom: -1px; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    rgba(200, 40, 0, 0.5) 25%,
+    rgba(255, 60, 0, 0.7) 50%,
+    rgba(200, 40, 0, 0.5) 75%,
+    transparent 100%);
+  animation: fire-line 4s ease-in-out infinite;
+}
+@keyframes fire-line {
+  0%,100%{opacity:.5} 50%{opacity:1}
+}
+
+/* ── GLASS REFLECTION SYSTEM ──
+   A specular highlight follows the mouse across all glass surfaces.
+   Uses CSS custom properties --rx/--ry set by JS per element.
+── */
 .glass-reflect{position:relative;overflow:hidden}
 nav.glass-reflect{position:fixed;overflow:visible}
-.glass-reflect::after{content:'';position:absolute;inset:0;pointer-events:none;z-index:4;border-radius:inherit;
-background:radial-gradient(500px circle at var(--rx,50%) var(--ry,-30%),rgba(255,200,140,0.08) 0%,rgba(255,120,60,0.04) 30%,transparent 65%);
-opacity:0;transition:opacity .5s ease;}
+.glass-reflect::after{
+  content:'';
+  position:absolute;inset:0;pointer-events:none;z-index:4;
+  border-radius:inherit;
+  background:radial-gradient(
+    500px circle at var(--rx,50%) var(--ry,-30%),
+    rgba(255,200,140,0.08) 0%,
+    rgba(255,120,60,0.04) 30%,
+    transparent 65%
+  );
+  opacity:0;
+  transition:opacity .5s ease;
+}
+/* Show reflection on hover for cards/items */
 .glass-reflect.reflect-hover::after{opacity:0}
 .glass-reflect.reflect-hover:hover::after{opacity:1;transition:opacity .2s ease}
-nav.glass-reflect::after{opacity:1;transition:background .04s linear;}
+/* Navbar always shows reflection */
+nav.glass-reflect::after{
+  opacity:1;
+  transition:background .04s linear;
+}
 
-.nav-logo{font-family:var(--font-display);font-size:26px;letter-spacing:.15em;color:var(--red-bright);
-text-shadow:0 0 20px rgba(255,34,0,.5);text-decoration:none;transition:text-shadow .3s}
+.nav-logo{font-family:var(--font-display);font-size:26px;letter-spacing:.15em;
+color:#ff2200;color:var(--red-bright);text-shadow:0 0 20px rgba(255,34,0,.5);text-decoration:none;
+transition:text-shadow .3s}
 .nav-logo:hover{text-shadow:0 0 35px rgba(255,80,0,.8)}
-.nav-links{display:flex;gap:36px;align-items:center}
-.nav-links a{font-family:var(--font-mono);font-size:10px;letter-spacing:.25em;text-transform:uppercase;
-color:var(--white-dim);text-decoration:none;transition:color .2s;position:relative;padding-bottom:3px;}
-.nav-links a::after{content:'';position:absolute;bottom:0;left:0;width:0;height:1px;background:var(--fire);transition:width .3s cubic-bezier(.4,0,.2,1);}
-.nav-links a:hover{color:var(--white)}
-.nav-links a:hover::after{width:100%}
-.nav-lang{font-family:var(--font-mono);font-size:10px;letter-spacing:.2em;color:var(--white-dim);
-border:1px solid rgba(255,255,255,.1);padding:6px 14px;cursor:pointer;transition:all .2s;background:none;border-radius:2px}
-.nav-lang:hover{border-color:var(--fire);color:var(--fire-bright)}
-.nav-secret{font-family:var(--font-mono);font-size:9px;letter-spacing:.25em;color:var(--red);
-background:rgba(180,20,0,0.12);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
-border:1px solid rgba(204,26,0,.3);border-top:1px solid rgba(255,80,0,0.15);
-box-shadow:0 2px 12px rgba(180,0,0,0.15),inset 0 1px 0 rgba(255,60,0,0.08);
-padding:6px 14px;cursor:pointer;transition:all .3s;animation:pulse-red 3s ease infinite;user-select:none;border-radius:2px}
-.nav-secret:hover{background:rgba(200,30,0,0.2);box-shadow:0 4px 20px rgba(200,0,0,0.25),inset 0 1px 0 rgba(255,80,0,0.15);}
-@keyframes pulse-red{0%,100%{border-color:rgba(204,26,0,.3);box-shadow:none}50%{border-color:rgba(204,26,0,.6);box-shadow:0 0 10px rgba(204,26,0,.15)}}
 
+.nav-links{display:flex;gap:36px;align-items:center}
+.nav-links a{
+  font-family:var(--font-mono);font-size:10px;letter-spacing:.25em;text-transform:uppercase;
+  color:#7a6a58;color:var(--white-dim);text-decoration:none;transition:color .2s;
+  position:relative;padding-bottom:3px;
+}
+.nav-links a::after{
+  content:'';position:absolute;bottom:0;left:0;width:0;height:1px;
+  background:var(--fire);transition:width .3s cubic-bezier(.4,0,.2,1);
+}
+.nav-links a:hover{color:#ede0cc;color:var(--white)}
+.nav-links a:hover::after{width:100%}
+
+.nav-lang{font-family:var(--font-mono);font-size:10px;letter-spacing:.2em;color:var(--white-dim);
+border:1px solid rgba(255,255,255,.1);padding:6px 14px;cursor:pointer;transition:all .2s;background:none;
+border-radius:2px}
+.nav-lang:hover{border-color:var(--fire);color:var(--fire-bright)}
+
+.nav-secret{
+  font-family:var(--font-mono);font-size:9px;letter-spacing:.25em;color:var(--red);
+  background: rgba(180,20,0,0.12);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border:1px solid rgba(204,26,0,.3);
+  border-top: 1px solid rgba(255,80,0,0.15);
+  box-shadow: 0 2px 12px rgba(180,0,0,0.15), inset 0 1px 0 rgba(255,60,0,0.08);
+  padding:6px 14px;cursor:pointer;transition:all .3s;
+  animation:pulse-red 3s ease infinite;user-select:none;border-radius:2px
+}
+.nav-secret:hover{
+  background: rgba(200,30,0,0.2);
+  box-shadow: 0 4px 20px rgba(200,0,0,0.25), inset 0 1px 0 rgba(255,80,0,0.15);
+}
+@keyframes pulse-red{0%,100%{border-color:rgba(204,26,0,.3);box-shadow:none}
+50%{border-color:rgba(204,26,0,.6);box-shadow:0 0 10px rgba(204,26,0,.15)}}
+
+/* Mobile burger */
 .burger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px;background:none;border:none}
 .burger span{display:block;width:22px;height:2px;background:var(--white-dim);transition:all .3s}
 .burger.open span:nth-child(1){transform:rotate(45deg) translate(5px,5px)}
 .burger.open span:nth-child(2){opacity:0}
 .burger.open span:nth-child(3){transform:rotate(-45deg) translate(5px,-5px)}
-.mobile-menu{display:none;position:fixed;top:58px;left:0;right:0;z-index:8999;
-background:rgba(4,1,1,0.92);backdrop-filter:blur(28px) saturate(1.6);-webkit-backdrop-filter:blur(28px) saturate(1.6);
-border-bottom:1px solid rgba(180,30,0,.3);box-shadow:0 12px 40px rgba(0,0,0,0.6),inset 0 1px 0 rgba(255,255,255,0.04);
-flex-direction:column;padding:16px 24px 28px;gap:0;transform:translateY(-110%);transition:transform .35s cubic-bezier(.4,0,.2,1);}
+
+/* Mobile menu */
+.mobile-menu{
+  display:none;position:fixed;top:58px;left:0;right:0;z-index:8999;
+  background:rgba(4,1,1,0.92);
+  backdrop-filter:blur(28px) saturate(1.6);
+  -webkit-backdrop-filter:blur(28px) saturate(1.6);
+  border-bottom:1px solid rgba(180,30,0,.3);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.04);
+  flex-direction:column;padding:16px 24px 28px;gap:0;
+  transform:translateY(-110%);transition:transform .35s cubic-bezier(.4,0,.2,1);
+}
 .mobile-menu.open{transform:translateY(0)}
-.mobile-menu a{font-family:var(--font-mono);font-size:12px;letter-spacing:.3em;text-transform:uppercase;
-color:var(--white-dim);text-decoration:none;padding:16px 0;border-bottom:1px solid rgba(180,30,0,.12);
-transition:color .2s;display:block;-webkit-tap-highlight-color:transparent;}
+.mobile-menu a{
+  font-family:var(--font-mono);font-size:12px;letter-spacing:.3em;text-transform:uppercase;
+  color:var(--white-dim);text-decoration:none;padding:16px 0;
+  border-bottom:1px solid rgba(180,30,0,.12);transition:color .2s;
+  display:block;-webkit-tap-highlight-color:transparent;
+}
 .mobile-menu a:hover,.mobile-menu a:active{color:var(--white)}
 .mobile-menu-bottom{display:flex;gap:12px;margin-top:16px}
 
+/* ── HERO ── */
 .hero-fade{position:absolute;bottom:0;left:0;right:0;height:280px;
-background:linear-gradient(to bottom,transparent 0%,rgba(5,4,3,0.6) 50%,var(--bg) 100%);z-index:3;pointer-events:none}
-.hero{height:100vh;height:100svh;min-height:600px;position:relative;overflow:hidden;display:flex;flex-direction:column;justify-content:flex-end}
+  background:linear-gradient(to bottom,transparent 0%,rgba(5,4,3,0.6) 50%,var(--bg) 100%);
+  z-index:3;pointer-events:none}
+.hero{height:100vh;height:100svh;min-height:600px;position:relative;overflow:hidden;
+display:flex;flex-direction:column;justify-content:flex-end}
 .hero-poster{position:absolute;inset:0;
-background:url('FILM_POSTER.png') center center/cover no-repeat,radial-gradient(ellipse at 60% 40%,rgba(80,15,0,0.9) 0%,rgba(5,2,1,1) 70%);
-filter:brightness(.72) contrast(1.1);transform:scale(1.12);will-change:transform}
+background:url('FILM_POSTER.png') center center/cover no-repeat,
+  radial-gradient(ellipse at 60% 40%, rgba(80,15,0,0.9) 0%, rgba(5,2,1,1) 70%);
+filter:brightness(.72) contrast(1.1);transform:scale(1.12);
+will-change:transform}
+@keyframes slow-zoom{from{transform:scale(1.04)}to{transform:scale(1.09)}}
 .hero-fire{position:absolute;bottom:0;left:0;right:0;height:45%;pointer-events:none;
 background:linear-gradient(0deg,rgba(160,50,0,.65) 0%,rgba(100,25,0,.3) 45%,transparent 100%)}
-.hero-top{position:absolute;top:0;left:0;right:0;height:28%;pointer-events:none;background:linear-gradient(180deg,rgba(5,4,3,.75) 0%,transparent 100%)}
-.hero-btm{position:absolute;bottom:0;left:0;right:0;height:38%;pointer-events:none;background:linear-gradient(0deg,var(--bg) 0%,transparent 100%)}
+.hero-top{position:absolute;top:0;left:0;right:0;height:28%;pointer-events:none;
+background:linear-gradient(180deg,rgba(5,4,3,.75) 0%,transparent 100%)}
+.hero-btm{position:absolute;bottom:0;left:0;right:0;height:38%;pointer-events:none;
+background:linear-gradient(0deg,var(--bg) 0%,transparent 100%)}
+/* ── PARALLAX ── */
+.hero-poster{will-change:transform}
+
+
 
 .hero-content{position:relative;z-index:2;padding:0 64px 80px}
-.hero-eyebrow{font-family:var(--font-mono);font-size:10px;letter-spacing:.5em;text-transform:uppercase;color:var(--fire);margin-bottom:16px;opacity:0;animation:fadeUp .7s ease .3s forwards}
-.hero-title{font-family:var(--font-display);font-size:clamp(80px,14vw,180px);line-height:.88;letter-spacing:.02em;color:var(--red-bright);
-text-shadow:0 0 60px rgba(255,34,0,.6),0 0 120px rgba(255,80,0,.2),4px 4px 0 rgba(0,0,0,.8);opacity:0;animation:fadeUp .7s ease .5s forwards;cursor:default}
-.hero-sub{font-family:var(--font-body);font-weight:200;font-size:clamp(12px,1.8vw,17px);letter-spacing:.3em;text-transform:uppercase;color:var(--white-dim);margin-top:12px;opacity:0;animation:fadeUp .7s ease .7s forwards}
+.hero-eyebrow{font-family:var(--font-mono);font-size:10px;letter-spacing:.5em;text-transform:uppercase;
+color:var(--fire);margin-bottom:16px;opacity:0;animation:fadeUp .7s ease .3s forwards}
+.hero-title{font-family:var(--font-display);font-size:clamp(80px,14vw,180px);
+line-height:.88;letter-spacing:.02em;color:var(--red-bright);
+text-shadow:0 0 60px rgba(255,34,0,.6),0 0 120px rgba(255,80,0,.2),4px 4px 0 rgba(0,0,0,.8);
+opacity:0;animation:fadeUp .7s ease .5s forwards;cursor:default}
+.hero-sub{font-family:var(--font-body);font-weight:200;font-size:clamp(12px,1.8vw,17px);
+letter-spacing:.3em;text-transform:uppercase;color:var(--white-dim);margin-top:12px;
+opacity:0;animation:fadeUp .7s ease .7s forwards}
 .hero-meta{display:flex;gap:40px;margin-top:36px;flex-wrap:wrap;opacity:0;animation:fadeUp .7s ease .9s forwards}
 .hm-item{display:flex;flex-direction:column;gap:3px}
 .hm-label{font-family:var(--font-mono);font-size:8px;letter-spacing:.35em;color:var(--white-dim);text-transform:uppercase}
@@ -201,38 +347,71 @@ text-shadow:0 0 60px rgba(255,34,0,.6),0 0 120px rgba(255,80,0,.2),4px 4px 0 rgb
 .hm-val.fire{color:var(--fire-bright)}
 .hero-btns{display:flex;gap:16px;margin-top:40px;flex-wrap:wrap;opacity:0;animation:fadeUp .7s ease 1.1s forwards}
 
-.countdown-bar{position:absolute;bottom:0;right:48px;z-index:3;display:flex;gap:24px;padding:20px 28px;
-background:rgba(7,3,3,0.62);backdrop-filter:blur(20px) saturate(1.6);-webkit-backdrop-filter:blur(20px) saturate(1.6);
-border:1px solid rgba(180,40,0,0.25);border-top:1px solid rgba(255,60,0,0.10);border-bottom:none;
-box-shadow:0 8px 32px rgba(0,0,0,0.5),inset 0 1px 0 rgba(255,60,0,0.08);opacity:0;animation:fadeUp .7s ease 1.3s forwards;}
+/* ── COUNTDOWN ── */
+.countdown-bar{
+  position:absolute;bottom:0;right:48px;z-index:3;
+  display:flex;gap:24px;padding:20px 28px;
+  background: rgba(7,3,3,0.62);
+  backdrop-filter: blur(20px) saturate(1.6);
+  -webkit-backdrop-filter: blur(20px) saturate(1.6);
+  border:1px solid rgba(180,40,0,0.25);
+  border-top: 1px solid rgba(255,60,0,0.10);
+  border-bottom:none;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,60,0,0.08);
+  opacity:0;animation:fadeUp .7s ease 1.3s forwards;
+}
 .cd-item{display:flex;flex-direction:column;align-items:center;gap:4px}
-.cd-num{font-family:var(--font-display);font-size:36px;color:var(--red-bright);line-height:1;text-shadow:0 0 20px rgba(255,34,0,.4)}
+.cd-num{font-family:var(--font-display);font-size:36px;color:var(--red-bright);line-height:1;
+text-shadow:0 0 20px rgba(255,34,0,.4)}
 .cd-label{font-family:var(--font-mono);font-size:7px;letter-spacing:.3em;color:var(--white-dim);text-transform:uppercase}
 .cd-sep{font-family:var(--font-display);font-size:28px;color:rgba(232,80,0,.3);align-self:flex-end;margin-bottom:12px}
 
+/* ── BUTTONS ── */
 .btn{font-family:var(--font-mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;
-padding:14px 34px;border:1px solid;text-decoration:none;transition:all .25s;display:inline-flex;align-items:center;gap:10px;cursor:pointer;background:transparent;color:inherit}
-.btn-fire{color:var(--bg);background:var(--fire);border-color:var(--fire)}
-.btn-fire:hover{background:transparent;color:var(--fire-bright);box-shadow:0 0 30px rgba(232,80,0,.4)}
-.btn-ghost{color:var(--white-dim);border-color:rgba(255,255,255,.12);background:rgba(8,3,3,0.45);box-shadow:inset 0 1px 0 rgba(255,255,255,0.08),0 4px 16px rgba(0,0,0,0.3);}
-.btn-ghost:hover{color:var(--white);border-color:rgba(255,255,255,.3);background:rgba(255,255,255,0.08)}
+padding:14px 34px;border:1px solid;text-decoration:none;transition:all .25s;
+display:inline-flex;align-items:center;gap:10px;cursor:pointer;background:transparent;
+color:inherit}
+.btn-fire{color:#050403;color:var(--bg);background:#e85000;background:var(--fire);border-color:#e85000;border-color:var(--fire)}
+.btn-fire:hover{background:transparent;color:#ff6a00;color:var(--fire-bright);box-shadow:0 0 30px rgba(232,80,0,.4)}
+.btn-ghost{
+  color:#7a6a58;color:var(--white-dim);
+  border-color:rgba(255,255,255,.12);
+  background:rgba(8,3,3,0.45);
 
+  box-shadow:inset 0 1px 0 rgba(255,255,255,0.08),0 4px 16px rgba(0,0,0,0.3);
+}
+.btn-ghost:hover{color:#ede0cc;color:var(--white);border-color:rgba(255,255,255,.3);background:rgba(255,255,255,0.08)}
+
+/* ── TAPE ── */
 .tape{background:rgba(20,4,2,0.7);backdrop-filter:blur(8px);padding:7px 0;overflow:hidden;white-space:nowrap;border-top:1px solid rgba(180,30,0,0.2);border-bottom:1px solid rgba(180,30,0,0.2)}
-.tape-inner{display:inline-block;animation:marquee 22s linear infinite;font-family:var(--font-mono);font-size:10px;letter-spacing:.3em;color:rgba(200,100,60,0.65)}
+.tape-inner{display:inline-block;animation:marquee 22s linear infinite;
+font-family:var(--font-mono);font-size:10px;letter-spacing:.3em;color:rgba(200,100,60,0.65)}
 @keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 
+/* ── LAYOUT ── */
 .divider{height:1px;background:linear-gradient(90deg,var(--fire-dim),transparent 70%)}
 .container{max-width:1200px;margin:0 auto;padding:0 48px}
 section{padding:100px 0;background:transparent;position:relative;z-index:1}
-.label{font-family:var(--font-mono);font-size:9px;letter-spacing:.45em;text-transform:uppercase;color:var(--fire);display:block;margin-bottom:16px}
-.sec-title{font-family:var(--font-display);font-size:clamp(42px,6vw,86px);line-height:.92;letter-spacing:.02em;color:var(--white);margin-bottom:48px}
+.label{font-family:var(--font-mono);font-size:9px;letter-spacing:.45em;text-transform:uppercase;
+color:var(--fire);display:block;margin-bottom:16px}
+.sec-title{font-family:var(--font-display);font-size:clamp(42px,6vw,86px);
+line-height:.92;letter-spacing:.02em;color:var(--white);margin-bottom:48px}
 
+/* ── ABOUT ── */
 .about-grid{display:grid;grid-template-columns:1fr 1.3fr;gap:80px;align-items:start}
 .about-poster{position:relative;aspect-ratio:2/3;overflow:hidden;border:1px solid rgba(232,80,0,.2)}
 .about-poster img{width:100%;height:100%;object-fit:cover;display:block}
-.about-poster::after{content:'';position:absolute;inset:0;background:linear-gradient(0deg,rgba(5,4,3,.4) 0%,transparent 50%)}
-.about-text{background:rgba(7,3,3,0.42);border:1px solid rgba(180,40,0,0.12);border-top:1px solid rgba(255,255,255,0.05);
-box-shadow:0 8px 40px rgba(0,0,0,0.3),inset 0 1px 0 rgba(255,60,0,0.05);padding:36px;border-radius:2px;}
+.about-poster::after{content:'';position:absolute;inset:0;
+background:linear-gradient(0deg,rgba(5,4,3,.4) 0%,transparent 50%)}
+.about-text{
+  background: rgba(7,3,3,0.42);
+
+  border: 1px solid rgba(180,40,0,0.12);
+  border-top: 1px solid rgba(255,255,255,0.05);
+  box-shadow: 0 8px 40px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,60,0,0.05);
+  padding: 36px;
+  border-radius: 2px;
+}
 .about-text p{font-size:15px;font-weight:200;line-height:2;color:var(--white-dim);margin-bottom:24px}
 .about-text .hi{color:var(--white);font-weight:400}
 .about-text .red{color:var(--red-bright);font-weight:700}
@@ -242,131 +421,462 @@ padding:7px 16px;border:1px solid rgba(255,255,255,.08);color:var(--white-dim);t
 .genre-chip:hover{border-color:var(--fire-dim);color:var(--white)}
 .genre-chip.hot{border-color:var(--fire-dim);color:var(--fire-bright)}
 
-.chars-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:rgba(232,80,0,.06);border:1px solid rgba(232,80,0,.06)}
-.char-card{background:rgba(8,3,3,0.55);border:1px solid rgba(200,30,0,0.22);border-top:1px solid rgba(255,60,0,0.10);
-box-shadow:0 8px 32px rgba(0,0,0,0.5),inset 0 1px 0 rgba(255,80,0,0.06);padding:0;min-height:320px;position:relative;overflow:visible}
-.char-bg-num{position:absolute;top:-8px;right:12px;font-family:var(--font-display);font-size:100px;color:rgba(232,80,0,.04);pointer-events:none;line-height:1;letter-spacing:-.05em}
-.char-img{width:64px;height:80px;margin-bottom:20px;background:rgba(255,255,255,.04);border:1px solid rgba(232,80,0,.15);
-display:flex;align-items:center;justify-content:center;font-size:28px;position:relative;overflow:hidden}
-.char-img::after{content:'';position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 4px,rgba(0,0,0,.2) 4px,rgba(0,0,0,.2) 5px)}
+/* ── CHARS ── */
+.chars-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;
+background:rgba(232,80,0,.06);border:1px solid rgba(232,80,0,.06)}
+.char-card{
+  background: rgba(8,3,3,0.55);
+  border: 1px solid rgba(200,30,0,0.22);
+  border-top: 1px solid rgba(255,60,0,0.10);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,80,0,0.06);
+  padding:0;min-height:320px;position:relative;overflow:visible
+}
+
+.char-bg-num{position:absolute;top:-8px;right:12px;font-family:var(--font-display);font-size:100px;
+color:rgba(232,80,0,.04);pointer-events:none;line-height:1;letter-spacing:-.05em}
+.char-img{width:64px;height:80px;margin-bottom:20px;background:rgba(255,255,255,.04);
+border:1px solid rgba(232,80,0,.15);display:flex;align-items:center;justify-content:center;
+font-size:28px;position:relative;overflow:hidden}
+.char-img::after{content:'';position:absolute;inset:0;
+background:repeating-linear-gradient(0deg,transparent,transparent 4px,rgba(0,0,0,.2) 4px,rgba(0,0,0,.2) 5px)}
 .char-id{font-family:var(--font-mono);font-size:8px;letter-spacing:.3em;color:var(--fire);margin-bottom:6px}
 .char-name{font-family:var(--font-display);font-size:26px;letter-spacing:.05em;color:var(--white);margin-bottom:10px;line-height:1}
 .char-desc{font-size:12px;font-weight:200;line-height:1.85;color:var(--white-dim)}
-.char-status{display:inline-block;margin-top:16px;font-family:var(--font-mono);font-size:8px;letter-spacing:.2em;padding:4px 10px;border:1px solid}
+.char-status{display:inline-block;margin-top:16px;font-family:var(--font-mono);font-size:8px;
+letter-spacing:.2em;padding:4px 10px;border:1px solid}
 .s-active{color:#4aff6a;border-color:rgba(74,255,106,.3)}
 .s-hostile{color:var(--red-bright);border-color:rgba(204,26,0,.4);animation:pulse-red 2s ease infinite}
 .s-unknown{color:#d4820a;border-color:rgba(212,130,10,.3)}
 .s-missing{color:var(--white-dim);border-color:rgba(255,255,255,.1)}
 
+/* ── SYNOPSIS ── */
 .syn-list{display:flex;flex-direction:column;gap:1px;margin-top:48px}
-.syn-item{display:grid;grid-template-columns:80px 1fr auto;align-items:start;gap:32px;padding:32px 28px;
-background:rgba(7,3,3,0.50);backdrop-filter:blur(12px) saturate(1.3);-webkit-backdrop-filter:blur(12px) saturate(1.3);
-border:1px solid rgba(180,40,0,.12);border-top:1px solid rgba(255,255,255,.04);
-box-shadow:0 4px 24px rgba(0,0,0,0.3),inset 0 1px 0 rgba(255,60,0,0.05);
+.syn-item{display:grid;grid-template-columns:80px 1fr auto;align-items:start;gap:32px;
+padding:32px 28px;
+background: rgba(7,3,3,0.50);
+backdrop-filter: blur(12px) saturate(1.3);
+-webkit-backdrop-filter: blur(12px) saturate(1.3);
+border:1px solid rgba(180,40,0,.12);
+border-top:1px solid rgba(255,255,255,.04);
+box-shadow: 0 4px 24px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,60,0,0.05);
 transition:background .3s,border-color .3s,box-shadow .3s,transform .2s;position:relative;overflow:hidden}
-.syn-item:hover{transform:translateX(4px);background:rgba(28,4,2,0.72);border-color:rgba(232,80,0,.22);
-box-shadow:0 8px 32px rgba(0,0,0,0.4),0 0 20px rgba(180,40,0,0.08),inset 0 1px 0 rgba(255,80,0,0.08);}
+.syn-item:hover{transform:translateX(4px);
+  background:rgba(28,4,2,0.72);
+  border-color:rgba(232,80,0,.22);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.4), 0 0 20px rgba(180,40,0,0.08), inset 0 1px 0 rgba(255,80,0,0.08);
+}
 .syn-num{font-family:var(--font-display);font-size:52px;color:rgba(232,80,0,.15);line-height:1;letter-spacing:-.03em}
 .syn-act{font-family:var(--font-mono);font-size:8px;letter-spacing:.35em;color:var(--fire);margin-bottom:8px;text-transform:uppercase}
 .syn-title{font-family:var(--font-display);font-size:26px;color:var(--white);margin-bottom:12px;line-height:1;letter-spacing:.03em}
 .syn-text{font-size:13px;font-weight:200;line-height:1.9;color:var(--white-dim);max-width:640px}
-.syn-tag{font-family:var(--font-mono);font-size:8px;letter-spacing:.2em;padding:5px 12px;border:1px solid rgba(255,255,255,.06);color:rgba(255,255,255,.2);white-space:nowrap;align-self:flex-start;margin-top:4px}
+.syn-tag{font-family:var(--font-mono);font-size:8px;letter-spacing:.2em;padding:5px 12px;
+border:1px solid rgba(255,255,255,.06);color:rgba(255,255,255,.2);white-space:nowrap;align-self:flex-start;margin-top:4px}
 .syn-tag.red{border-color:rgba(204,26,0,.3);color:rgba(255,34,0,.5)}
-.syn-item.secret .syn-text{background:repeating-linear-gradient(transparent 0,transparent 19px,rgba(12,6,3,.97) 19px,rgba(12,6,3,.97) 38px);-webkit-background-clip:text;background-clip:text;color:transparent}
+.syn-item.secret .syn-text{
+  background:repeating-linear-gradient(transparent 0,transparent 19px,rgba(12,6,3,.97) 19px,rgba(12,6,3,.97) 38px);
+  -webkit-background-clip:text;background-clip:text;color:transparent}
 
+/* ── TERMINAL ── */
 .terminal-wrap{opacity:0;max-height:0;overflow:hidden;transition:opacity 1.2s ease,max-height 1.5s ease}
 .terminal-wrap.revealed{opacity:1;max-height:1200px}
 .terminal-box{border:1px solid rgba(0,255,80,.12);background:#000;position:relative;overflow:hidden;padding:48px}
-.terminal-box::before{content:'';position:absolute;inset:0;pointer-events:none;background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(0,0,0,.12) 3px,rgba(0,0,0,.12) 4px)}
-.terminal-box::after{content:'RESTRICTED // FIB ACCESS ONLY';position:absolute;top:16px;right:20px;font-family:var(--font-mono);font-size:8px;letter-spacing:.3em;color:rgba(0,255,80,.15)}
-.t-title{font-family:var(--font-mono);font-size:clamp(28px,5vw,56px);color:#00ff50;letter-spacing:.05em;margin-bottom:6px;text-shadow:0 0 30px rgba(0,255,80,.35)}
+.terminal-box::before{content:'';position:absolute;inset:0;pointer-events:none;
+background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(0,0,0,.12) 3px,rgba(0,0,0,.12) 4px)}
+.terminal-box::after{content:'RESTRICTED // FIB ACCESS ONLY';position:absolute;top:16px;right:20px;
+font-family:var(--font-mono);font-size:8px;letter-spacing:.3em;color:rgba(0,255,80,.15)}
+.t-title{font-family:var(--font-mono);font-size:clamp(28px,5vw,56px);color:#00ff50;
+letter-spacing:.05em;margin-bottom:6px;text-shadow:0 0 30px rgba(0,255,80,.35)}
 .t-sub{font-family:var(--font-mono);font-size:11px;color:#007a28;letter-spacing:.15em;margin-bottom:32px}
 .t-lines{margin-bottom:32px}
 .t-line{font-family:var(--font-mono);font-size:12px;line-height:2.2}
 .t-line.on{color:#00cc40}.t-line.dim{color:#005520}.t-line.warn{color:#cc8800}
-.t-btn{display:inline-flex;align-items:center;gap:12px;font-family:var(--font-mono);font-size:12px;letter-spacing:.15em;text-transform:uppercase;padding:14px 32px;background:#00ff50;border:1px solid #00ff50;color:#000;text-decoration:none;transition:all .2s;cursor:pointer}
+.t-btn{display:inline-flex;align-items:center;gap:12px;font-family:var(--font-mono);font-size:12px;
+letter-spacing:.15em;text-transform:uppercase;padding:14px 32px;background:#00ff50;
+border:1px solid #00ff50;color:#000;text-decoration:none;transition:all .2s;cursor:pointer}
 .t-btn:hover{background:transparent;color:#00ff50;box-shadow:0 0 24px rgba(0,255,80,.2)}
 .t-warn{margin-top:20px;font-family:var(--font-mono);font-size:10px;color:#003d14;letter-spacing:.1em;line-height:1.9}
 
-footer{background:rgba(6,2,2,0.62);backdrop-filter:blur(20px) saturate(1.4);-webkit-backdrop-filter:blur(20px) saturate(1.4);
-border-top:1px solid rgba(180,30,0,0.25);box-shadow:inset 0 1px 0 rgba(255,255,255,0.04),0 -8px 40px rgba(0,0,0,0.4);
-padding:40px 48px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:20px;
+/* ── FOOTER ── */
+footer{
+  background: rgba(6,2,2,0.62);
+  backdrop-filter: blur(20px) saturate(1.4);
+  -webkit-backdrop-filter: blur(20px) saturate(1.4);
+  border-top:1px solid rgba(180,30,0,0.25);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.04), 0 -8px 40px rgba(0,0,0,0.4);
+  padding:40px 48px;
+display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:20px;
 font-family:var(--font-mono);font-size:10px;color:var(--white-dim);letter-spacing:.15em}
 footer a{color:var(--white-dim);text-decoration:none}
 footer a:hover{color:var(--white)}
 .footer-logo{font-family:var(--font-display);font-size:22px;letter-spacing:.2em;color:var(--red-bright)}
 
-.reveal{opacity:0;transform:translateY(36px);transition:opacity .9s cubic-bezier(.4,0,.2,1),transform .9s cubic-bezier(.4,0,.2,1)}
+/* ── SCROLL REVEAL ── */
+.reveal{opacity:0;transform:translateY(36px);
+transition:opacity .9s cubic-bezier(.4,0,.2,1),transform .9s cubic-bezier(.4,0,.2,1)}
 .reveal.visible{opacity:1;transform:translateY(0)}
-.reveal-delay-1{transition-delay:.1s}.reveal-delay-2{transition-delay:.2s}.reveal-delay-3{transition-delay:.3s}
+.reveal-delay-1{transition-delay:.1s}
+.reveal-delay-2{transition-delay:.2s}
+.reveal-delay-3{transition-delay:.3s}
+
 @keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
 
+/* ── RESPONSIVE ── */
+/* ══════════════════════════════════════
+   RESPONSIVE — tablet 900px
+══════════════════════════════════════ */
 @media(max-width:900px){
-  nav{padding:0 20px}.nav-links{display:none}.burger{display:flex}.mobile-menu{display:flex}
-  .hero-content{padding:0 24px 60px}.hero-title{font-size:clamp(64px,16vw,120px)}
-  .countdown-bar{right:16px;gap:14px;padding:14px 16px}.cd-num{font-size:26px}
-  .container{padding:0 24px}section{padding:72px 0}
-  .about-grid{grid-template-columns:1fr;gap:40px}.about-poster{max-width:320px;margin:0 auto}.about-text{padding:28px}
+  nav{padding:0 20px}
+  .nav-links{display:none}
+  .burger{display:flex}
+  .mobile-menu{display:flex}
+
+  .hero-content{padding:0 24px 60px}
+  .hero-title{font-size:clamp(64px,16vw,120px)}
+
+  .countdown-bar{right:16px;gap:14px;padding:14px 16px}
+  .cd-num{font-size:26px}
+
+  .container{padding:0 24px}
+  section{padding:72px 0}
+
+  .about-grid{grid-template-columns:1fr;gap:40px}
+  .about-poster{max-width:320px;margin:0 auto}
+  .about-text{padding:28px}
+
   .chars-grid{grid-template-columns:1fr 1fr;gap:1px}
-  .syn-item{grid-template-columns:44px 1fr;gap:20px;padding:24px 20px}.syn-tag{display:none}.syn-num{font-size:36px}
-  footer{padding:32px 24px;flex-direction:column;align-items:flex-start;gap:20px}.terminal-box{padding:24px 18px}
-}
-@media(max-width:480px){
-  nav{height:52px;padding-top:env(safe-area-inset-top,0px)}.mobile-menu{top:52px}.nav-logo{font-size:20px}
-  .hero{min-height:100svh;height:100svh}.hero-content{padding:0 16px calc(48px + env(safe-area-inset-bottom,0px));justify-content:flex-end;display:flex;flex-direction:column;min-height:100svh}
-  .hero-eyebrow{font-size:8px;letter-spacing:.35em}.hero-title{font-size:clamp(58px,18vw,100px);line-height:.86}
-  .hero-sub{font-size:11px;letter-spacing:.2em}.hero-meta{gap:24px;margin-top:24px}.hm-label{font-size:7px}.hm-val{font-size:12px}
-  .hero-btns{gap:10px;margin-top:28px;flex-direction:column;align-items:flex-start}.btn{padding:12px 20px;font-size:10px}
-  .countdown-bar{display:none}.container{padding:0 16px}section{padding:56px 0}
-  .about-poster{max-width:260px}.about-text{padding:20px}.about-text p{font-size:14px;line-height:1.85}
-  .chars-grid{grid-template-columns:1fr;gap:1px}.char-card{padding:24px 18px}.char-name{font-size:20px}
-  .syn-item{grid-template-columns:36px 1fr;gap:16px;padding:20px 14px}.syn-num{font-size:28px}.syn-title{font-size:14px}.syn-text{font-size:13px}.syn-act{font-size:8px;letter-spacing:.3em}
-  footer{padding:28px 16px;gap:16px}.footer-logo{font-size:18px}
-}
-@media(max-width:375px){
-  .hero-title{font-size:56px}.hero-content{padding:0 14px 40px}.container{padding:0 14px}.char-card{padding:20px 14px}.syn-item{padding:16px 12px}.about-text{padding:16px}.btn{padding:11px 16px;font-size:9px;letter-spacing:.15em}
+
+  .syn-item{grid-template-columns:44px 1fr;gap:20px;padding:24px 20px}
+  .syn-tag{display:none}
+  .syn-num{font-size:36px}
+
+  footer{padding:32px 24px;flex-direction:column;align-items:flex-start;gap:20px}
+  .terminal-box{padding:24px 18px}
 }
 
+/* ══════════════════════════════════════
+   RESPONSIVE — mobile 480px
+══════════════════════════════════════ */
+@media(max-width:480px){
+  nav{height:52px;padding-top:env(safe-area-inset-top,0px)}
+  .mobile-menu{top:52px}
+  .nav-logo{font-size:20px}
+
+  .hero{min-height:100svh;height:100svh}
+  .hero-content{padding:0 16px calc(48px + env(safe-area-inset-bottom,0px));justify-content:flex-end;display:flex;flex-direction:column;min-height:100svh}
+  .hero-eyebrow{font-size:8px;letter-spacing:.35em}
+  .hero-title{font-size:clamp(58px,18vw,100px);line-height:.86}
+  .hero-sub{font-size:11px;letter-spacing:.2em}
+  .hero-meta{gap:24px;margin-top:24px}
+  .hm-label{font-size:7px}
+  .hm-val{font-size:12px}
+  .hero-btns{gap:10px;margin-top:28px;flex-direction:column;align-items:flex-start}
+  .btn{padding:12px 20px;font-size:10px}
+
+  .countdown-bar{display:none}
+
+  .container{padding:0 16px}
+  section{padding:56px 0}
+  .section-label{font-size:8px;letter-spacing:.4em}
+  .section-title{font-size:clamp(28px,9vw,48px)}
+
+  .about-poster{max-width:260px}
+  .about-text{padding:20px}
+  .about-text p{font-size:14px;line-height:1.85}
+
+  .chars-grid{grid-template-columns:1fr;gap:1px}
+  .char-card{padding:24px 18px}
+  .char-name{font-size:20px}
+
+  .syn-item{grid-template-columns:36px 1fr;gap:16px;padding:20px 14px}
+  .syn-num{font-size:28px}
+  .syn-title{font-size:14px}
+  .syn-text{font-size:13px}
+  .syn-act{font-size:8px;letter-spacing:.3em}
+
+  footer{padding:28px 16px;gap:16px}
+  .footer-logo{font-size:18px}
+  .footer-copy{font-size:10px}
+  .footer-links{flex-direction:column;gap:10px}
+}
+
+/* ══════════════════════════════════════
+   RESPONSIVE — small 375px
+══════════════════════════════════════ */
+@media(max-width:375px){
+  .hero-title{font-size:56px}
+  .hero-content{padding:0 14px 40px}
+  .container{padding:0 14px}
+  .char-card{padding:20px 14px}
+  .syn-item{padding:16px 12px}
+  .about-text{padding:16px}
+  .btn{padding:11px 16px;font-size:9px;letter-spacing:.15em}
+}
+
+
+/* ── CUSTOM CURSOR ── */
 *{cursor:none}
-.cursor-dot{position:fixed;top:0;left:0;z-index:99999;pointer-events:none;width:6px;height:6px;background:#ff2200;border-radius:50%;will-change:transform;box-shadow:0 0 8px rgba(255,34,0,0.8);display:none;}
-.cursor-ring{position:fixed;top:0;left:0;z-index:99998;pointer-events:none;width:28px;height:28px;border:1px solid rgba(255,34,0,0.5);border-radius:50%;will-change:transform;display:none;}
+.cursor-dot{
+  position:fixed;top:0;left:0;z-index:99999;pointer-events:none;
+  width:6px;height:6px;
+  background:#ff2200;border-radius:50%;
+  will-change:transform;
+  box-shadow:0 0 8px rgba(255,34,0,0.8);
+  display:none;
+}
+.cursor-ring{
+  position:fixed;top:0;left:0;z-index:99998;pointer-events:none;
+  width:28px;height:28px;
+  border:1px solid rgba(255,34,0,0.5);
+  border-radius:50%;
+  will-change:transform;
+  display:none;
+}
+.cursor-ring::before,.cursor-ring::after{display:none}
 body.cursor-hover .cursor-dot{background:#ff6a00;box-shadow:0 0 12px rgba(255,106,0,0.9)}
 body.cursor-hover .cursor-ring{width:40px;height:40px;border-color:rgba(255,106,0,0.6);margin:-6px}
 @media(max-width:900px){*{cursor:auto}.cursor-dot,.cursor-ring{display:none}}
 *:hover{cursor:none!important}
 
-::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:#000}::-webkit-scrollbar-thumb{background:rgba(232,80,0,.4);border-radius:2px}::-webkit-scrollbar-thumb:hover{background:rgba(232,80,0,.7)}
 
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-track{background:#000}
+::-webkit-scrollbar-thumb{background:rgba(232,80,0,.4);border-radius:2px}
+::-webkit-scrollbar-thumb:hover{background:rgba(232,80,0,.7)}
+
+
+/* ── SOUND BTN ── */
 .sound-btn{position:fixed;bottom:24px;right:24px;z-index:9000;font-family:var(--font-mono);font-size:9px;letter-spacing:.2em;color:rgba(0,255,80,.3);border:1px solid rgba(0,255,80,.1);background:rgba(0,10,5,.7);backdrop-filter:blur(10px);padding:8px 14px;cursor:pointer;transition:all .2s;border-radius:2px}
 .sound-btn:hover{color:rgba(0,255,80,.6);border-color:rgba(0,255,80,.3)}
 @media(max-width:480px){.sound-btn{display:none}}
 
+
+/* ── HERO TITLE GLITCH ── */
 .hero-title{position:relative}
-.hero-title::before,.hero-title::after{content:attr(data-text);position:absolute;top:0;left:0;width:100%;font-family:inherit;font-size:inherit;line-height:inherit;letter-spacing:inherit;}
+.hero-title::before,.hero-title::after{
+  content:attr(data-text);position:absolute;top:0;left:0;width:100%;
+  font-family:inherit;font-size:inherit;line-height:inherit;letter-spacing:inherit;
+}
 .hero-title::before{color:rgba(0,255,80,.5);clip-path:polygon(0 0,100% 0,100% 45%,0 45%);animation:glitch-top 5s infinite;opacity:0}
 .hero-title::after{color:rgba(255,34,0,.7);clip-path:polygon(0 55%,100% 55%,100% 100%,0 100%);animation:glitch-bot 5s infinite;opacity:0}
 @keyframes glitch-top{0%,88%,100%{opacity:0;transform:none}89%{opacity:1;transform:translate(-3px,0) skewX(-2deg)}91%{opacity:1;transform:translate(3px,0)}93%{opacity:0}}
 @keyframes glitch-bot{0%,88%,100%{opacity:0;transform:none}90%{opacity:1;transform:translate(3px,0) skewX(2deg)}92%{opacity:1;transform:translate(-2px,0)}94%{opacity:0}}
 
-.about-poster::before{content:'';position:absolute;inset:0;z-index:2;pointer-events:none;
-background:linear-gradient(to right,rgba(232,80,0,.5) 1px,transparent 1px) 0 0/20px 20px no-repeat,linear-gradient(to bottom,rgba(232,80,0,.5) 1px,transparent 1px) 0 0/20px 20px no-repeat,linear-gradient(to left,rgba(232,80,0,.5) 1px,transparent 1px) 100% 0/20px 20px no-repeat,linear-gradient(to bottom,rgba(232,80,0,.5) 1px,transparent 1px) 100% 0/20px 20px no-repeat,linear-gradient(to right,rgba(232,80,0,.5) 1px,transparent 1px) 0 100%/20px 20px no-repeat,linear-gradient(to top,rgba(232,80,0,.5) 1px,transparent 1px) 0 100%/20px 20px no-repeat,linear-gradient(to left,rgba(232,80,0,.5) 1px,transparent 1px) 100% 100%/20px 20px no-repeat,linear-gradient(to top,rgba(232,80,0,.5) 1px,transparent 1px) 100% 100%/20px 20px no-repeat;}
-.about-poster img{transition:transform .6s ease}.about-poster:hover img{transform:scale(1.04)}
 
-#pwOverlay{position:fixed;inset:0;z-index:99990;background:rgba(0,0,0,.92);backdrop-filter:blur(12px);display:none;align-items:center;justify-content:center;}
+/* ── POSTER CORNERS ── */
+.about-poster::before{
+  content:'';position:absolute;inset:0;z-index:2;pointer-events:none;
+  background:
+    linear-gradient(to right,rgba(232,80,0,.5) 1px,transparent 1px) 0 0/20px 20px no-repeat,
+    linear-gradient(to bottom,rgba(232,80,0,.5) 1px,transparent 1px) 0 0/20px 20px no-repeat,
+    linear-gradient(to left,rgba(232,80,0,.5) 1px,transparent 1px) 100% 0/20px 20px no-repeat,
+    linear-gradient(to bottom,rgba(232,80,0,.5) 1px,transparent 1px) 100% 0/20px 20px no-repeat,
+    linear-gradient(to right,rgba(232,80,0,.5) 1px,transparent 1px) 0 100%/20px 20px no-repeat,
+    linear-gradient(to top,rgba(232,80,0,.5) 1px,transparent 1px) 0 100%/20px 20px no-repeat,
+    linear-gradient(to left,rgba(232,80,0,.5) 1px,transparent 1px) 100% 100%/20px 20px no-repeat,
+    linear-gradient(to top,rgba(232,80,0,.5) 1px,transparent 1px) 100% 100%/20px 20px no-repeat;
+}
+.about-poster img{transition:transform .6s ease}
+.about-poster:hover img{transform:scale(1.04)}
+
+
+/* ── PASSWORD OVERLAY ── */
+#pwOverlay{
+  position:fixed;inset:0;z-index:99990;
+  background:rgba(0,0,0,.92);backdrop-filter:blur(12px);
+  display:none;align-items:center;justify-content:center;flex-direction:column;
+}
+#pwOverlay.show{display:flex}
+.pw-box{
+  width:min(480px,90vw);
+  border:1px solid rgba(0,255,80,.2);
+  background:rgba(0,8,4,.95);
+  padding:48px 40px;
+  position:relative;
+  animation:pw-in .3s ease;
+}
+@keyframes pw-in{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+.pw-scanlines{
+  position:absolute;inset:0;pointer-events:none;
+  background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(0,0,0,.15) 3px,rgba(0,0,0,.15) 4px);
+}
+.pw-label{
+  font-family:var(--font-mono);font-size:9px;letter-spacing:.45em;
+  color:rgba(0,255,80,.4);text-transform:uppercase;margin-bottom:8px;
+}
+.pw-title{
+  font-family:'Bebas Neue',sans-serif;font-size:clamp(32px,6vw,52px);
+  color:#00ff50;letter-spacing:.08em;margin-bottom:6px;
+  text-shadow:0 0 20px rgba(0,255,80,.3);
+}
+.pw-sub{
+  font-family:var(--font-mono);font-size:10px;color:#004d18;
+  letter-spacing:.2em;margin-bottom:40px;
+}
+.pw-digits{
+  display:flex;gap:16px;justify-content:center;margin-bottom:36px;
+}
+.pw-digit{
+  width:56px;height:72px;
+  border:1px solid rgba(0,255,80,.2);
+  background:rgba(0,20,10,.8);
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Bebas Neue',sans-serif;font-size:44px;
+  color:#00ff50;text-shadow:0 0 16px rgba(0,255,80,.5);
+  transition:border-color .15s,box-shadow .15s;
+  position:relative;
+}
+.pw-digit.active{
+  border-color:rgba(0,255,80,.7);
+  box-shadow:0 0 20px rgba(0,255,80,.15);
+}
+.pw-digit.filled{border-color:rgba(0,255,80,.4)}
+.pw-digit.error{
+  border-color:rgba(255,34,0,.7)!important;
+  color:#ff2200!important;
+  text-shadow:0 0 16px rgba(255,34,0,.5)!important;
+  animation:shake .3s ease;
+}
+@keyframes shake{0%,100%{transform:none}25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
+.pw-cursor{
+  position:absolute;bottom:8px;left:50%;transform:translateX(-50%);
+  width:24px;height:2px;background:#00ff50;
+  animation:blink 1s step-end infinite;
+}
+@keyframes blink{50%{opacity:0}}
+.pw-hint{
+  font-family:var(--font-mono);font-size:9px;letter-spacing:.25em;
+  color:rgba(0,255,80,.2);text-align:center;margin-bottom:32px;
+  min-height:16px;transition:color .3s;
+}
+.pw-hint.err{color:rgba(255,34,0,.6)}
+.pw-hint.ok{color:rgba(0,255,80,.6)}
+.pw-close{
+  position:absolute;top:16px;right:20px;
+  font-family:var(--font-mono);font-size:9px;letter-spacing:.2em;
+  color:rgba(0,255,80,.2);background:none;border:none;cursor:pointer;
+  transition:color .2s;
+}
+.pw-close:hover{color:rgba(0,255,80,.5)}
+.pw-numpad{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.pw-key{
+  font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:.05em;
+  color:rgba(0,255,80,.5);background:rgba(0,15,8,.8);
+  border:1px solid rgba(0,255,80,.1);padding:14px 0;
+  cursor:pointer;transition:all .15s;text-align:center;
+  -webkit-tap-highlight-color:transparent;
+}
+.pw-key:hover{color:#00ff50;border-color:rgba(0,255,80,.35);background:rgba(0,30,15,.8)}
+.pw-key:active{transform:scale(.95)}
+.pw-key.del{font-size:16px;color:rgba(255,80,80,.4)}
+.pw-key.del:hover{color:rgba(255,80,80,.8);border-color:rgba(255,80,80,.3)}
+
+
+/* ── PASSWORD OVERLAY ── */
+#pwOverlay{
+  position:fixed;inset:0;z-index:99997;
+  background:rgba(0,0,0,.92);backdrop-filter:blur(12px);
+  display:none;flex-direction:column;align-items:center;justify-content:center;
+}
 #pwOverlay.open{display:flex}
-.pw-box{width:min(480px,90vw);border:1px solid rgba(0,255,80,.2);background:rgba(0,8,4,.95);padding:48px 40px;position:relative;box-shadow:0 0 60px rgba(0,255,80,.05);}
-.pw-box::before{content:'';position:absolute;inset:0;pointer-events:none;background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(0,0,0,.15) 3px,rgba(0,0,0,.15) 4px);}
-.pw-title{font-family:var(--font-mono);font-size:clamp(18px,3vw,28px);color:#00ff50;letter-spacing:.1em;margin-bottom:8px;text-shadow:0 0 20px rgba(0,255,80,.3);}
+.pw-box{
+  width:min(480px,90vw);
+  border:1px solid rgba(0,255,80,.2);
+  background:rgba(0,8,4,.95);
+  padding:48px 40px;position:relative;
+}
+.pw-box::before{
+  content:'';position:absolute;inset:0;pointer-events:none;
+  background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(0,0,0,.12) 3px,rgba(0,0,0,.12) 4px);
+}
+.pw-title{
+  font-family:var(--font-mono);font-size:clamp(18px,3vw,28px);
+  color:#00ff50;letter-spacing:.08em;text-shadow:0 0 20px rgba(0,255,80,.4);
+  margin-bottom:8px;
+}
+.pw-sub{font-family:var(--font-mono);font-size:10px;color:#005520;letter-spacing:.2em;margin-bottom:40px}
+.pw-dots{display:flex;gap:20px;justify-content:center;margin-bottom:40px}
+.pw-dot{
+  width:44px;height:44px;border:1px solid rgba(0,255,80,.2);
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--font-mono);font-size:24px;color:#00ff50;
+  transition:border-color .15s,box-shadow .15s;
+}
+.pw-dot.filled{border-color:rgba(0,255,80,.6);box-shadow:0 0 12px rgba(0,255,80,.15)}
+.pw-dot.error{border-color:rgba(255,34,0,.6);color:#ff2200;animation:shake .3s ease}
+.pw-dot.success{border-color:rgba(0,255,80,1);box-shadow:0 0 20px rgba(0,255,80,.4)}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.pw-numpad{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;max-width:240px;margin:0 auto}
+.pw-key{
+  font-family:var(--font-mono);font-size:16px;letter-spacing:.1em;
+  color:#00cc40;background:rgba(0,20,10,.8);
+  border:1px solid rgba(0,255,80,.1);padding:14px;
+  cursor:pointer;transition:all .15s;text-align:center;
+}
+.pw-key:hover{background:rgba(0,40,20,.9);border-color:rgba(0,255,80,.35);color:#00ff50;box-shadow:0 0 10px rgba(0,255,80,.1)}
+.pw-key:active{transform:scale(.95)}
+.pw-key.del{color:rgba(255,80,80,.6);border-color:rgba(255,80,80,.1)}
+.pw-key.del:hover{color:#ff5050;border-color:rgba(255,80,80,.35)}
+.pw-close{
+  position:absolute;top:16px;right:16px;
+  font-family:var(--font-mono);font-size:9px;letter-spacing:.25em;
+  color:rgba(0,255,80,.2);background:none;border:none;cursor:pointer;transition:color .2s;
+}
+.pw-close:hover{color:rgba(0,255,80,.5)}
+.pw-error-msg{
+  font-family:var(--font-mono);font-size:10px;letter-spacing:.2em;
+  color:#ff2200;text-align:center;margin-top:20px;
+  height:18px;transition:opacity .3s;
+}
+
+
+/* ── PASSWORD OVERLAY ── */
+#pwOverlay{
+  position:fixed;inset:0;z-index:99990;
+  background:rgba(0,0,0,.92);
+  backdrop-filter:blur(12px);
+  display:none;align-items:center;justify-content:center;
+}
+#pwOverlay.open{display:flex}
+.pw-box{
+  width:min(480px,90vw);
+  border:1px solid rgba(0,255,80,.2);
+  background:rgba(0,8,4,.95);
+  padding:48px 40px;position:relative;
+  box-shadow:0 0 60px rgba(0,255,80,.05);
+}
+.pw-box::before{
+  content:'';position:absolute;inset:0;pointer-events:none;
+  background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(0,0,0,.15) 3px,rgba(0,0,0,.15) 4px);
+}
+.pw-title{
+  font-family:var(--font-mono);font-size:clamp(18px,3vw,28px);
+  color:#00ff50;letter-spacing:.1em;margin-bottom:8px;
+  text-shadow:0 0 20px rgba(0,255,80,.3);
+}
 .pw-sub{font-family:var(--font-mono);font-size:10px;color:#005520;letter-spacing:.2em;margin-bottom:36px}
 .pw-dots{display:flex;gap:16px;justify-content:center;margin-bottom:36px}
-.pw-dot{width:48px;height:60px;border:1px solid rgba(0,255,80,.2);background:rgba(0,20,10,.8);display:flex;align-items:center;justify-content:center;font-family:var(--font-mono);font-size:28px;color:#00ff50;transition:border-color .15s,box-shadow .15s;position:relative;}
+.pw-dot{
+  width:48px;height:60px;
+  border:1px solid rgba(0,255,80,.2);
+  background:rgba(0,20,10,.8);
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--font-mono);font-size:28px;color:#00ff50;
+  transition:border-color .15s,box-shadow .15s;
+  position:relative;
+}
 .pw-dot.filled{border-color:rgba(0,255,80,.5);box-shadow:0 0 12px rgba(0,255,80,.1)}
 .pw-dot.active{border-color:#00ff50;box-shadow:0 0 16px rgba(0,255,80,.2)}
 .pw-dot.err{border-color:rgba(255,34,0,.6);box-shadow:0 0 12px rgba(255,34,0,.15);animation:shake .3s ease}
 .pw-dot.ok{border-color:rgba(0,255,80,.8);box-shadow:0 0 20px rgba(0,255,80,.3)}
 @keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
 .pw-keypad{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;max-width:280px;margin:0 auto}
-.pw-key{font-family:var(--font-mono);font-size:16px;letter-spacing:.1em;color:#00cc40;border:1px solid rgba(0,255,80,.12);background:rgba(0,15,8,.8);padding:16px;cursor:pointer;transition:all .15s;text-align:center;}
+.pw-key{
+  font-family:var(--font-mono);font-size:16px;letter-spacing:.1em;
+  color:#00cc40;border:1px solid rgba(0,255,80,.12);
+  background:rgba(0,15,8,.8);padding:16px;
+  cursor:pointer;transition:all .15s;text-align:center;
+}
 .pw-key:hover{background:rgba(0,40,20,.8);border-color:rgba(0,255,80,.3);color:#00ff50}
 .pw-key:active{transform:scale(.95)}
 .pw-key.del{color:rgba(255,80,80,.6);border-color:rgba(255,34,0,.1)}
@@ -376,36 +886,100 @@ background:linear-gradient(to right,rgba(232,80,0,.5) 1px,transparent 1px) 0 0/2
 .pw-close{position:absolute;top:16px;right:16px;font-family:var(--font-mono);font-size:9px;letter-spacing:.2em;color:rgba(0,255,80,.2);background:none;border:none;cursor:pointer;padding:4px 8px;transition:color .2s}
 .pw-close:hover{color:rgba(0,255,80,.5)}
 
-.chars-grid{perspective:1200px}
-.char-card{transform-style:preserve-3d;transition:transform .7s cubic-bezier(.4,0,.2,1),box-shadow .3s ease;cursor:pointer;}
-.char-card.flipped{transform:rotateY(180deg) translateY(-2px)}
-.char-card:hover:not(.flipped){transform:translateY(-4px) rotateY(3deg)}
-.card-front,.card-back{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;padding:32px 24px;display:flex;flex-direction:column;}
-.card-front{position:relative}
-.card-back{transform:rotateY(180deg);background:rgba(6,2,2,0.96);border:1px solid rgba(180,30,0,0.3);border-top:1px solid rgba(255,60,0,0.15);overflow:hidden;}
-.card-back::before{content:'';position:absolute;inset:0;pointer-events:none;opacity:.04;background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(0,0,0,1) 3px,rgba(0,0,0,1) 4px);}
-.card-back-label{font-family:var(--font-mono);font-size:8px;letter-spacing:.35em;color:rgba(180,30,0,0.7);margin-bottom:10px;}
-.card-back-id{font-family:var(--font-mono);font-size:7px;letter-spacing:.2em;color:rgba(232,80,0,0.5);margin-bottom:6px;}
-.card-back-name{font-family:var(--font-display);font-size:22px;letter-spacing:.05em;color:var(--white);margin-bottom:14px;line-height:1;}
-.card-back-divider{height:1px;background:rgba(180,30,0,0.2);margin-bottom:14px;}
-.card-back-row{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px;}
-.card-back-key{font-family:var(--font-mono);font-size:7px;letter-spacing:.2em;color:rgba(140,60,20,0.7);}
-.card-back-val{font-family:var(--font-mono);font-size:9px;letter-spacing:.1em;color:rgba(200,120,60,0.85);text-align:right;max-width:55%;}
-.card-back-desc{font-size:11px;font-weight:200;line-height:1.8;color:rgba(180,140,100,0.65);margin-top:10px;flex:1;}
-.card-back-hint{font-family:var(--font-mono);font-size:7px;letter-spacing:.25em;color:rgba(120,40,10,0.5);margin-top:auto;padding-top:12px;border-top:1px solid rgba(100,20,0,0.15);}
-.card-flip-hint{position:absolute;bottom:12px;right:14px;font-family:var(--font-mono);font-size:7px;letter-spacing:.2em;color:rgba(180,60,0,0.35);pointer-events:none;transition:color .3s;}
-.char-card:hover .card-flip-hint{color:rgba(232,80,0,0.6)}
-
-.fib-counter{position:fixed;bottom:20px;left:20px;z-index:8000;font-family:var(--font-mono);font-size:9px;letter-spacing:.2em;color:rgba(140,50,0,0.55);pointer-events:none;line-height:1.6;}
-.fib-counter span{color:rgba(200,80,0,0.75)}
-@media(max-width:900px){.fib-counter{display:none}}
-
+/* ── REDUCED MOTION — уважаем системные настройки ── */
 @media(prefers-reduced-motion:reduce){
   *{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
   .bg-canvas::before,.bg-canvas::after,.bg-layers,.bg-ember{animation:none!important}
   .hero-poster{animation:none!important;transform:scale(1.12)!important}
-  .grain{animation:none!important}.reveal{opacity:1!important;transform:none!important}
+  .grain{animation:none!important}
+  .reveal{opacity:1!important;transform:none!important}
 }
+
+/* ── CARD FLIP SYSTEM ── */
+.chars-grid{perspective:1200px}
+.char-card{
+  transform-style:preserve-3d;
+  transition:transform .7s cubic-bezier(.4,0,.2,1), box-shadow .3s ease;
+  cursor:pointer;
+}
+.char-card.flipped{transform:rotateY(180deg) translateY(-2px)}
+.char-card:hover:not(.flipped){transform:translateY(-4px) rotateY(3deg)}
+.card-front,.card-back{
+  position:absolute;inset:0;
+  backface-visibility:hidden;-webkit-backface-visibility:hidden;
+  padding:32px 24px;
+  display:flex;flex-direction:column;
+}
+.card-front{position:relative}
+.card-back{
+  transform:rotateY(180deg);
+  background:rgba(6,2,2,0.96);
+  border:1px solid rgba(180,30,0,0.3);
+  border-top:1px solid rgba(255,60,0,0.15);
+  overflow:hidden;
+}
+.card-back::before{
+  content:'';position:absolute;inset:0;pointer-events:none;opacity:.04;
+  background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(0,0,0,1) 3px,rgba(0,0,0,1) 4px);
+}
+.card-back-label{
+  font-family:var(--font-mono);font-size:8px;letter-spacing:.35em;
+  color:rgba(180,30,0,0.7);margin-bottom:10px;
+}
+.card-back-id{
+  font-family:var(--font-mono);font-size:7px;letter-spacing:.2em;
+  color:rgba(232,80,0,0.5);margin-bottom:6px;
+}
+.card-back-name{
+  font-family:var(--font-display);font-size:22px;letter-spacing:.05em;
+  color:var(--white);margin-bottom:14px;line-height:1;
+}
+.card-back-divider{
+  height:1px;background:rgba(180,30,0,0.2);margin-bottom:14px;
+}
+.card-back-row{
+  display:flex;justify-content:space-between;align-items:baseline;
+  margin-bottom:8px;
+}
+.card-back-key{
+  font-family:var(--font-mono);font-size:7px;letter-spacing:.2em;
+  color:rgba(140,60,20,0.7);
+}
+.card-back-val{
+  font-family:var(--font-mono);font-size:9px;letter-spacing:.1em;
+  color:rgba(200,120,60,0.85);text-align:right;max-width:55%;
+}
+.card-back-desc{
+  font-size:11px;font-weight:200;line-height:1.8;color:rgba(180,140,100,0.65);
+  margin-top:10px;flex:1;
+}
+.card-back-hint{
+  font-family:var(--font-mono);font-size:7px;letter-spacing:.25em;
+  color:rgba(120,40,10,0.5);margin-top:auto;padding-top:12px;
+  border-top:1px solid rgba(100,20,0,0.15);
+}
+/* Флип-хинт на фронте */
+.card-flip-hint{
+  position:absolute;bottom:12px;right:14px;
+  font-family:var(--font-mono);font-size:7px;letter-spacing:.2em;
+  color:rgba(180,60,0,0.35);pointer-events:none;
+  transition:color .3s;
+}
+.char-card:hover .card-flip-hint{color:rgba(232,80,0,0.6)}
+
+/* ── SCROLL PARALLAX ── */
+.parallax-slow{will-change:transform;transition:transform .1s linear}
+.parallax-med {will-change:transform;transition:transform .1s linear}
+
+/* ── FIB VISITOR COUNTER ── */
+.fib-counter{
+  position:fixed;bottom:20px;left:20px;z-index:8000;
+  font-family:var(--font-mono);font-size:9px;letter-spacing:.2em;
+  color:rgba(140,50,0,0.55);pointer-events:none;
+  line-height:1.6;
+}
+.fib-counter span{color:rgba(200,80,0,0.75)}
+@media(max-width:900px){.fib-counter{display:none}}
 </style>
 </head>
 <body>
@@ -415,7 +989,7 @@ background:linear-gradient(to right,rgba(232,80,0,.5) 1px,transparent 1px) 0 0/2
   <div class="intro-scanlines"></div>
   <div class="intro-terminal" id="introTerminal"></div>
   <div class="intro-logo-wrap" id="introLogo">
-    <div class="intro-logo">PAX FALSA</div>
+    <div class="intro-logo">UNTRACEABLES</div>
     <div class="intro-logo-sub">FNGYT PRODUCTION // CLASSIFIED</div>
   </div>
   <button class="intro-skip" id="introSkip">[ ПРОПУСТИТЬ ]</button>
@@ -434,14 +1008,15 @@ background:linear-gradient(to right,rgba(232,80,0,.5) 1px,transparent 1px) 0 0/2
 <div class="bg-ember"></div>
 <div class="vignette"></div>
 <div class="grain"></div>
+
 <button class="sound-btn" id="soundBtn">♪ SFX: ON</button>
 
 <!-- ── NAV ── -->
 <nav class="glass-reflect">
-  <a href="#" class="nav-logo">PAX FALSA</a>
+  <a href="#" class="nav-logo">UNTRACEABLES</a>
   <div class="nav-links">
     <a href="#about" class="i18n" data-ru="О ФИЛЬМЕ" data-en="ABOUT">О ФИЛЬМЕ</a>
-    <a href="#chars" class="i18n" data-ru="ДОСЬЕ" data-en="DOSSIER">ДОСЬЕ</a>
+    <a href="#chars" class="i18n" data-ru="ПЕРСОНАЖИ" data-en="CAST">ПЕРСОНАЖИ</a>
     <a href="#synopsis" class="i18n" data-ru="СЮЖЕТ" data-en="STORY">СЮЖЕТ</a>
     <button class="nav-lang" id="langBtn">EN</button>
     <div class="nav-secret" id="navSecret">CLASSIFIED</div>
@@ -451,9 +1026,10 @@ background:linear-gradient(to right,rgba(232,80,0,.5) 1px,transparent 1px) 0 0/2
   </button>
 </nav>
 
+<!-- Mobile menu -->
 <div class="mobile-menu" id="mobileMenu">
   <a href="#about" class="i18n mob-link" data-ru="О ФИЛЬМЕ" data-en="ABOUT">О ФИЛЬМЕ</a>
-  <a href="#chars" class="i18n mob-link" data-ru="ДОСЬЕ" data-en="DOSSIER">ДОСЬЕ</a>
+  <a href="#chars" class="i18n mob-link" data-ru="ПЕРСОНАЖИ" data-en="CAST">ПЕРСОНАЖИ</a>
   <a href="#synopsis" class="i18n mob-link" data-ru="СЮЖЕТ" data-en="STORY">СЮЖЕТ</a>
   <div class="mobile-menu-bottom">
     <button class="nav-lang" id="langBtnMob">EN</button>
@@ -469,6 +1045,7 @@ background:linear-gradient(to right,rgba(232,80,0,.5) 1px,transparent 1px) 0 0/2
   <div class="hero-top"></div>
   <div class="hero-btm"></div>
 
+  <!-- Countdown -->
   <div class="countdown-bar glass-reflect" id="countdown">
     <div class="cd-item"><div class="cd-num" id="cd-d">--</div><div class="cd-label i18n" data-ru="ДНЕЙ" data-en="DAYS">ДНЕЙ</div></div>
     <div class="cd-sep">:</div>
@@ -480,14 +1057,13 @@ background:linear-gradient(to right,rgba(232,80,0,.5) 1px,transparent 1px) 0 0/2
   </div>
 
   <div class="hero-content">
-    <div class="hero-eyebrow i18n" data-ru="// FNGYT PRODUCTION — СКОРО — 2025" data-en="// FNGYT PRODUCTION — COMING SOON — 2025">// FNGYT PRODUCTION — СКОРО — 2025</div>
-    <h1 class="hero-title" id="heroTitle" data-text="PAX FALSA">PAX FALSA</h1>
-    <p class="hero-sub i18n" data-ru="СИСТЕМА ВСЕГДА ЗНАЛА. ТЫ — НЕТ." data-en="THE SYSTEM ALWAYS KNEW. YOU DIDN'T.">СИСТЕМА ВСЕГДА ЗНАЛА. ТЫ — НЕТ.</p>
+    <div class="hero-eyebrow i18n" data-ru="// FIB — ЗАСЕКРЕЧЕННЫЙ РЕЛИЗ — 2025" data-en="// FIB — CLASSIFIED RELEASE — 2025">// FIB — ЗАСЕКРЕЧЕННЫЙ РЕЛИЗ — 2025</div>
+    <h1 class="hero-title" id="heroTitle" data-text="UNTRACEABLES">UNTRACEABLES</h1>
+    <p class="hero-sub i18n" data-ru="НЕКОТОРЫХ ЛУЧШЕ НЕ ИСКАТЬ" data-en="SOME ARE BETTER LEFT UNFOUND">НЕКОТОРЫХ ЛУЧШЕ НЕ ИСКАТЬ</p>
     <div class="hero-meta">
-      <div class="hm-item"><span class="hm-label i18n" data-ru="Жанр" data-en="Genre">Жанр</span><span class="hm-val fire i18n" data-ru="Криминал · Триллер · Детектив" data-en="Crime · Thriller · Detective">Криминал · Триллер · Детектив</span></div>
+      <div class="hm-item"><span class="hm-label i18n" data-ru="Жанр" data-en="Genre">Жанр</span><span class="hm-val fire i18n" data-ru="Криминал · Хоррор · Детектив" data-en="Crime · Horror · Detective">Криминал · Хоррор · Детектив</span></div>
       <div class="hm-item"><span class="hm-label i18n" data-ru="Статус" data-en="Status">Статус</span><span class="hm-val i18n" data-ru="В ПРОИЗВОДСТВЕ" data-en="IN PRODUCTION">В ПРОИЗВОДСТВЕ</span></div>
       <div class="hm-item"><span class="hm-label i18n" data-ru="Режиссёр" data-en="Director">Режиссёр</span><span class="hm-val">FNGYT</span></div>
-      <div class="hm-item"><span class="hm-label i18n" data-ru="Хронометраж" data-en="Runtime">Хронометраж</span><span class="hm-val i18n" data-ru="~35 МИНУТ" data-en="~35 MIN">~35 МИНУТ</span></div>
     </div>
     <div class="hero-btns">
       <a href="#about" class="btn btn-fire i18n" data-ru="УЗНАТЬ БОЛЬШЕ ↓" data-en="LEARN MORE ↓">УЗНАТЬ БОЛЬШЕ ↓</a>
@@ -505,29 +1081,16 @@ background:linear-gradient(to right,rgba(232,80,0,.5) 1px,transparent 1px) 0 0/2
   <div class="container reveal">
     <span class="label i18n" data-ru="// О ФИЛЬМЕ" data-en="// ABOUT THE FILM">// О ФИЛЬМЕ</span>
     <div class="about-grid">
-      <div class="about-poster"><img src="FILM_POSTER.png" alt="PAX FALSA"></div>
+      <div class="about-poster"><img src="FILM_POSTER.png" alt="UNTRACEABLES"></div>
       <div class="about-text glass-reflect reflect-hover">
-        <h2 class="sec-title i18n" data-ru="Лос-Сантос живёт спокойно. Но какой ценой?" data-en="Los Santos lives in peace. But at what cost?">Лос-Сантос живёт спокойно. Но какой ценой?</h2>
-        <p class="i18n"
-          data-ru='Город под контролем. Преступность — управляема. Порядок — гарантирован. Никто не задаёт лишних вопросов. Никто не знает правды. До сих пор.'
-          data-en='The city is under control. Crime is managed. Order is guaranteed. Nobody asks unnecessary questions. Nobody knows the truth. Until now.'>
-          Город под контролем. Преступность — управляема. Порядок — гарантирован. Никто не задаёт лишних вопросов. Никто не знает правды. До сих пор.
-        </p>
-        <p class="i18n"
-          data-ru='Из тени появляются <span class="hi">Fractured</span> — банда в медвежьих масках которую никто не ждал. За каждым из них — своя сломанная история. Своя причина. И один общий враг.'
-          data-en='From the shadows emerge <span class="hi">Fractured</span> — a gang in bear masks that nobody expected. Behind each of them — a broken story. A personal reason. And one common enemy.'>
-          Из тени появляются <span class="hi">Fractured</span> — банда в медвежьих масках которую никто не ждал. За каждым из них — своя сломанная история. Своя причина. И один общий враг.
-        </p>
-        <p class="i18n"
-          data-ru='<span class="red">ТИХОНЯ.</span> Молчит. Всегда. Его голос ты не услышишь — только прочитаешь. И когда поймёшь почему он молчит — уже будет поздно.'
-          data-en='<span class="red">TIKHONYA.</span> Silent. Always. You won\'t hear his voice — only read it. And when you understand why he\'s silent — it will already be too late.'>
-          <span class="red">ТИХОНЯ.</span> Молчит. Всегда. Его голос ты не услышишь — только прочитаешь. И когда поймёшь почему он молчит — уже будет поздно.
-        </p>
+        <h2 class="sec-title i18n" data-ru="Дело которое не должно существовать" data-en="The case that should never have existed">Дело которое не должно существовать</h2>
+        <p class="i18n" data-ru='Агент ФИБ получает задание: найти пропавшего шпиона по кличке <span class="hi">Недотроги</span>. Расследование ведёт его через конвои, допросы и туннели — к имени которое в бюро произносят шёпотом.' data-en='A FIB agent gets an assignment: find the missing spy known as <span class="hi">Untouchable</span>. The investigation leads him through convoys, interrogations and tunnels — toward a name they only whisper at the bureau.'>Агент ФИБ получает задание: найти пропавшего шпиона по кличке <span class="hi">Недотроги</span>. Расследование ведёт его через конвои, допросы и туннели — к имени которое в бюро произносят шёпотом.</p>
+        <p class="i18n" data-ru='<span class="red">ТИХОНЯ.</span> Никто не знает как он выглядит. Никто кто его искал — не вернулся с пустыми руками. Вопрос в том: чьими.' data-en='<span class="red">TIKHONYA.</span> Nobody knows what he looks like. Nobody who searched for him came back empty-handed. The question is: whose hands.'><span class="red">ТИХОНЯ.</span> Никто не знает как он выглядит. Никто кто его искал — не вернулся с пустыми руками. Вопрос в том: чьими.</p>
         <div class="genre-row">
           <div class="genre-chip hot i18n" data-ru="Криминал" data-en="Crime">Криминал</div>
-          <div class="genre-chip hot i18n" data-ru="Триллер" data-en="Thriller">Триллер</div>
+          <div class="genre-chip hot i18n" data-ru="Хоррор" data-en="Horror">Хоррор</div>
           <div class="genre-chip hot i18n" data-ru="Детектив" data-en="Detective">Детектив</div>
-          <div class="genre-chip i18n" data-ru="Нелинейный нарратив" data-en="Non-linear narrative">Нелинейный нарратив</div>
+          <div class="genre-chip i18n" data-ru="Тёмная комедия" data-en="Dark Comedy">Тёмная комедия</div>
           <div class="genre-chip">FNGYT Production</div>
         </div>
       </div>
@@ -537,296 +1100,239 @@ background:linear-gradient(to right,rgba(232,80,0,.5) 1px,transparent 1px) 0 0/2
 
 <div class="divider"></div>
 
-<!-- ── TRAILER ── -->
+<!-- ── CHARACTERS ── -->
+
 <section id="trailer" style="padding:80px 0 0">
   <div class="container">
     <span class="label i18n" data-ru="// ТРЕЙЛЕР" data-en="// TRAILER">// ТРЕЙЛЕР</span>
-    <div style="margin-top:32px;position:relative;aspect-ratio:16/9;max-width:900px;border:1px solid rgba(180,30,0,0.25);border-top:1px solid rgba(255,255,255,0.05);box-shadow:0 16px 60px rgba(0,0,0,0.6);overflow:hidden;">
+    <div class="trailer-wrap glass-reflect reflect-hover" style="
+      margin-top:32px;position:relative;aspect-ratio:16/9;max-width:900px;
+      background:rgba(8,3,3,0.6);
+      backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+      border:1px solid rgba(180,30,0,0.25);
+      border-top:1px solid rgba(255,255,255,0.05);
+      box-shadow:0 16px 60px rgba(0,0,0,0.6),inset 0 1px 0 rgba(255,60,0,0.06);
+      display:flex;align-items:center;justify-content:center;overflow:hidden;
+    ">
+      <!-- Scanlines overlay -->
+      <div style="position:absolute;inset:0;pointer-events:none;opacity:.06;
+        background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(0,0,0,1) 3px,rgba(0,0,0,1) 4px)"></div>
       <!-- Corner brackets -->
-      <div style="position:absolute;top:16px;left:16px;width:24px;height:24px;border-top:2px solid rgba(232,80,0,.6);border-left:2px solid rgba(232,80,0,.6);z-index:2;pointer-events:none"></div>
-      <div style="position:absolute;top:16px;right:16px;width:24px;height:24px;border-top:2px solid rgba(232,80,0,.6);border-right:2px solid rgba(232,80,0,.6);z-index:2;pointer-events:none"></div>
-      <div style="position:absolute;bottom:16px;left:16px;width:24px;height:24px;border-bottom:2px solid rgba(232,80,0,.6);border-left:2px solid rgba(232,80,0,.6);z-index:2;pointer-events:none"></div>
-      <div style="position:absolute;bottom:16px;right:16px;width:24px;height:24px;border-bottom:2px solid rgba(232,80,0,.6);border-right:2px solid rgba(232,80,0,.6);z-index:2;pointer-events:none"></div>
-      <iframe
-        src="https://www.youtube.com/embed/Aq5WXmQQooo?rel=0&modestbranding=1&color=white"
-        style="position:absolute;inset:0;width:100%;height:100%;border:none;"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-        allowfullscreen>
-      </iframe>
+      <div style="position:absolute;top:16px;left:16px;width:24px;height:24px;
+        border-top:2px solid rgba(232,80,0,.5);border-left:2px solid rgba(232,80,0,.5)"></div>
+      <div style="position:absolute;top:16px;right:16px;width:24px;height:24px;
+        border-top:2px solid rgba(232,80,0,.5);border-right:2px solid rgba(232,80,0,.5)"></div>
+      <div style="position:absolute;bottom:16px;left:16px;width:24px;height:24px;
+        border-bottom:2px solid rgba(232,80,0,.5);border-left:2px solid rgba(232,80,0,.5)"></div>
+      <div style="position:absolute;bottom:16px;right:16px;width:24px;height:24px;
+        border-bottom:2px solid rgba(232,80,0,.5);border-right:2px solid rgba(232,80,0,.5)"></div>
+      <!-- Play button -->
+      <div style="display:flex;flex-direction:column;align-items:center;gap:20px;z-index:1">
+        <div style="width:72px;height:72px;border:2px solid rgba(232,80,0,0.6);border-radius:50%;
+          display:flex;align-items:center;justify-content:center;
+          box-shadow:0 0 30px rgba(232,80,0,0.2),inset 0 0 20px rgba(232,80,0,0.05);">
+          <div style="width:0;height:0;border-top:14px solid transparent;
+            border-bottom:14px solid transparent;border-left:22px solid rgba(232,80,0,0.8);
+            margin-left:4px"></div>
+        </div>
+        <span style="font-family:var(--font-mono);font-size:10px;letter-spacing:.4em;
+          color:rgba(200,100,60,0.6)" class="i18n" data-ru="ТРЕЙЛЕР — СКОРО" data-en="TRAILER — COMING SOON">ТРЕЙЛЕР — СКОРО</span>
+      </div>
     </div>
   </div>
 </section>
 
-<!-- ── CHARACTERS ── -->
 <section id="chars">
   <div class="container">
-    <span class="label reveal i18n" data-ru="// ДОСЬЕ — ЧАСТИЧНО РАССЕКРЕЧЕНО" data-en="// DOSSIER — PARTIALLY DECLASSIFIED">// ДОСЬЕ — ЧАСТИЧНО РАССЕКРЕЧЕНО</span>
-    <h2 class="sec-title reveal i18n" data-ru="Фигуранты дела" data-en="Persons of Interest">Фигуранты дела</h2>
-    <div class="chars-grid">
-
-      <!-- ТИХОНЯ -->
+    <span class="label reveal i18n" data-ru="// ДОСЬЕ" data-en="// CASE FILES">// ДОСЬЕ</span>
+    <h2 class="sec-title reveal-left i18n" data-ru="Персонажи" data-en="Characters">Персонажи</h2>
+        <div class="chars-grid">
       <div class="char-card glass-reflect reveal reveal-delay-1">
         <div class="card-front">
           <div class="char-bg-num">01</div>
-          <div class="char-img" style="border-color:rgba(204,26,0,.5)">🐻</div>
-          <div class="char-id i18n" data-ru="ОБЪЕКТ — УГРОЗА: МАКСИМАЛЬНАЯ" data-en="OBJECT — THREAT: MAXIMUM">ОБЪЕКТ — УГРОЗА: МАКСИМАЛЬНАЯ</div>
-          <div class="char-name i18n" data-ru="ТИХОНЯ" data-en="TIKHONYA">ТИХОНЯ</div>
-          <div class="char-desc i18n"
-            data-ru="Лидер Fractured. Никогда не говорит — только действует. Медвежья маска. Полный чёрный. Каждая его операция безупречна. Каждый кто его недооценил — пожалел."
-            data-en="Leader of the Fractured. Never speaks — only acts. Bear mask. All black. Every operation he runs is flawless. Everyone who underestimated him regretted it.">
-            Лидер Fractured. Никогда не говорит — только действует. Медвежья маска. Полный чёрный. Каждая его операция безупречна. Каждый кто его недооценил — пожалел.
-          </div>
-          <div class="char-status s-hostile i18n" data-ru="▲ ВРАЖДЕБЕН" data-en="▲ HOSTILE">▲ ВРАЖДЕБЕН</div>
-          <div class="card-flip-hint i18n" data-ru="[ ДОСЬЕ ]" data-en="[ DOSSIER ]">[ ДОСЬЕ ]</div>
-        </div>
-        <div class="card-back">
-          <div class="card-back-label i18n" data-ru="// FIB — ЛИЧНОЕ ДЕЛО" data-en="// FIB — PERSONAL FILE">// FIB — ЛИЧНОЕ ДЕЛО</div>
-          <div class="card-back-id i18n" data-ru="ОБЪЕКТ — УГРОЗА: МАКСИМАЛЬНАЯ" data-en="OBJECT — THREAT: MAXIMUM">ОБЪЕКТ — УГРОЗА: МАКСИМАЛЬНАЯ</div>
-          <div class="card-back-name">ТИХОНЯ</div>
-          <div class="card-back-divider"></div>
-          <div class="i18n-back-ru">
-            <div class="card-back-row"><span class="card-back-key">ПОЗЫВНОЙ</span><span class="card-back-val">ТИХОНЯ</span></div>
-            <div class="card-back-row"><span class="card-back-key">СТАТУС</span><span class="card-back-val">ВРАЖДЕБЕН</span></div>
-            <div class="card-back-row"><span class="card-back-key">УГРОЗА</span><span class="card-back-val">МАКСИМАЛЬНАЯ</span></div>
-            <div class="card-back-row"><span class="card-back-key">ВНЕШНОСТЬ</span><span class="card-back-val">████████</span></div>
-            <div class="card-back-row"><span class="card-back-key">МОТИВ</span><span class="card-back-val">████████</span></div>
-            <div class="card-back-row"><span class="card-back-key">ДОСЬЕ</span><span class="card-back-val">ЗАСЕКРЕЧЕНО</span></div>
-          </div>
-          <div class="i18n-back-en" style="display:none">
-            <div class="card-back-row"><span class="card-back-key">CALLSIGN</span><span class="card-back-val">TIKHONYA</span></div>
-            <div class="card-back-row"><span class="card-back-key">STATUS</span><span class="card-back-val">HOSTILE</span></div>
-            <div class="card-back-row"><span class="card-back-key">THREAT</span><span class="card-back-val">MAXIMUM</span></div>
-            <div class="card-back-row"><span class="card-back-key">APPEARANCE</span><span class="card-back-val">████████</span></div>
-            <div class="card-back-row"><span class="card-back-key">MOTIVE</span><span class="card-back-val">████████</span></div>
-            <div class="card-back-row"><span class="card-back-key">FILE</span><span class="card-back-val">CLASSIFIED</span></div>
-          </div>
-          <div class="card-back-desc i18n"
-            data-ru="Молчит. Всегда молчит. Это самое страшное."
-            data-en="Silent. Always silent. That's the scariest part.">
-            Молчит. Всегда молчит. Это самое страшное.
-          </div>
-          <div class="card-back-hint i18n" data-ru="[ НАЖМИ ЕЩЁ РАЗ — ЗАКРЫТЬ ]" data-en="[ TAP AGAIN — CLOSE ]">[ НАЖМИ ЕЩЁ РАЗ — ЗАКРЫТЬ ]</div>
-        </div>
-      </div>
-
-      <!-- ОХОТНИК -->
-      <div class="char-card glass-reflect reveal reveal-delay-2">
-        <div class="card-front">
-          <div class="char-bg-num">02</div>
           <div class="char-img">🕵️</div>
-          <div class="char-id i18n" data-ru="АГЕНТ FIB — ДЕЙСТВУЮЩИЙ" data-en="FIB AGENT — ACTIVE">АГЕНТ FIB — ДЕЙСТВУЮЩИЙ</div>
+          <div class="char-id i18n" data-ru="АГЕНТ ФИБ #001" data-en="FIB AGENT #001">АГЕНТ ФИБ #001</div>
           <div class="char-name i18n" data-ru="ОХОТНИК" data-en="HUNTER">ОХОТНИК</div>
-          <div class="char-desc i18n"
-            data-ru="Лучший агент FIB. Работает в системе с 20 лет. Знает как она устроена. Верит что так правильно. Получает дело о Недотрогах — и начинает копать глубже чем следует."
-            data-en="Best FIB agent. Works in the system since 20. Knows how it works. Believes it's the right way. Gets the Fractured case — and starts digging deeper than he should.">
-            Лучший агент FIB. Работает в системе с 20 лет. Знает как она устроена. Верит что так правильно. Получает дело о Недотрогах — и начинает копать глубже чем следует.
-          </div>
+          <div class="char-desc i18n" data-ru="Полевой агент. Получил дело о пропавшем шпионе. Упрямый, наблюдательный. Не знает во что ввязался." data-en="Field agent. Assigned the missing spy case. Stubborn, perceptive. Has no idea what he's getting into.">Полевой агент. Получил дело о пропавшем шпионе. Упрямый, наблюдательный. Не знает во что ввязался.</div>
           <div class="char-status s-active i18n" data-ru="● АКТИВЕН" data-en="● ACTIVE">● АКТИВЕН</div>
           <div class="card-flip-hint i18n" data-ru="[ ДОСЬЕ ]" data-en="[ DOSSIER ]">[ ДОСЬЕ ]</div>
         </div>
         <div class="card-back">
           <div class="card-back-label i18n" data-ru="// FIB — ЛИЧНОЕ ДЕЛО" data-en="// FIB — PERSONAL FILE">// FIB — ЛИЧНОЕ ДЕЛО</div>
-          <div class="card-back-id i18n" data-ru="АГЕНТ FIB — ДЕЙСТВУЮЩИЙ" data-en="FIB AGENT — ACTIVE">АГЕНТ FIB — ДЕЙСТВУЮЩИЙ</div>
+          <div class="card-back-id i18n" data-ru="АГЕНТ ФИБ #001" data-en="FIB AGENT #001">АГЕНТ ФИБ #001</div>
           <div class="card-back-name i18n" data-ru="ОХОТНИК" data-en="HUNTER">ОХОТНИК</div>
           <div class="card-back-divider"></div>
           <div class="i18n-back-ru">
             <div class="card-back-row"><span class="card-back-key">ПОЗЫВНОЙ</span><span class="card-back-val">ОХОТНИК</span></div>
-            <div class="card-back-row"><span class="card-back-key">СТАТУС</span><span class="card-back-val">АКТИВЕН</span></div>
-            <div class="card-back-row"><span class="card-back-key">СТАЖ</span><span class="card-back-val">15+ ЛЕТ</span></div>
-            <div class="card-back-row"><span class="card-back-key">ЗАДАНИЕ</span><span class="card-back-val">FRACTURED</span></div>
-            <div class="card-back-row"><span class="card-back-key">СЕМЬЯ</span><span class="card-back-val">ЕСТЬ</span></div>
-            <div class="card-back-row"><span class="card-back-key">ПРОШЛОЕ</span><span class="card-back-val">████████</span></div>
+<div class="card-back-row"><span class="card-back-key">СТАТУС</span><span class="card-back-val">АКТИВЕН</span></div>
+<div class="card-back-row"><span class="card-back-key">РАНГ</span><span class="card-back-val">АГЕНТ III КЛ.</span></div>
+<div class="card-back-row"><span class="card-back-key">ЗАДАНИЕ</span><span class="card-back-val">НАЙТИ ТИХОНЮ</span></div>
+<div class="card-back-row"><span class="card-back-key">МЕСТОНАХОЖДЕНИЕ</span><span class="card-back-val">НЕИЗВЕСТНО</span></div>
+
           </div>
           <div class="i18n-back-en" style="display:none">
             <div class="card-back-row"><span class="card-back-key">CALLSIGN</span><span class="card-back-val">HUNTER</span></div>
-            <div class="card-back-row"><span class="card-back-key">STATUS</span><span class="card-back-val">ACTIVE</span></div>
-            <div class="card-back-row"><span class="card-back-key">TENURE</span><span class="card-back-val">15+ YEARS</span></div>
-            <div class="card-back-row"><span class="card-back-key">ASSIGNMENT</span><span class="card-back-val">FRACTURED</span></div>
-            <div class="card-back-row"><span class="card-back-key">FAMILY</span><span class="card-back-val">EXISTS</span></div>
-            <div class="card-back-row"><span class="card-back-key">PAST</span><span class="card-back-val">████████</span></div>
+<div class="card-back-row"><span class="card-back-key">STATUS</span><span class="card-back-val">ACTIVE</span></div>
+<div class="card-back-row"><span class="card-back-key">RANK</span><span class="card-back-val">AGENT CLASS III</span></div>
+<div class="card-back-row"><span class="card-back-key">MISSION</span><span class="card-back-val">LOCATE TIKHONYA</span></div>
+<div class="card-back-row"><span class="card-back-key">LOCATION</span><span class="card-back-val">UNKNOWN</span></div>
+
           </div>
-          <div class="card-back-desc i18n"
-            data-ru="Охотится на Fractured. Не знает что сам уже под прицелом."
-            data-en="Hunts the Fractured. Doesn't know he's already in the crosshairs.">
-            Охотится на Fractured. Не знает что сам уже под прицелом.
-          </div>
+          <div class="card-back-desc i18n" data-ru="Единственный агент который зашёл дальше всех. Пока жив." data-en="The only agent who has gone the furthest. Still alive.">Единственный агент который зашёл дальше всех. Пока жив.</div>
           <div class="card-back-hint i18n" data-ru="[ НАЖМИ ЕЩЁ РАЗ — ЗАКРЫТЬ ]" data-en="[ TAP AGAIN — CLOSE ]">[ НАЖМИ ЕЩЁ РАЗ — ЗАКРЫТЬ ]</div>
         </div>
       </div>
+      <div class="char-card glass-reflect reveal reveal-delay-2">
+        <div class="card-front">
+          <div class="char-bg-num">02</div>
+          <div class="char-img">👤</div>
+          <div class="char-id i18n" data-ru="ОБЪЕКТ — РАЗЫСКИВАЕТСЯ" data-en="OBJECT — WANTED">ОБЪЕКТ — РАЗЫСКИВАЕТСЯ</div>
+          <div class="char-name i18n" data-ru="НЕДОТРОГИ" data-en="UNTOUCHABLE">НЕДОТРОГИ</div>
+          <div class="char-desc i18n" data-ru="Шпион. Исчез при невыясненных обстоятельствах. Последнее место — здание ФИБ. Знает больше чем говорит." data-en="Spy. Disappeared under unclear circumstances. Last known location — FIB building. Knows more than he lets on.">Шпион. Исчез при невыясненных обстоятельствах. Последнее место — здание ФИБ. Знает больше чем говорит.</div>
+          <div class="char-status s-missing i18n" data-ru="◆ ПРОПАЛ" data-en="◆ MISSING">◆ ПРОПАЛ</div>
+          <div class="card-flip-hint i18n" data-ru="[ ДОСЬЕ ]" data-en="[ DOSSIER ]">[ ДОСЬЕ ]</div>
+        </div>
+        <div class="card-back">
+          <div class="card-back-label i18n" data-ru="// FIB — ЛИЧНОЕ ДЕЛО" data-en="// FIB — PERSONAL FILE">// FIB — ЛИЧНОЕ ДЕЛО</div>
+          <div class="card-back-id i18n" data-ru="ОБЪЕКТ — РАЗЫСКИВАЕТСЯ" data-en="OBJECT — WANTED">ОБЪЕКТ — РАЗЫСКИВАЕТСЯ</div>
+          <div class="card-back-name i18n" data-ru="НЕДОТРОГИ" data-en="UNTOUCHABLE">НЕДОТРОГИ</div>
+          <div class="card-back-divider"></div>
+          <div class="i18n-back-ru">
+            <div class="card-back-row"><span class="card-back-key">ПОЗЫВНОЙ</span><span class="card-back-val">НЕДОТРОГИ</span></div>
+<div class="card-back-row"><span class="card-back-key">СТАТУС</span><span class="card-back-val">ПРОПАЛ</span></div>
+<div class="card-back-row"><span class="card-back-key">ПОСЛЕДНЕЕ МЕСТО</span><span class="card-back-val">ЗД. ФИБ</span></div>
+<div class="card-back-row"><span class="card-back-key">УГРОЗА</span><span class="card-back-val">СРЕДНЯЯ</span></div>
+<div class="card-back-row"><span class="card-back-key">ДОСТУП К ДЕЛУ</span><span class="card-back-val">ОГРАНИЧЕН</span></div>
 
-      <!-- FRACTURED — БАНДА -->
+          </div>
+          <div class="i18n-back-en" style="display:none">
+            <div class="card-back-row"><span class="card-back-key">CALLSIGN</span><span class="card-back-val">UNTOUCHABLE</span></div>
+<div class="card-back-row"><span class="card-back-key">STATUS</span><span class="card-back-val">MISSING</span></div>
+<div class="card-back-row"><span class="card-back-key">LAST LOCATION</span><span class="card-back-val">FIB BLDG</span></div>
+<div class="card-back-row"><span class="card-back-key">THREAT</span><span class="card-back-val">MEDIUM</span></div>
+<div class="card-back-row"><span class="card-back-key">FILE ACCESS</span><span class="card-back-val">RESTRICTED</span></div>
+
+          </div>
+          <div class="card-back-desc i18n" data-ru="Знает имя Тихони. Именно поэтому его нет." data-en="Knows Tikhonya's real name. That's why he's gone.">Знает имя Тихони. Именно поэтому его нет.</div>
+          <div class="card-back-hint i18n" data-ru="[ НАЖМИ ЕЩЁ РАЗ — ЗАКРЫТЬ ]" data-en="[ TAP AGAIN — CLOSE ]">[ НАЖМИ ЕЩЁ РАЗ — ЗАКРЫТЬ ]</div>
+        </div>
+      </div>
       <div class="char-card glass-reflect reveal reveal-delay-3">
         <div class="card-front">
           <div class="char-bg-num">03</div>
-          <div class="char-img" style="border-color:rgba(232,80,0,.4)">🐾</div>
-          <div class="char-id i18n" data-ru="ГРУППИРОВКА — В РОЗЫСКЕ" data-en="ORGANIZATION — WANTED">ГРУППИРОВКА — В РОЗЫСКЕ</div>
-          <div class="char-name i18n" data-ru="FRACTURED" data-en="FRACTURED">FRACTURED</div>
-          <div class="char-desc i18n"
-            data-ru="Пятеро. Медвежьи маски с оскалом. У каждого — свой цвет. Снаружи — террористы. Внутри — семья. Их объединяет одно: система сломала каждого из них."
-            data-en="Five of them. Bear masks with a grin. Each has their own color. Outside — terrorists. Inside — a family. One thing unites them: the system broke each one of them.">
-            Пятеро. Медвежьи маски с оскалом. У каждого — свой цвет. Снаружи — террористы. Внутри — семья. Их объединяет одно: система сломала каждого из них.
-          </div>
-          <div class="char-status s-hostile i18n" data-ru="▲ В РОЗЫСКЕ" data-en="▲ WANTED">▲ В РОЗЫСКЕ</div>
+          <div class="char-img" style="border-color:rgba(204,26,0,.5)">😈</div>
+          <div class="char-id i18n" data-ru="ОБЪЕКТ — УГРОЗА: МАКС" data-en="OBJECT — THREAT: MAX">ОБЪЕКТ — УГРОЗА: МАКС</div>
+          <div class="char-name i18n" data-ru="ТИХОНЯ" data-en="TIKHONYA">ТИХОНЯ</div>
+          <div class="char-desc i18n" data-ru="Имя в каждом деле. Суд. Казнь. Последнее благо. Никто не знает как он выглядит на самом деле." data-en="A name in every case. Trial. Execution. Last mercy. Nobody knows what he actually looks like.">Имя в каждом деле. Суд. Казнь. Последнее благо. Никто не знает как он выглядит на самом деле.</div>
+          <div class="char-status s-hostile i18n" data-ru="▲ ВРАЖДЕБЕН" data-en="▲ HOSTILE">▲ ВРАЖДЕБЕН</div>
           <div class="card-flip-hint i18n" data-ru="[ ДОСЬЕ ]" data-en="[ DOSSIER ]">[ ДОСЬЕ ]</div>
         </div>
         <div class="card-back">
-          <div class="card-back-label i18n" data-ru="// FIB — ДЕЛО ГРУППИРОВКИ" data-en="// FIB — ORGANIZATION FILE">// FIB — ДЕЛО ГРУППИРОВКИ</div>
-          <div class="card-back-id i18n" data-ru="ГРУППИРОВКА — В РОЗЫСКЕ" data-en="ORGANIZATION — WANTED">ГРУППИРОВКА — В РОЗЫСКЕ</div>
-          <div class="card-back-name i18n" data-ru="FRACTURED" data-en="FRACTURED">FRACTURED</div>
+          <div class="card-back-label i18n" data-ru="// FIB — ЛИЧНОЕ ДЕЛО" data-en="// FIB — PERSONAL FILE">// FIB — ЛИЧНОЕ ДЕЛО</div>
+          <div class="card-back-id i18n" data-ru="ОБЪЕКТ — УГРОЗА: МАКС" data-en="OBJECT — THREAT: MAX">ОБЪЕКТ — УГРОЗА: МАКС</div>
+          <div class="card-back-name i18n" data-ru="ТИХОНЯ" data-en="TIKHONYA">ТИХОНЯ</div>
           <div class="card-back-divider"></div>
           <div class="i18n-back-ru">
-            <div class="card-back-row"><span class="card-back-key">СОСТАВ</span><span class="card-back-val">5 ОБЪЕКТОВ</span></div>
-            <div class="card-back-row"><span class="card-back-key">ЗНАК</span><span class="card-back-val">МЕДВЕЖЬЯ МАСКА</span></div>
-            <div class="card-back-row"><span class="card-back-key">УГРОЗА</span><span class="card-back-val">КРИТИЧЕСКАЯ</span></div>
-            <div class="card-back-row"><span class="card-back-key">ЦЕЛЬ</span><span class="card-back-val">████████</span></div>
-            <div class="card-back-row"><span class="card-back-key">ПРОИСХОЖДЕНИЕ</span><span class="card-back-val">████████</span></div>
+            <div class="card-back-row"><span class="card-back-key">ПОЗЫВНОЙ</span><span class="card-back-val">ТИХОНЯ</span></div>
+<div class="card-back-row"><span class="card-back-key">СТАТУС</span><span class="card-back-val">ВРАЖДЕБЕН</span></div>
+<div class="card-back-row"><span class="card-back-key">УГРОЗА</span><span class="card-back-val">МАКСИМАЛЬНАЯ</span></div>
+<div class="card-back-row"><span class="card-back-key">ВНЕШНОСТЬ</span><span class="card-back-val">████████</span></div>
+<div class="card-back-row"><span class="card-back-key">ДОСЬЕ</span><span class="card-back-val">ЗАСЕКРЕЧЕНО</span></div>
+
           </div>
           <div class="i18n-back-en" style="display:none">
-            <div class="card-back-row"><span class="card-back-key">MEMBERS</span><span class="card-back-val">5 OBJECTS</span></div>
-            <div class="card-back-row"><span class="card-back-key">MARK</span><span class="card-back-val">BEAR MASK</span></div>
-            <div class="card-back-row"><span class="card-back-key">THREAT</span><span class="card-back-val">CRITICAL</span></div>
-            <div class="card-back-row"><span class="card-back-key">GOAL</span><span class="card-back-val">████████</span></div>
-            <div class="card-back-row"><span class="card-back-key">ORIGIN</span><span class="card-back-val">████████</span></div>
+            <div class="card-back-row"><span class="card-back-key">CALLSIGN</span><span class="card-back-val">TIKHONYA</span></div>
+<div class="card-back-row"><span class="card-back-key">STATUS</span><span class="card-back-val">HOSTILE</span></div>
+<div class="card-back-row"><span class="card-back-key">THREAT</span><span class="card-back-val">MAXIMUM</span></div>
+<div class="card-back-row"><span class="card-back-key">APPEARANCE</span><span class="card-back-val">████████</span></div>
+<div class="card-back-row"><span class="card-back-key">FILE</span><span class="card-back-val">CLASSIFIED</span></div>
+
           </div>
-          <div class="card-back-desc i18n"
-            data-ru="Каждый из них мог быть обычным человеком. Система решила иначе."
-            data-en="Each of them could have been ordinary. The system decided otherwise.">
-            Каждый из них мог быть обычным человеком. Система решила иначе.
-          </div>
+          <div class="card-back-desc i18n" data-ru="Никто кто его искал не вернулся с пустыми руками. Вопрос чьими." data-en="No one who searched for him came back empty-handed. The question is whose hands.">Никто кто его искал не вернулся с пустыми руками. Вопрос чьими.</div>
           <div class="card-back-hint i18n" data-ru="[ НАЖМИ ЕЩЁ РАЗ — ЗАКРЫТЬ ]" data-en="[ TAP AGAIN — CLOSE ]">[ НАЖМИ ЕЩЁ РАЗ — ЗАКРЫТЬ ]</div>
         </div>
       </div>
-
-      <!-- СИСТЕМА -->
       <div class="char-card glass-reflect reveal reveal-delay-3">
         <div class="card-front">
           <div class="char-bg-num">04</div>
-          <div class="char-img" style="border-color:rgba(100,100,100,.3)">🏛️</div>
-          <div class="char-id i18n" data-ru="СТРУКТУРА — ЗАСЕКРЕЧЕНО" data-en="STRUCTURE — CLASSIFIED">СТРУКТУРА — ЗАСЕКРЕЧЕНО</div>
-          <div class="char-name i18n" data-ru="СИСТЕМА" data-en="THE SYSTEM">СИСТЕМА</div>
-          <div class="char-desc i18n"
-            data-ru="FIB. Правительство. Элита. Они сидят за закрытыми дверями и принимают решения. Кто живёт. Кто умирает. Что считать правдой. Лос-Сантос — их инструмент."
-            data-en="FIB. Government. Elite. They sit behind closed doors and make decisions. Who lives. Who dies. What counts as truth. Los Santos is their tool.">
-            FIB. Правительство. Элита. Они сидят за закрытыми дверями и принимают решения. Кто живёт. Кто умирает. Что считать правдой. Лос-Сантос — их инструмент.
-          </div>
-          <div class="char-status s-unknown i18n" data-ru="◆ ВНЕ ПОДОЗРЕНИЙ" data-en="◆ ABOVE SUSPICION">◆ ВНЕ ПОДОЗРЕНИЙ</div>
+          <div class="char-img">🐻</div>
+          <div class="char-id i18n" data-ru="АГЕНТ ЕМС" data-en="EMC AGENT">АГЕНТ ЕМС</div>
+          <div class="char-name i18n" data-ru="МЕДВЕДЬ" data-en="BEAR">МЕДВЕДЬ</div>
+          <div class="char-desc i18n" data-ru="Обнаружен за вертолётом. Находит 3 местоположения цели. Союзник — или нет. Спасение мишки имеет цену." data-en="Found behind the helicopter. Locates 3 possible target positions. Ally — or not. Saving the bear comes at a price.">Обнаружен за вертолётом. Находит 3 местоположения цели. Союзник — или нет. Спасение мишки имеет цену.</div>
+          <div class="char-status s-unknown i18n" data-ru="◆ НЕ ОПРЕДЕЛЁН" data-en="◆ UNDEFINED">◆ НЕ ОПРЕДЕЛЁН</div>
           <div class="card-flip-hint i18n" data-ru="[ ДОСЬЕ ]" data-en="[ DOSSIER ]">[ ДОСЬЕ ]</div>
         </div>
         <div class="card-back">
-          <div class="card-back-label i18n" data-ru="// ДОСТУП ОГРАНИЧЕН" data-en="// ACCESS RESTRICTED">// ДОСТУП ОГРАНИЧЕН</div>
-          <div class="card-back-id i18n" data-ru="СТРУКТУРА — ЗАСЕКРЕЧЕНО" data-en="STRUCTURE — CLASSIFIED">СТРУКТУРА — ЗАСЕКРЕЧЕНО</div>
-          <div class="card-back-name i18n" data-ru="СИСТЕМА" data-en="THE SYSTEM">СИСТЕМА</div>
+          <div class="card-back-label i18n" data-ru="// FIB — ЛИЧНОЕ ДЕЛО" data-en="// FIB — PERSONAL FILE">// FIB — ЛИЧНОЕ ДЕЛО</div>
+          <div class="card-back-id i18n" data-ru="АГЕНТ ЕМС" data-en="EMC AGENT">АГЕНТ ЕМС</div>
+          <div class="card-back-name i18n" data-ru="МЕДВЕДЬ" data-en="BEAR">МЕДВЕДЬ</div>
           <div class="card-back-divider"></div>
           <div class="i18n-back-ru">
-            <div class="card-back-row"><span class="card-back-key">СТАТУС</span><span class="card-back-val">ВНЕ ПОДОЗРЕНИЙ</span></div>
-            <div class="card-back-row"><span class="card-back-key">КОНТРОЛЬ</span><span class="card-back-val">ПОЛНЫЙ</span></div>
-            <div class="card-back-row"><span class="card-back-key">ИНФОРМАЦИЯ</span><span class="card-back-val">████████</span></div>
-            <div class="card-back-row"><span class="card-back-key">ЖЕРТВЫ</span><span class="card-back-val">████████</span></div>
-            <div class="card-back-row"><span class="card-back-key">УЯЗВИМОСТЬ</span><span class="card-back-val">████████</span></div>
+            <div class="card-back-row"><span class="card-back-key">ПОЗЫВНОЙ</span><span class="card-back-val">МЕДВЕДЬ</span></div>
+<div class="card-back-row"><span class="card-back-key">СТАТУС</span><span class="card-back-val">НЕ ОПРЕДЕЛЁН</span></div>
+<div class="card-back-row"><span class="card-back-key">ВЕДОМСТВО</span><span class="card-back-val">ЕМС</span></div>
+<div class="card-back-row"><span class="card-back-key">ЛОЯЛЬНОСТЬ</span><span class="card-back-val">НЕИЗВЕСТНА</span></div>
+<div class="card-back-row"><span class="card-back-key">ЦЕНА</span><span class="card-back-val">ЕСТЬ</span></div>
+
           </div>
           <div class="i18n-back-en" style="display:none">
-            <div class="card-back-row"><span class="card-back-key">STATUS</span><span class="card-back-val">ABOVE SUSPICION</span></div>
-            <div class="card-back-row"><span class="card-back-key">CONTROL</span><span class="card-back-val">TOTAL</span></div>
-            <div class="card-back-row"><span class="card-back-key">INFORMATION</span><span class="card-back-val">████████</span></div>
-            <div class="card-back-row"><span class="card-back-key">VICTIMS</span><span class="card-back-val">████████</span></div>
-            <div class="card-back-row"><span class="card-back-key">WEAKNESS</span><span class="card-back-val">████████</span></div>
+            <div class="card-back-row"><span class="card-back-key">CALLSIGN</span><span class="card-back-val">BEAR</span></div>
+<div class="card-back-row"><span class="card-back-key">STATUS</span><span class="card-back-val">UNDEFINED</span></div>
+<div class="card-back-row"><span class="card-back-key">AGENCY</span><span class="card-back-val">EMC</span></div>
+<div class="card-back-row"><span class="card-back-key">LOYALTY</span><span class="card-back-val">UNKNOWN</span></div>
+<div class="card-back-row"><span class="card-back-key">PRICE</span><span class="card-back-val">EXISTS</span></div>
+
           </div>
-          <div class="card-back-desc i18n"
-            data-ru="Система всегда побеждала. Потому что никто не знал как она работает. До сих пор."
-            data-en="The system always won. Because nobody knew how it worked. Until now.">
-            Система всегда побеждала. Потому что никто не знал как она работает. До сих пор.
-          </div>
+          <div class="card-back-desc i18n" data-ru="Союзник который знает больше чем говорит. Или враг который притворяется." data-en="An ally who knows more than he says. Or an enemy pretending.">Союзник который знает больше чем говорит. Или враг который притворяется.</div>
           <div class="card-back-hint i18n" data-ru="[ НАЖМИ ЕЩЁ РАЗ — ЗАКРЫТЬ ]" data-en="[ TAP AGAIN — CLOSE ]">[ НАЖМИ ЕЩЁ РАЗ — ЗАКРЫТЬ ]</div>
         </div>
       </div>
-
     </div>
-  </div>
+    </div>
 </section>
-
 <div class="divider"></div>
 
 <!-- ── SYNOPSIS ── -->
 <section id="synopsis">
   <div class="container reveal">
-    <span class="label i18n" data-ru="// ХОД СОБЫТИЙ — ЧАСТИЧНО РАССЕКРЕЧЕНО" data-en="// EVENTS — PARTIALLY DECLASSIFIED">// ХОД СОБЫТИЙ — ЧАСТИЧНО РАССЕКРЕЧЕНО</span>
-    <h2 class="sec-title i18n" data-ru="Сюжет" data-en="Story">Сюжет</h2>
+    <span class="label i18n" data-ru="// ХОД ДЕЛА — ЧАСТИЧНО РАССЕКРЕЧЕНО" data-en="// CASE PROGRESS — PARTIALLY DECLASSIFIED">// ХОД ДЕЛА — ЧАСТИЧНО РАССЕКРЕЧЕНО</span>
+    <h2 class="sec-title reveal-left i18n" data-ru="Сюжет" data-en="Story">Сюжет</h2>
     <div class="syn-list">
-
       <div class="syn-item glass-reflect reflect-hover reveal">
         <div class="syn-num">01</div>
-        <div>
-          <div class="syn-act i18n" data-ru="НАЧАЛО" data-en="BEGINNING">НАЧАЛО</div>
-          <div class="syn-title i18n" data-ru="Город который не знает правды" data-en="The City That Doesn't Know the Truth">Город который не знает правды</div>
-          <div class="syn-text i18n"
-            data-ru="Лос-Сантос живёт в привычном ритме. Преступления случаются — их раскрывают. Порядок — соблюдается. Никто не задаётся вопросом: а кто на самом деле управляет этим городом?"
-            data-en="Los Santos lives its usual rhythm. Crimes happen — they get solved. Order is maintained. Nobody asks: who actually controls this city?">
-            Лос-Сантос живёт в привычном ритме. Преступления случаются — их раскрывают. Порядок — соблюдается. Никто не задаётся вопросом: а кто на самом деле управляет этим городом?
-          </div>
-        </div>
+        <div><div class="syn-act i18n" data-ru="АКТ ПЕРВЫЙ" data-en="ACT ONE">АКТ ПЕРВЫЙ</div><div class="syn-title i18n" data-ru="Теракт в здании ФИБ" data-en="Attack on the FIB Building">Теракт в здании ФИБ</div><div class="syn-text i18n" data-ru="Охотник прибывает. Переговоры о трагедии. Получает задание: найти шпиона Недотроги." data-en="Hunter arrives. Talks about the tragedy. Gets the assignment: find the spy Untouchable.">Охотник прибывает. Переговоры о трагедии. Получает задание: найти шпиона Недотроги.</div></div>
         <div class="syn-tag i18n" data-ru="РАССЕКРЕЧЕНО" data-en="DECLASSIFIED">РАССЕКРЕЧЕНО</div>
       </div>
-
       <div class="syn-item glass-reflect reflect-hover reveal">
         <div class="syn-num">02</div>
-        <div>
-          <div class="syn-act i18n" data-ru="ПОЯВЛЕНИЕ" data-en="EMERGENCE">ПОЯВЛЕНИЕ</div>
-          <div class="syn-title i18n" data-ru="Медвежьи маски" data-en="Bear Masks">Медвежьи маски</div>
-          <div class="syn-text i18n"
-            data-ru="Из ниоткуда появляется банда которую никто не ждал. Медвежьи маски с оскалом. Действуют дерзко, слаженно и умно. FIB бросает на них лучшего агента — Охотника."
-            data-en="Out of nowhere appears a gang nobody expected. Bear masks with a grin. They act boldly, in sync, and intelligently. FIB sends their best agent — the Hunter.">
-            Из ниоткуда появляется банда которую никто не ждал. Медвежьи маски с оскалом. Действуют дерзко, слаженно и умно. FIB бросает на них лучшего агента — Охотника.
-          </div>
-        </div>
+        <div><div class="syn-act i18n" data-ru="АКТ ВТОРОЙ" data-en="ACT TWO">АКТ ВТОРОЙ</div><div class="syn-title i18n" data-ru="Охота начинается" data-en="The Hunt Begins">Охота начинается</div><div class="syn-text i18n" data-ru="Зацепка — вертолёт, камеры ЕМС. Медведь обнаружен. Три возможных местоположения." data-en="Lead — helicopter, EMC cameras. Bear discovered. Three possible locations.">Зацепка — вертолёт, камеры ЕМС. Медведь обнаружен. Три возможных местоположения.</div></div>
         <div class="syn-tag i18n" data-ru="РАССЕКРЕЧЕНО" data-en="DECLASSIFIED">РАССЕКРЕЧЕНО</div>
       </div>
-
       <div class="syn-item glass-reflect reflect-hover reveal">
         <div class="syn-num">03</div>
-        <div>
-          <div class="syn-act i18n" data-ru="ОХОТА" data-en="THE HUNT">ОХОТА</div>
-          <div class="syn-title i18n" data-ru="Двое на разных сторонах" data-en="Two on Opposite Sides">Двое на разных сторонах</div>
-          <div class="syn-text i18n"
-            data-ru="Охотник идёт по следу. Fractured всегда на шаг впереди. Каждый удар банды точнее предыдущего. Каждый раз — новая цель, новый смысл. Охотник начинает понимать: это не обычные преступники."
-            data-en="The Hunter follows the trail. The Fractured are always one step ahead. Each strike from the gang is sharper than the last. Each time — a new target, a new meaning. The Hunter begins to understand: these are no ordinary criminals.">
-            Охотник идёт по следу. Fractured всегда на шаг впереди. Каждый удар банды точнее предыдущего. Каждый раз — новая цель, новый смысл. Охотник начинает понимать: это не обычные преступники.
-          </div>
-        </div>
+        <div><div class="syn-act i18n" data-ru="АКТ ТРЕТИЙ" data-en="ACT THREE">АКТ ТРЕТИЙ</div><div class="syn-title i18n" data-ru="Ограбление конвоя" data-en="Convoy Heist">Ограбление конвоя</div><div class="syn-text i18n" data-ru="Подготовка. Конвой. Тунель. Погоня. Недотроги уходит — Охотник опоздал." data-en="Preparation. Convoy. Tunnel. Chase. Untouchable escapes — Hunter is too late.">Подготовка. Конвой. Тунель. Погоня. Недотроги уходит — Охотник опоздал.</div></div>
         <div class="syn-tag i18n" data-ru="РАССЕКРЕЧЕНО" data-en="DECLASSIFIED">РАССЕКРЕЧЕНО</div>
       </div>
-
-      <div class="syn-item secret glass-reflect reflect-hover reveal">
+      <div class="syn-item glass-reflect reflect-hover reveal">
         <div class="syn-num">04</div>
-        <div>
-          <div class="syn-act i18n" data-ru="ПРАВДА" data-en="THE TRUTH">ПРАВДА</div>
-          <div class="syn-title i18n" data-ru="То что не должно было выйти наружу" data-en="What Was Never Meant to Surface">То что не должно было выйти наружу</div>
-          <div class="syn-text i18n"
-            data-ru="За каждым из Fractured — история которую система хотела похоронить. Флэшбеки раскрывают прошлое. Каждый из них мог жить иначе. Система решила иначе за них."
-            data-en="Behind each Untouchable — a story the system wanted buried. Flashbacks reveal the past. Each of them could have lived differently. The system decided otherwise for them.">
-            За каждым из Fractured — история которую система хотела похоронить. Флэшбеки раскрывают прошлое. Каждый из них мог жить иначе. Система решила иначе за них.
-          </div>
-        </div>
-        <div class="syn-tag red i18n" data-ru="ЗАСЕКРЕЧЕНО" data-en="CLASSIFIED">ЗАСЕКРЕЧЕНО</div>
+        <div><div class="syn-act i18n" data-ru="АКТ ЧЕТВЁРТЫЙ" data-en="ACT FOUR">АКТ ЧЕТВЁРТЫЙ</div><div class="syn-title i18n" data-ru="Допрос" data-en="Interrogation">Допрос</div><div class="syn-text i18n" data-ru="Прокатчик автобусов. Допрос. Молчание. Шпион даёт след — местоположение Тихони." data-en="Bus rental guy. Interrogation. Silence. The spy gives a lead — Tikhonya's location.">Прокатчик автобусов. Допрос. Молчание. Шпион даёт след — местоположение Тихони.</div></div>
+        <div class="syn-tag i18n" data-ru="РАССЕКРЕЧЕНО" data-en="DECLASSIFIED">РАССЕКРЕЧЕНО</div>
       </div>
-
-      <div class="syn-item secret glass-reflect reflect-hover reveal">
+      <div class="syn-item secret glass-reflect reflect-hover">
         <div class="syn-num">05</div>
-        <div>
-          <div class="syn-act i18n" data-ru="ФИНАЛ" data-en="FINALE">ФИНАЛ</div>
-          <div class="syn-title i18n" data-ru="Уверен ли ты что система справедлива?" data-en="Are You Sure the System Is Just?">Уверен ли ты что система справедлива?</div>
-          <div class="syn-text i18n"
-            data-ru="Охотник прибывает. Слишком поздно. Fractured нет. Есть только тишина, трупы и записка с вопросом на который у него нет ответа. Никогда не было."
-            data-en="The Hunter arrives. Too late. The Fractured are gone. Only silence, bodies, and a note with a question he has no answer to. Never had one.">
-            Охотник прибывает. Слишком поздно. Fractured нет. Есть только тишина, трупы и записка с вопросом на который у него нет ответа. Никогда не было.
-          </div>
-        </div>
+        <div><div class="syn-act i18n" data-ru="АКТ ПЯТЫЙ" data-en="ACT FIVE">АКТ ПЯТЫЙ</div><div class="syn-title i18n" data-ru="Тихоня задержан" data-en="Tikhonya Apprehended">Тихоня задержан</div><div class="syn-text i18n" data-ru="Задержание. Суд. Приговор. Последнее благо. Спасение мишки при перевозке." data-en="Apprehension. Trial. Sentence. Last mercy. Saving the bear during transport.">Задержание. Суд. Приговор. Последнее благо. Спасение мишки при перевозке.</div></div>
         <div class="syn-tag red i18n" data-ru="ЗАСЕКРЕЧЕНО" data-en="CLASSIFIED">ЗАСЕКРЕЧЕНО</div>
       </div>
-
+      <div class="syn-item secret glass-reflect reflect-hover">
+        <div class="syn-num">06–07</div>
+        <div><div class="syn-act i18n" data-ru="ФИНАЛ" data-en="FINALE">ФИНАЛ</div><div class="syn-title i18n" data-ru="Вечеринка" data-en="The Party">Вечеринка</div><div class="syn-text i18n" data-ru="Охотник опаздывает. Флешка исчезла. Записка. Координаты. Три медведя. Вице-губернатор. Десятки трупов. Титры." data-en="Hunter is late. Flash drive gone. Note. Coordinates. Three bears. Vice-governor. Dozens of bodies. Credits.">Охотник опаздывает. Флешка исчезла. Записка. Координаты. Три медведя. Вице-губернатор. Десятки трупов. Титры.</div></div>
+        <div class="syn-tag red i18n" data-ru="ЗАСЕКРЕЧЕНО" data-en="CLASSIFIED">ЗАСЕКРЕЧЕНО</div>
+      </div>
     </div>
   </div>
 </section>
 
+<!-- Hidden hint -->
 <div style="height:80px;display:flex;align-items:center;justify-content:center">
   <div id="hiddenHint" style="font-family:var(--font-mono);font-size:9px;letter-spacing:.4em;color:rgba(255,255,255,.03);transition:color 1.5s">
     // КОНЕЦ РАССЕКРЕЧЕННЫХ МАТЕРИАЛОВ
@@ -843,12 +1349,22 @@ background:linear-gradient(to right,rgba(232,80,0,.5) 1px,transparent 1px) 0 0/2
       <div class="t-title">FIB_TERMINAL.exe</div>
       <div class="t-sub i18n" data-ru="ИНТЕРАКТИВНЫЙ ТЕРМИНАЛ — v99.99 — by FNGYT" data-en="INTERACTIVE TERMINAL — v99.99 — by FNGYT">ИНТЕРАКТИВНЫЙ ТЕРМИНАЛ — v99.99 — by FNGYT</div>
       <div class="t-lines">
-        <div class="t-line on i18n" data-ru="> Интерактивный терминал по вселенной PAX FALSA." data-en="> Interactive terminal set in the PAX FALSA universe.">> Интерактивный терминал по вселенной PAX FALSA.</div>
+        <div class="t-line on i18n" data-ru="> Интерактивный терминал по вселенной UNTRACEABLES." data-en="> Interactive terminal set in the UNTRACEABLES universe.">> Интерактивный терминал по вселенной UNTRACEABLES.</div>
         <div class="t-line dim i18n" data-ru="> OBSERVER следит за тобой в реальном времени." data-en="> OBSERVER watches you in real time.">> OBSERVER следит за тобой в реальном времени.</div>
-        <div class="t-line dim i18n" data-ru="> База данных FIB содержит засекреченные досье." data-en="> FIB database contains classified dossiers.">> База данных FIB содержит засекреченные досье.</div>
-        <div class="t-line warn i18n" data-ru="> Тихоня уже знает что ты здесь." data-en="> Tikhonya already knows you're here.">> Тихоня уже знает что ты здесь.</div>
+        <div class="t-line dim i18n" data-ru="> 19 объектов в базе данных. Тихоня — один из них." data-en="> 19 objects in the database. Tikhonya is one of them.">> 19 объектов в базе данных. Тихоня — один из них.</div>
+        <div class="t-line warn i18n" data-ru="> Найди что скрыто. Он уже знает что ты здесь." data-en="> Find what is hidden. He already knows you're here.">> Найди что скрыто. Он уже знает что ты здесь.</div>
       </div>
       <button onclick="openPwOverlay()" class="t-btn i18n" data-ru="▼  СКАЧАТЬ ТЕРМИНАЛ" data-en="▼  DOWNLOAD TERMINAL">▼ &nbsp; СКАЧАТЬ ТЕРМИНАЛ</button>
+
+      <div style="margin-top:16px;font-family:var(--font-mono);font-size:10px;letter-spacing:.3em;color:#003d14">
+        // <span class="i18n" data-ru="ХОЧЕШЬ НАЙТИ ПАРОЛЬ?" data-en="WANT TO FIND THE PASSWORD?">ХОЧЕШЬ НАЙТИ ПАРОЛЬ?</span>
+        &nbsp;
+        <a href="arg.html" style="color:#00cc40;text-decoration:none;border-bottom:1px solid rgba(0,255,65,.3);transition:border-color .2s"
+           onmouseover="this.style.borderColor='rgba(0,255,65,.8)'"
+           onmouseout="this.style.borderColor='rgba(0,255,65,.3)'">
+          <span class="i18n" data-ru="ИЩИ ЗДЕСЬ →" data-en="SEARCH HERE →">ИЩИ ЗДЕСЬ →</span>
+        </a>
+      </div>
       <div class="t-warn i18n"
         data-ru="// ВНИМАНИЕ: программа читает аппаратную конфигурацию системы.<br>// OBSERVER будет присутствовать на протяжении всей сессии.<br>// FIB CORP не несёт ответственности за найденное в базе данных."
         data-en="// WARNING: reads your system hardware configuration.<br>// OBSERVER will be present throughout your session.<br>// FIB CORP takes no responsibility for what you find in the database.">
@@ -862,7 +1378,7 @@ background:linear-gradient(to right,rgba(232,80,0,.5) 1px,transparent 1px) 0 0/2
 
 <!-- ── FOOTER ── -->
 <footer class="glass-reflect reflect-hover">
-  <div class="footer-logo">PAX FALSA</div>
+  <div class="footer-logo">UNTRACEABLES</div>
   <div style="display:flex;flex-direction:column;gap:6px">
     <span>© 2025 FNGYT — <span class="i18n" data-ru="Все права защищены" data-en="All rights reserved">Все права защищены</span></span>
     <span style="color:rgba(255,255,255,.08)" class="i18n" data-ru="Независимое кино — FNGYT Production" data-en="Independent film — FNGYT Production">Независимое кино — FNGYT Production</span>
@@ -873,8 +1389,8 @@ background:linear-gradient(to right,rgba(232,80,0,.5) 1px,transparent 1px) 0 0/2
 <script>
 /* ── i18n ── */
 const TAPES = {
-  ru:'PAX FALSA &nbsp;·&nbsp; ТИХОНЯ — АКТИВЕН &nbsp;·&nbsp; СИСТЕМА ВСЕГДА ЗНАЛА &nbsp;·&nbsp; ОХОТНИК НА ЗАДАНИИ &nbsp;·&nbsp; ДОСТУП ОГРАНИЧЕН &nbsp;·&nbsp; FRACTURED — В ДВИЖЕНИИ &nbsp;·&nbsp; PAX FALSA &nbsp;·&nbsp; ТИХОНЯ — АКТИВЕН &nbsp;·&nbsp; СИСТЕМА ВСЕГДА ЗНАЛА &nbsp;·&nbsp; ОХОТНИК НА ЗАДАНИИ &nbsp;·&nbsp; ДОСТУП ОГРАНИЧЕН &nbsp;·&nbsp; FRACTURED — В ДВИЖЕНИИ &nbsp;·&nbsp;',
-  en:'PAX FALSA &nbsp;·&nbsp; TIKHONYA — ACTIVE &nbsp;·&nbsp; THE SYSTEM ALWAYS KNEW &nbsp;·&nbsp; HUNTER ON MISSION &nbsp;·&nbsp; ACCESS RESTRICTED &nbsp;·&nbsp; FRACTURED — IN MOTION &nbsp;·&nbsp; PAX FALSA &nbsp;·&nbsp; TIKHONYA — ACTIVE &nbsp;·&nbsp; THE SYSTEM ALWAYS KNEW &nbsp;·&nbsp; HUNTER ON MISSION &nbsp;·&nbsp; ACCESS RESTRICTED &nbsp;·&nbsp; FRACTURED — IN MOTION &nbsp;·&nbsp;'
+  ru:'UNTRACEABLES &nbsp;·&nbsp; ТИХОНЯ — АКТИВЕН &nbsp;·&nbsp; ДЕЛО FIB-2025 &nbsp;·&nbsp; ОХОТНИК НА ЗАДАНИИ &nbsp;·&nbsp; ДОСТУП ОГРАНИЧЕН &nbsp;·&nbsp; НЕКОТОРЫХ ЛУЧШЕ НЕ ИСКАТЬ &nbsp;·&nbsp; UNTRACEABLES &nbsp;·&nbsp; ТИХОНЯ — АКТИВЕН &nbsp;·&nbsp; ДЕЛО FIB-2025 &nbsp;·&nbsp; ОХОТНИК НА ЗАДАНИИ &nbsp;·&nbsp; ДОСТУП ОГРАНИЧЕН &nbsp;·&nbsp; НЕКОТОРЫХ ЛУЧШЕ НЕ ИСКАТЬ &nbsp;·&nbsp;',
+  en:'UNTRACEABLES &nbsp;·&nbsp; TIKHONYA — ACTIVE &nbsp;·&nbsp; CASE FIB-2025 &nbsp;·&nbsp; HUNTER ON MISSION &nbsp;·&nbsp; ACCESS RESTRICTED &nbsp;·&nbsp; SOME ARE BETTER LEFT UNFOUND &nbsp;·&nbsp; UNTRACEABLES &nbsp;·&nbsp; TIKHONYA — ACTIVE &nbsp;·&nbsp; CASE FIB-2025 &nbsp;·&nbsp; HUNTER ON MISSION &nbsp;·&nbsp; ACCESS RESTRICTED &nbsp;·&nbsp; SOME ARE BETTER LEFT UNFOUND &nbsp;·&nbsp;'
 };
 let lang = 'ru';
 document.getElementById('tapeEl').innerHTML = TAPES.ru;
@@ -892,9 +1408,6 @@ function setLang(l){
     const v = el.getAttribute('data-'+l);
     if(v!==null) el.innerHTML = v;
   });
-  // Switch back panels on card backs
-  document.querySelectorAll('.i18n-back-ru').forEach(el=>el.style.display = l==='ru'?'':'none');
-  document.querySelectorAll('.i18n-back-en').forEach(el=>el.style.display = l==='en'?'':'none');
 }
 document.getElementById('langBtn').addEventListener('click',()=>setLang(lang==='ru'?'en':'ru'));
 const lbm = document.getElementById('langBtnMob');
@@ -914,13 +1427,14 @@ document.querySelectorAll('.mob-link').forEach(a=>{
   });
 });
 
-/* ── Countdown ── */
-const releaseDate = new Date('2026-12-31T00:00:00');
+/* ── Countdown — release date placeholder (set to 6 months from now) ── */
+const releaseDate = new Date('2026-12-31T00:00:00'); // ← UPDATE WHEN RELEASE DATE IS SET
 function updateCountdown(){
   const now = new Date();
   const diff = releaseDate - now;
   if(diff <= 0){
-    document.getElementById('countdown').innerHTML = `<div style="font-family:var(--font-mono);font-size:13px;color:var(--fire);letter-spacing:.4em;text-shadow:0 0 20px rgba(232,80,0,.5)">${lang==='ru'?'// СКОРО':'// COMING SOON'}</div>`;
+    document.getElementById('countdown').innerHTML =
+      `<div style="font-family:var(--font-mono);font-size:13px;color:var(--fire);letter-spacing:.4em;text-shadow:0 0 20px rgba(232,80,0,.5)">${lang==='ru'?'// СКОРО':'// COMING SOON'}</div>`;
     return;
   }
   const d = Math.floor(diff/86400000);
@@ -944,7 +1458,7 @@ document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
 
 /* ── Secret — 3 clicks ── */
 let clicks=0, revealed=false;
-function doSecret(){
+function doSecret(btn){
   if(revealed) return;
   clicks++;
   const allBtns = [document.getElementById('navSecret'), document.getElementById('navSecretMob')];
@@ -958,108 +1472,180 @@ function doSecret(){
     const hint=document.getElementById('hiddenHint');
     hint.style.color='rgba(0,255,80,.25)';
     hint.textContent=lang==='ru'?'// ДОСТУП РАЗРЕШЁН — ПРОКРУТИ ВНИЗ':'// ACCESS GRANTED — SCROLL DOWN';
+    // Screen flash effect
     const flash=document.createElement('div');
     flash.style.cssText='position:fixed;inset:0;background:rgba(0,255,60,0.07);z-index:99998;pointer-events:none;transition:opacity .4s';
     document.body.appendChild(flash);
     setTimeout(()=>{flash.style.opacity='0';setTimeout(()=>flash.remove(),400)},80);
+    // Glitch the hero title briefly
     const ht=document.getElementById('heroTitle');
     if(ht){
       ht.style.textShadow='2px 0 #00ff50,-2px 0 #ff2200,0 0 40px rgba(0,255,80,.6)';
       setTimeout(()=>{ht.style.textShadow='';},600);
     }
+    // Animate terminal lines appearing one by one
     const wrap=document.getElementById('terminalWrap');
     wrap.classList.add('revealed');
     setTimeout(()=>wrap.scrollIntoView({behavior:'smooth',block:'start'}),600);
+    // Typewriter reveal of terminal lines
     const tlines=wrap.querySelectorAll('.t-line');
     tlines.forEach((tl,i)=>{
       tl.style.opacity='0';tl.style.transition='opacity .3s';
       setTimeout(()=>{tl.style.opacity='1';},800+i*200);
     });
+    // Close mobile menu if open
     burger.classList.remove('open');
     mobileMenu.classList.remove('open');
   }
 }
-document.getElementById('navSecret').addEventListener('click',doSecret);
+document.getElementById('navSecret').addEventListener('click',()=>doSecret());
 const nsm = document.getElementById('navSecretMob');
-if(nsm) nsm.addEventListener('click',doSecret);
+if(nsm) nsm.addEventListener('click',()=>doSecret());
 
+/* ── Hint appears after 25s ── */
 setTimeout(()=>{
   if(!revealed) document.getElementById('hiddenHint').style.color='rgba(255,255,255,.06)';
 },25000);
 
 /* ── Hero title glitch ── */
-const titleEl=document.getElementById('heroTitle');
+const title=document.getElementById('heroTitle');
 let gt;
-titleEl.addEventListener('mouseenter',()=>{
+title.addEventListener('mouseenter',()=>{
   gt=setInterval(()=>{
     if(Math.random()>.65){
-      titleEl.style.textShadow=`${(Math.random()-.5)*10}px 0 #ff2200,${(Math.random()-.5)*10}px 0 rgba(255,106,0,.6),0 0 60px rgba(255,34,0,.6)`;
-      setTimeout(()=>{titleEl.style.textShadow=''},70);
+      title.style.textShadow=`${(Math.random()-.5)*10}px 0 #ff2200,${(Math.random()-.5)*10}px 0 rgba(255,106,0,.6),0 0 60px rgba(255,34,0,.6)`;
+      setTimeout(()=>{title.style.textShadow=''},70);
     }
   },100);
 });
-titleEl.addEventListener('mouseleave',()=>{clearInterval(gt);titleEl.style.textShadow='';});
+title.addEventListener('mouseleave',()=>{clearInterval(gt);title.style.textShadow='';});
 
-/* ── PARALLAX ── */
+/* ── PARALLAX on poster ── */
 (function(){
   if("ontouchstart" in window || window.innerWidth <= 900){
+    // ── GYROSCOPE SYSTEM ──────────────────────────────
+    // Drives both poster parallax AND glass reflections from device tilt
     const poster = document.querySelector('.hero-poster');
     const glassEls = () => document.querySelectorAll('.glass-reflect');
-    let gx = 0, gy = 0;
-    let baseGamma = null, baseBeta = null;
+
+    let gx = 0, gy = 0;   // smoothed gamma/beta
+    let baseGamma = null, baseBeta = null; // calibration baseline
     let calibrated = false;
+
     function applyGyro(gamma, beta){
-      if(!calibrated){ baseGamma=gamma; baseBeta=beta; calibrated=true; }
-      const dx = Math.max(-30,Math.min(30,(gamma-baseGamma)));
-      const dy = Math.max(-25,Math.min(25,(beta-baseBeta)));
-      gx += (dx-gx)*0.08; gy += (dy-gy)*0.08;
-      if(poster) poster.style.transform = `scale(1.12) translate(${((gx/30)*-14).toFixed(2)}px,${((gy/25)*-10).toFixed(2)}px)`;
-      const rx = (50+(gx/30)*40).toFixed(1)+'%';
-      const ry = (50+(gy/25)*35).toFixed(1)+'%';
-      glassEls().forEach(el=>{ el.style.setProperty('--rx',rx); el.style.setProperty('--ry',ry); el.style.setProperty('--reflect-opacity','1'); });
+      // Calibrate on first read — whatever angle you're holding = neutral
+      if(!calibrated){
+        baseGamma = gamma;
+        baseBeta  = beta;
+        calibrated = true;
+      }
+      // Delta from neutral position, clamped
+      const dx = Math.max(-30, Math.min(30, (gamma - baseGamma)));
+      const dy = Math.max(-25, Math.min(25, (beta  - baseBeta)));
+
+      // Smooth with lerp
+      gx += (dx - gx) * 0.08;
+      gy += (dy - gy) * 0.08;
+
+      // 1. Poster parallax
+      if(poster){
+        const px = (gx / 30) * -14;
+        const py = (gy / 25) * -10;
+        poster.style.transform = `scale(1.12) translate(${px.toFixed(2)}px, ${py.toFixed(2)}px)`;
+      }
+
+      // 2. Glass reflections — move highlight based on tilt
+      // Map tilt to 0–100% range: center=50%, max left/right = 10–90%
+      const rx = (50 + (gx / 30) * 40).toFixed(1) + '%';
+      const ry = (50 + (gy / 25) * 35).toFixed(1) + '%';
+      glassEls().forEach(el => {
+        el.style.setProperty('--rx', rx);
+        el.style.setProperty('--ry', ry);
+        // Force reflection visible on mobile (not just on hover)
+        el.style.setProperty('--reflect-opacity', '1');
+      });
     }
-    const style=document.createElement('style');
-    style.textContent=`@media(max-width:900px){.glass-reflect::after{opacity:var(--reflect-opacity,0)!important;transition:none!important;}nav.glass-reflect::after{opacity:1!important;}}`;
+
+    // Force reflections always visible on mobile via CSS override
+    const style = document.createElement('style');
+    style.textContent = `
+      @media(max-width:900px){
+        .glass-reflect::after{ opacity: var(--reflect-opacity, 0) !important; transition: none !important; }
+        nav.glass-reflect::after{ opacity: 1 !important; }
+      }
+    `;
     document.head.appendChild(style);
-    const isIOS=/iPad|iPhone|iPod/.test(navigator.userAgent);
-    if(isIOS && window.DeviceOrientationEvent && typeof DeviceOrientationEvent.requestPermission==='function'){
-      const btn=document.createElement('button');
-      btn.innerHTML='⟳';btn.title='Enable Motion';
-      btn.style.cssText='position:fixed;bottom:16px;right:16px;font-size:18px;line-height:1;color:rgba(0,255,80,0.6);background:rgba(0,15,0,0.7);border:1px solid rgba(0,255,80,.2);width:36px;height:36px;display:flex;align-items:center;justify-content:center;z-index:9000;cursor:pointer;backdrop-filter:blur(10px);border-radius:50%;opacity:0.7;';
-      document.body.appendChild(btn);
-      btn.addEventListener('click',()=>{ DeviceOrientationEvent.requestPermission().then(s=>{ if(s==='granted'){window.addEventListener('deviceorientation',e=>applyGyro(e.gamma||0,e.beta||45));btn.remove();}}).catch(()=>{}); });
+
+    // iOS 13+ requires permission request on user gesture
+    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+    if(isIOS && window.DeviceOrientationEvent && typeof DeviceOrientationEvent.requestPermission === 'function'){
+      // Add tap-to-enable button on iOS only
+      const iosBtn = document.createElement('button');
+      iosBtn.innerHTML = '⟳';
+      iosBtn.title = 'Enable Motion';
+      iosBtn.style.cssText = `
+        position:fixed;bottom:16px;right:16px;
+        font-size:18px;line-height:1;
+        color:rgba(0,255,80,0.6);background:rgba(0,15,0,0.7);
+        border:1px solid rgba(0,255,80,.2);
+        width:36px;height:36px;display:flex;align-items:center;justify-content:center;
+        z-index:9000;cursor:pointer;backdrop-filter:blur(10px);
+        border-radius:50%;opacity:0.7;
+      `;
+      document.body.appendChild(iosBtn);
+      iosBtn.addEventListener('click', () => {
+        DeviceOrientationEvent.requestPermission().then(state => {
+          if(state === 'granted'){
+            window.addEventListener('deviceorientation', e => applyGyro(e.gamma||0, e.beta||45));
+            iosBtn.remove();
+          }
+        }).catch(()=>{});
+      });
     } else if(window.DeviceOrientationEvent){
-      window.addEventListener('deviceorientation',e=>applyGyro(e.gamma||0,e.beta||45));
+      // Android & non-restricted iOS — works directly, no button needed
+      window.addEventListener('deviceorientation', e => {
+        applyGyro(e.gamma || 0, e.beta || 45);
+      });
     }
-    document.addEventListener('dblclick',()=>{calibrated=false;});
-    return;
+
+    // Recalibrate on double-tap anywhere
+    document.addEventListener('dblclick', () => { calibrated = false; });
+
+    return; // don't run desktop parallax on mobile
   }
-  const poster=document.querySelector('.hero-poster');
-  const hero=document.querySelector('.hero');
-  if(!poster||!hero) return;
-  let tx=0,ty=0;
-  window.__px=0;window.__py=0;
-  window.__tx=()=>tx;window.__ty=()=>ty;
-  window.__poster=poster;
-  window.__lerp=(a,b,t)=>a+(b-a)*t;
-  hero.addEventListener('mousemove',e=>{ const r=hero.getBoundingClientRect(); tx=((e.clientX-r.left)/r.width-0.5)*-28; ty=((e.clientY-r.top)/r.height-0.5)*-18; });
-  hero.addEventListener('mouseleave',()=>{tx=0;ty=0;});
+  const poster = document.querySelector('.hero-poster');
+  const hero   = document.querySelector('.hero');
+  if(!poster || !hero) return;
+  let tx=0, ty=0, px=0, py=0;
+  function lerp(a,b,t){ return a+(b-a)*t; }
+  hero.addEventListener('mousemove', e => {
+    const r = hero.getBoundingClientRect();
+    tx = ((e.clientX - r.left) / r.width  - 0.5) * -28;
+    ty = ((e.clientY - r.top)  / r.height - 0.5) * -18;
+  });
+  hero.addEventListener('mouseleave', () => { tx=0; ty=0; });
+  // Параллакс loop — объединён с cursor loop
+  window.__px = 0; window.__py = 0;
+  window.__tx = ()=>tx; window.__ty = ()=>ty;
+  window.__poster = poster; window.__lerp = lerp;
   (function loop(){
-    window.__px=window.__lerp(window.__px,window.__tx(),0.05);
-    window.__py=window.__lerp(window.__py,window.__ty(),0.05);
-    window.__poster.style.transform='scale(1.15) translate('+window.__px.toFixed(2)+'px,'+window.__py.toFixed(2)+'px)';
+    window.__px = window.__lerp(window.__px, window.__tx(), 0.05);
+    window.__py = window.__lerp(window.__py, window.__ty(), 0.05);
+    window.__poster.style.transform = 'scale(1.15) translate('+window.__px.toFixed(2)+'px,'+window.__py.toFixed(2)+'px)';
     requestAnimationFrame(loop);
   })();
 })();
 
 /* ── INTRO SEQUENCE ── */
 (function(){
-  const overlay=document.getElementById('intro');
-  const terminal=document.getElementById('introTerminal');
-  const logoWrap=document.getElementById('introLogo');
-  const skipBtn=document.getElementById('introSkip');
-  document.body.style.overflow='hidden';
-  const LINES_RU=[
+  const overlay = document.getElementById('intro');
+  const terminal = document.getElementById('introTerminal');
+  const logoWrap = document.getElementById('introLogo');
+  const skipBtn  = document.getElementById('introSkip');
+  // Prevent scroll while intro runs
+  document.body.style.overflow = 'hidden';
+
+  const LINES_RU = [
     '<span class="dim">FIB SYSTEMS v4.1.0 — ИНИЦИАЛИЗАЦИЯ...</span>',
     '<span class="dim">CPU: [CLASSIFIED] &nbsp; RAM: OK &nbsp; GPU: OK</span>',
     'Загрузка протокола наблюдения... <span class="ok">OK</span>',
@@ -1069,7 +1655,7 @@ titleEl.addEventListener('mouseleave',()=>{clearInterval(gt);titleEl.style.textS
     '<span class="err">СТАТУС ТИХОНИ: НЕ ОПРЕДЕЛЁН</span>',
     'Загрузка интерфейса...',
   ];
-  const LINES_EN=[
+  const LINES_EN = [
     '<span class="dim">FIB SYSTEMS v4.1.0 — INITIALIZING...</span>',
     '<span class="dim">CPU: [CLASSIFIED] &nbsp; RAM: OK &nbsp; GPU: OK</span>',
     'Loading surveillance protocol... <span class="ok">OK</span>',
@@ -1079,244 +1665,406 @@ titleEl.addEventListener('mouseleave',()=>{clearInterval(gt);titleEl.style.textS
     '<span class="err">TIKHONYA STATUS: UNDEFINED</span>',
     'Loading interface...',
   ];
+
   function dismiss(){
     logoWrap.classList.remove('show');
     overlay.classList.add('fade-out');
-    document.body.style.overflow='';
-    setTimeout(()=>{overlay.style.display='none';},700);
+    document.body.style.overflow = '';
+    setTimeout(()=>{ overlay.style.display='none'; }, 700);
   }
-  skipBtn.addEventListener('click',dismiss);
-  const lines=lang==='en'?LINES_EN:LINES_RU;
-  let delay=0;
-  lines.forEach((html,i)=>{
-    const div=document.createElement('div');
-    div.className='intro-line';div.innerHTML=html;
+
+  skipBtn.addEventListener('click', dismiss);
+
+  // Build lines with staggered delay
+  const lines = lang === 'en' ? LINES_EN : LINES_RU;
+  let delay = 0;
+  lines.forEach((html, i) => {
+    const div = document.createElement('div');
+    div.className = 'intro-line';
+    div.innerHTML = html;
     terminal.appendChild(div);
-    setTimeout(()=>div.classList.add('show'),delay);
-    delay+=i<2?220:400;
+    setTimeout(() => div.classList.add('show'), delay);
+    delay += i < 2 ? 220 : 400;
   });
-  setTimeout(()=>{ logoWrap.classList.add('show'); setTimeout(dismiss,3000); },delay+200);
+
+  // Show logo after all lines
+  setTimeout(() => {
+    logoWrap.classList.add('show');
+    // Auto dismiss after logo shown
+    setTimeout(dismiss, 3000);
+  }, delay + 200);
 })();
 
-/* ── GLASS REFLECTION ── */
+/* ── GLASS REFLECTION — mouse tracker ── */
+(function(){
+  if('ontouchstart' in window) return; // skip on touch
+
+  // Track mouse position relative to each glass element
+  const glassEls = document.querySelectorAll('.glass-reflect');
+
+  document.addEventListener('mousemove', e => {
+    glassEls.forEach(el => {
+      const rect = el.getBoundingClientRect();
+      // Position as % within the element
+      const rx = ((e.clientX - rect.left) / rect.width  * 100).toFixed(1) + '%';
+      const ry = ((e.clientY - rect.top)  / rect.height * 100).toFixed(1) + '%';
+      el.style.setProperty('--rx', rx);
+      el.style.setProperty('--ry', ry);
+    });
+  });
+
+  // Fade out reflection when mouse leaves window
+  document.addEventListener('mouseleave', () => {
+    glassEls.forEach(el => {
+      el.style.setProperty('--rx', '50%');
+      el.style.setProperty('--ry', '-30%');
+    });
+  });
+})();
+
+/* ── NAV scroll enhancement ── */
+(function(){
+  const nav = document.querySelector('nav');
+  if(!nav) return;
+  let lastY = 0;
+  nav.style.transition = 'transform .35s cubic-bezier(.4,0,.2,1), background .3s ease, box-shadow .3s ease';
+  window.addEventListener('scroll', () => {
+    const y = window.scrollY;
+    if(y > lastY && y > 80){
+      // Скролл вниз — прячем
+      nav.style.transform = 'translateY(-100%)';
+    } else {
+      // Скролл вверх — показываем
+      nav.style.transform = 'translateY(0)';
+    }
+    // Темнее когда не на самом верху
+    if(y > 20){
+      nav.style.background = 'rgba(6,2,2,0.94)';
+      nav.style.boxShadow = '0 8px 40px rgba(0,0,0,0.9), inset 0 -1px 0 rgba(180,20,0,0.25)';
+    } else {
+      nav.style.background = '';
+      nav.style.boxShadow = '';
+    }
+    lastY = y;
+  }, {passive:true});
+})();
+
+/* ── GLASS REFLECTION — specular highlight follows mouse ── */
 (function(){
   if('ontouchstart' in window) return;
-  const els=document.querySelectorAll('.glass-reflect');
-  document.addEventListener('mousemove',e=>{
-    els.forEach(el=>{ const r=el.getBoundingClientRect(); el.style.setProperty('--rx',((e.clientX-r.left)/r.width*100).toFixed(1)+'%'); el.style.setProperty('--ry',((e.clientY-r.top)/r.height*100).toFixed(1)+'%'); });
+  const els = document.querySelectorAll('.glass-reflect');
+  document.addEventListener('mousemove', e => {
+    els.forEach(el => {
+      const r = el.getBoundingClientRect();
+      el.style.setProperty('--rx', ((e.clientX-r.left)/r.width*100).toFixed(1)+'%');
+      el.style.setProperty('--ry', ((e.clientY-r.top)/r.height*100).toFixed(1)+'%');
+    });
   });
-  document.addEventListener('mouseleave',()=>{ els.forEach(el=>{ el.style.setProperty('--rx','50%'); el.style.setProperty('--ry','-30%'); }); });
+  document.addEventListener('mouseleave', () => {
+    els.forEach(el => {
+      el.style.setProperty('--rx','50%');
+      el.style.setProperty('--ry','-30%');
+    });
+  });
 })();
 
-/* ── NAV scroll ── */
-(function(){
-  const nav=document.querySelector('nav');
-  if(!nav) return;
-  let lastY=0;
-  nav.style.transition='transform .35s cubic-bezier(.4,0,.2,1),background .3s ease,box-shadow .3s ease';
-  window.addEventListener('scroll',()=>{
-    const y=window.scrollY;
-    if(y>lastY&&y>80){nav.style.transform='translateY(-100%)';}else{nav.style.transform='translateY(0)';}
-    if(y>20){nav.style.background='rgba(6,2,2,0.94)';nav.style.boxShadow='0 8px 40px rgba(0,0,0,0.9),inset 0 -1px 0 rgba(180,20,0,0.25)';}else{nav.style.background='';nav.style.boxShadow='';}
-    lastY=y;
-  },{passive:true});
-})();
 
 /* ── CARD FLIP ── */
-document.querySelectorAll('.char-card').forEach(card=>{
-  card.addEventListener('click',()=>{ card.classList.toggle('flipped'); if(window.__playClick) window.__playClick(); });
-});
+(function(){
+  document.querySelectorAll('.char-card').forEach(card => {
+    card.addEventListener('click', () => {
+      card.classList.toggle('flipped');
+      // Клик-звук
+      if(window.__playClick) window.__playClick();
+    });
+  });
+})();
 
 /* ── FIB VISITOR COUNTER ── */
 (function(){
-  const numEl=document.getElementById('visitorNum');
-  const timeEl=document.getElementById('sessionTime');
-  if(!numEl||!timeEl) return;
-  const base=4721;
-  const daysSince=Math.floor((Date.now()-new Date('2025-01-01').getTime())/86400000);
-  const visitorNum=base+daysSince*7+Math.floor(Math.random()*50);
-  let current=1000;
-  const step=Math.ceil((visitorNum-current)/40);
-  const counter=setInterval(()=>{ current=Math.min(current+step,visitorNum); numEl.textContent=String(current).padStart(4,'0'); if(current>=visitorNum) clearInterval(counter); },40);
-  const start=Date.now();
-  setInterval(()=>{ const elapsed=Math.floor((Date.now()-start)/1000); const m=String(Math.floor(elapsed/60)).padStart(2,'0'); const s=String(elapsed%60).padStart(2,'0'); timeEl.textContent=m+':'+s; },1000);
+  const numEl = document.getElementById('visitorNum');
+  const timeEl = document.getElementById('sessionTime');
+  if(!numEl || !timeEl) return;
+
+  // Генерируем псевдо-номер посетителя на основе даты
+  const base = 4721;
+  const daysSince = Math.floor((Date.now() - new Date('2025-01-01').getTime()) / 86400000);
+  const visitorNum = base + daysSince * 7 + Math.floor(Math.random()*50);
+  
+  // Анимированный счётчик
+  let current = 1000;
+  const step = Math.ceil((visitorNum - current) / 40);
+  const counter = setInterval(() => {
+    current = Math.min(current + step, visitorNum);
+    numEl.textContent = String(current).padStart(4,'0');
+    if(current >= visitorNum) clearInterval(counter);
+  }, 40);
+
+  // Таймер сессии
+  const start = Date.now();
+  setInterval(() => {
+    const elapsed = Math.floor((Date.now() - start) / 1000);
+    const m = String(Math.floor(elapsed/60)).padStart(2,'0');
+    const s = String(elapsed%60).padStart(2,'0');
+    timeEl.textContent = m+':'+s;
+  }, 1000);
 })();
 
-/* ── SCROLL PARALLAX ── */
+/* ── SCROLL PARALLAX на секциях ── */
 (function(){
-  let ticking=false;
+  const sections = document.querySelectorAll('section');
+  let ticking = false;
+  
   function updateParallax(){
-    document.querySelectorAll('section').forEach(sec=>{
-      const rect=sec.getBoundingClientRect();
-      const center=rect.top+rect.height/2;
-      const offset=(center-window.innerHeight/2)*0.04;
-      const t=sec.querySelector('.sec-title');if(t) t.style.transform=`translateY(${offset*0.5}px)`;
-      const l=sec.querySelector('.label');if(l) l.style.transform=`translateY(${offset*0.3}px)`;
+    const sy = window.scrollY;
+    sections.forEach((sec, i) => {
+      const rect = sec.getBoundingClientRect();
+      const center = rect.top + rect.height/2;
+      const offset = (center - window.innerHeight/2) * 0.04;
+      // Заголовки секций
+      const title = sec.querySelector('.sec-title');
+      if(title) title.style.transform = `translateY(${offset * 0.5}px)`;
+      // Label
+      const label = sec.querySelector('.label');
+      if(label) label.style.transform = `translateY(${offset * 0.3}px)`;
     });
-    ticking=false;
+    ticking = false;
   }
-  window.addEventListener('scroll',()=>{ if(!ticking){requestAnimationFrame(updateParallax);ticking=true;}},{passive:true});
+
+  window.addEventListener('scroll', () => {
+    if(!ticking){ requestAnimationFrame(updateParallax); ticking=true; }
+  }, {passive:true});
 })();
 
-/* ── SOUND FX ── */
-let sfxOn=true;
-const AudioCtx=window.AudioContext||window.webkitAudioContext;
-let actx=null;
-function getACtx(){if(!actx) actx=new AudioCtx();return actx;}
-window.__playClick=function(){
-  if(!sfxOn) return;
-  try{const a=getACtx(),o=a.createOscillator(),g=a.createGain();o.connect(g);g.connect(a.destination);o.frequency.setValueAtTime(700,a.currentTime);o.frequency.exponentialRampToValueAtTime(150,a.currentTime+.09);g.gain.setValueAtTime(.07,a.currentTime);g.gain.exponentialRampToValueAtTime(.001,a.currentTime+.09);o.start();o.stop(a.currentTime+.09);}catch(e){}
-};
-function playHover(){
-  if(!sfxOn) return;
-  try{const a=getACtx(),o=a.createOscillator(),g=a.createGain();o.connect(g);g.connect(a.destination);o.frequency.setValueAtTime(350,a.currentTime);g.gain.setValueAtTime(.02,a.currentTime);g.gain.exponentialRampToValueAtTime(.001,a.currentTime+.04);o.start();o.stop(a.currentTime+.04);}catch(e){}
-}
-const sBtn=document.getElementById('soundBtn');
-if(sBtn) sBtn.addEventListener('click',()=>{sfxOn=!sfxOn;sBtn.textContent='♪ SFX: '+(sfxOn?'ON':'OFF');window.__playClick();});
-document.querySelectorAll('a,button,.char-card,.syn-item,.genre-chip,.nav-secret').forEach(el=>{ el.addEventListener('mouseenter',playHover); el.addEventListener('click',window.__playClick); });
+/* ── AMBIENT SOUND ── */
+(function(){
+  let audioCtx = null;
+  let ambientStarted = false;
+
+  function createAudioCtx(){
+    if(audioCtx) return audioCtx;
+    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    return audioCtx;
+  }
+
+  // Клик-звук для кнопок (тихий tick)
+  window.__playClick = function(){
+    try{
+      const ctx = createAudioCtx();
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.connect(gain); gain.connect(ctx.destination);
+      osc.frequency.setValueAtTime(800, ctx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(400, ctx.currentTime+0.04);
+      gain.gain.setValueAtTime(0.08, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime+0.06);
+      osc.start(ctx.currentTime);
+      osc.stop(ctx.currentTime+0.06);
+    }catch(e){}
+  };
+
+  // Hover-звук для ссылок (тихий тон)
+  window.__playHover = function(){
+    try{
+      const ctx = createAudioCtx();
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = 'sine';
+      osc.connect(gain); gain.connect(ctx.destination);
+      osc.frequency.setValueAtTime(1200, ctx.currentTime);
+      gain.gain.setValueAtTime(0.025, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime+0.08);
+      osc.start(ctx.currentTime);
+      osc.stop(ctx.currentTime+0.08);
+    }catch(e){}
+  };
+
+  // Подключаем звуки к элементам
+  function attachSounds(){
+    document.querySelectorAll('a,button,.btn').forEach(el=>{
+      el.addEventListener('mouseenter', () => window.__playHover(), {passive:true});
+      el.addEventListener('click', () => window.__playClick(), {passive:true});
+    });
+  }
+
+  // Запускаем после первого взаимодействия
+  document.addEventListener('click', function init(){
+    createAudioCtx();
+    attachSounds();
+    document.removeEventListener('click', init);
+  }, {once:true});
+})();
+
+/* ── ОБНОВЛЯЕМ REVEAL для новых классов ── */
+(function(){
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if(e.isIntersecting){
+        e.target.classList.add('visible');
+        // Не отключаем — некоторые элементы могут скроллиться обратно
+      }
+    });
+  }, {threshold:0.08, rootMargin:'0px 0px -40px 0px'});
+  
+  document.querySelectorAll('.reveal,.reveal-left,.reveal-scale').forEach(el => obs.observe(el));
+})();
+
+/* ── CUSTOM CURSOR — GPU accelerated via transform ── */
+(function(){
+  if('ontouchstart' in window || window.innerWidth <= 900) return;
+  const dot  = document.getElementById('cursorDot');
+  const ring = document.getElementById('cursorRing');
+  if(!dot || !ring) return;
+
+  let mx = 0, my = 0;
+  let rx = 0, ry = 0;
+  let started = false;
+  const dOff = 3, rOff = 14; // half-sizes for centering
+
+  document.addEventListener('mousemove', e => {
+    mx = e.clientX;
+    my = e.clientY;
+    if(!started){
+      started = true;
+      rx = mx; ry = my;
+      dot.style.display  = 'block';
+      ring.style.display = 'block';
+    }
+    // Dot instant — GPU transform, no layout
+    dot.style.transform = 'translate('+(mx-dOff)+'px,'+(my-dOff)+'px)';
+  }, {passive:true});
+
+  // Single RAF — ring + parallax
+  (function loop(){
+    rx += (mx - rx) * 0.10;
+    ry += (my - ry) * 0.10;
+    // GPU transform — no layout reflow
+    ring.style.transform = 'translate('+(rx-rOff).toFixed(1)+'px,'+(ry-rOff).toFixed(1)+'px)';
+
+    // Параллакс постера
+    if(window.__poster && window.__lerp){
+      window.__px = window.__lerp(window.__px, window.__tx(), 0.05);
+      window.__py = window.__lerp(window.__py, window.__ty(), 0.05);
+      window.__poster.style.transform = 'scale(1.15) translate('+window.__px.toFixed(2)+'px,'+window.__py.toFixed(2)+'px)';
+    }
+    requestAnimationFrame(loop);
+  })();
+
+  document.querySelectorAll('a,button,.nav-secret,.char-card,.syn-item,.btn,.trailer-wrap').forEach(el => {
+    el.addEventListener('mouseenter', () => document.body.classList.add('cursor-hover'));
+    el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-hover'));
+  });
+  document.addEventListener('mouseleave', () => { dot.style.display='none'; ring.style.display='none'; });
+  document.addEventListener('mouseenter', () => { if(started){ dot.style.display='block'; ring.style.display='block'; }});
+})();
 
 /* ── PARTICLES ── */
 (function(){
-  const canvas=document.getElementById('particleCanvas');
+  const canvas = document.getElementById('particleCanvas');
   if(!canvas) return;
-  const ctx=canvas.getContext('2d');
-  let W,H,particles=[];
-  function resize(){W=canvas.width=window.innerWidth;H=canvas.height=window.innerHeight;}
-  resize();window.addEventListener('resize',resize);
-  function rand(a,b){return a+Math.random()*(b-a);}
-  function mkP(){return{x:rand(0,W),y:rand(H*.3,H),vx:rand(-.1,.1),vy:rand(-.25,-.05),size:rand(.5,1.8),alpha:rand(.04,.2),color:Math.random()>.7?'#ff3300':'#cc3300',life:rand(.4,1)};}
+  const ctx = canvas.getContext('2d');
+  let W, H, particles = [];
+  function resize(){ W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
+  resize(); window.addEventListener('resize', resize);
+  function rand(a,b){ return a + Math.random()*(b-a); }
+  function mkP(){ return {x:rand(0,W),y:rand(H*.3,H),vx:rand(-.1,.1),vy:rand(-.25,-.05),size:rand(.5,1.8),alpha:rand(.04,.2),color:Math.random()>.7?'#ff3300':'#cc3300',life:rand(.4,1)}; }
   for(let i=0;i<55;i++) particles.push(mkP());
   function draw(){
     ctx.clearRect(0,0,W,H);
     particles.forEach((p,i)=>{
-      p.x+=p.vx;p.y+=p.vy;p.life-=.003;
+      p.x+=p.vx; p.y+=p.vy; p.life-=.003;
       if(p.life<=0||p.y<-10) particles[i]=mkP();
-      ctx.save();ctx.globalAlpha=p.alpha*(p.life);ctx.fillStyle=p.color;
-      ctx.beginPath();ctx.arc(p.x,p.y,p.size,0,Math.PI*2);ctx.fill();ctx.restore();
+      ctx.save(); ctx.globalAlpha=p.alpha*(p.life); ctx.fillStyle=p.color;
+      ctx.beginPath(); ctx.arc(p.x,p.y,p.size,0,Math.PI*2); ctx.fill(); ctx.restore();
     });
     requestAnimationFrame(draw);
   }
   draw();
 })();
 
-/* ── CUSTOM CURSOR ── */
-(function(){
-  if('ontouchstart' in window||window.innerWidth<=900) return;
-  const dot=document.getElementById('cursorDot');
-  const ring=document.getElementById('cursorRing');
-  if(!dot||!ring) return;
-  let mx=0,my=0,rx=0,ry=0,started=false;
-  const dOff=3,rOff=14;
-  document.addEventListener('mousemove',e=>{
-    mx=e.clientX;my=e.clientY;
-    if(!started){started=true;rx=mx;ry=my;dot.style.display='block';ring.style.display='block';}
-    dot.style.transform='translate('+(mx-dOff)+'px,'+(my-dOff)+'px)';
-  },{passive:true});
-  (function loop(){
-    rx+=(mx-rx)*0.10;ry+=(my-ry)*0.10;
-    ring.style.transform='translate('+(rx-rOff).toFixed(1)+'px,'+(ry-rOff).toFixed(1)+'px)';
-    if(window.__poster&&window.__lerp){
-      window.__px=window.__lerp(window.__px,window.__tx(),0.05);
-      window.__py=window.__lerp(window.__py,window.__ty(),0.05);
-      window.__poster.style.transform='scale(1.15) translate('+window.__px.toFixed(2)+'px,'+window.__py.toFixed(2)+'px)';
-    }
-    requestAnimationFrame(loop);
-  })();
-  document.querySelectorAll('a,button,.nav-secret,.char-card,.syn-item,.btn,.trailer-wrap').forEach(el=>{
-    el.addEventListener('mouseenter',()=>document.body.classList.add('cursor-hover'));
-    el.addEventListener('mouseleave',()=>document.body.classList.remove('cursor-hover'));
-  });
-  document.addEventListener('mouseleave',()=>{dot.style.display='none';ring.style.display='none';});
-  document.addEventListener('mouseenter',()=>{if(started){dot.style.display='block';ring.style.display='block';}});
-})();
-
-/* ── REVEAL OBSERVER ── */
-(function(){
-  const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting) e.target.classList.add('visible');});},{threshold:0.08,rootMargin:'0px 0px -40px 0px'});
-  document.querySelectorAll('.reveal,.reveal-left,.reveal-scale').forEach(el=>obs.observe(el));
-})();
-
-/* ── PASSWORD OVERLAY ── */
-let pwInput='';
-const PW_CODE='2025';
-
-function openPwOverlay(){
-  pwInput='';
-  updateDots();
-  document.getElementById('pwOverlay').classList.add('open');
+/* ── SOUND FX ── */
+let sfxOn = true;
+const AudioCtx = window.AudioContext || window.webkitAudioContext;
+let actx = null;
+function getACtx(){ if(!actx) actx = new AudioCtx(); return actx; }
+function playClick(){
+  if(!sfxOn) return;
+  try{ const a=getACtx(),o=a.createOscillator(),g=a.createGain();o.connect(g);g.connect(a.destination);o.frequency.setValueAtTime(700,a.currentTime);o.frequency.exponentialRampToValueAtTime(150,a.currentTime+.09);g.gain.setValueAtTime(.07,a.currentTime);g.gain.exponentialRampToValueAtTime(.001,a.currentTime+.09);o.start();o.stop(a.currentTime+.09);}catch(e){}
 }
-function closePwOverlay(){
-  document.getElementById('pwOverlay').classList.remove('open');
-  pwInput='';
-  updateDots();
-  document.getElementById('pwErr').textContent='';
+function playHover(){
+  if(!sfxOn) return;
+  try{ const a=getACtx(),o=a.createOscillator(),g=a.createGain();o.connect(g);g.connect(a.destination);o.frequency.setValueAtTime(350,a.currentTime);g.gain.setValueAtTime(.02,a.currentTime);g.gain.exponentialRampToValueAtTime(.001,a.currentTime+.04);o.start();o.stop(a.currentTime+.04);}catch(e){}
 }
-function updateDots(){
-  for(let i=0;i<4;i++){
-    const d=document.getElementById('pwd'+i);
-    d.textContent=i<pwInput.length?pwInput[i]:'_';
-    d.className='pw-dot'+(i<pwInput.length?' filled':'')+(i===pwInput.length?' active':'');
-  }
-}
-function pwCheck(){
-  if(pwInput===PW_CODE){
-    for(let i=0;i<4;i++) document.getElementById('pwd'+i).classList.add('ok');
-    setTimeout(()=>{
-      closePwOverlay();
-      alert('✓ ДОСТУП РАЗРЕШЁН\n\nТерминал в разработке. Скоро.');
-    },600);
-  } else {
-    for(let i=0;i<4;i++) document.getElementById('pwd'+i).classList.add('err');
-    document.getElementById('pwErr').textContent='// КОД НЕВЕРЕН — ДОСТУП ЗАПРЕЩЁН';
-    setTimeout(()=>{
-      pwInput='';updateDots();
-      document.getElementById('pwErr').textContent='';
-    },1000);
-  }
-}
-window.pwInputFn=function(k){
-  if(k==='del'){pwInput=pwInput.slice(0,-1);}
-  else if(k==='clr'){pwInput='';}
-  else if(pwInput.length<4){pwInput+=k;}
-  updateDots();
-  if(pwInput.length===4) setTimeout(pwCheck,200);
-};
-document.addEventListener('keydown',e=>{
-  if(!document.getElementById('pwOverlay').classList.contains('open')) return;
-  if(e.key==='Escape') closePwOverlay();
-  else if(e.key==='Backspace') window.pwInputFn('del');
-  else if(/^[0-9]$/.test(e.key)) window.pwInputFn(e.key);
+const sBtn = document.getElementById('soundBtn');
+if(sBtn) sBtn.addEventListener('click',()=>{ sfxOn=!sfxOn; sBtn.textContent='♪ SFX: '+(sfxOn?'ON':'OFF'); playClick(); });
+document.querySelectorAll('a,button,.char-card,.syn-item,.genre-chip,.nav-secret').forEach(el=>{
+  el.addEventListener('mouseenter', playHover);
+  el.addEventListener('click', playClick);
 });
+
 </script>
+
+<!-- ── PASSWORD OVERLAY ── -->
+<div id="pwOverlay">
+  <div class="pw-box">
+    <div class="pw-scanlines"></div>
+    <button class="pw-close" id="pwClose">[ ESC ]</button>
+    <div class="pw-label">// FIB CORP — SECURE DOWNLOAD</div>
+    <div class="pw-title" id="pwTitle">КОД ДОСТУПА</div>
+    <div class="pw-sub" id="pwSub">ВВЕДИТЕ 4-ЗНАЧНЫЙ КОД</div>
+    <div class="pw-digits" id="pwDigits">
+      <div class="pw-digit active" id="pd0"><div class="pw-cursor"></div></div>
+      <div class="pw-digit" id="pd1"></div>
+      <div class="pw-digit" id="pd2"></div>
+      <div class="pw-digit" id="pd3"></div>
+    </div>
+    <div class="pw-hint" id="pwHint">// ДОСТУП К ФАЙЛАМ АРХИВА FIB</div>
+    <!-- Numpad для мобільних -->
+    <div class="pw-numpad" id="pwNumpad">
+      <div class="pw-key" data-k="1">1</div>
+      <div class="pw-key" data-k="2">2</div>
+      <div class="pw-key" data-k="3">3</div>
+      <div class="pw-key" data-k="4">4</div>
+      <div class="pw-key" data-k="5">5</div>
+      <div class="pw-key" data-k="6">6</div>
+      <div class="pw-key" data-k="7">7</div>
+      <div class="pw-key" data-k="8">8</div>
+      <div class="pw-key" data-k="9">9</div>
+      <div class="pw-key" data-k="clr">CLR</div>
+      <div class="pw-key" data-k="0">0</div>
+      <div class="pw-key del" data-k="del">⌫</div>
+    </div>
+  </div>
+</div>
+
 
 <!-- ── PASSWORD OVERLAY ── -->
 <div id="pwOverlay">
   <div class="pw-box">
     <button class="pw-close" onclick="closePwOverlay()">[ ESC ]</button>
     <div class="pw-title">ACCESS REQUIRED</div>
-    <div class="pw-sub">ВВЕДИТЕ 4-ЗНАЧНЫЙ КОД ДОСТУПА</div>
-    <div class="pw-dots">
-      <div class="pw-dot active" id="pwd0">_</div>
+    <div class="pw-sub" id="pwSub">ENTER 4-DIGIT CLEARANCE CODE</div>
+    <div class="pw-dots" id="pwDots">
+      <div class="pw-dot" id="pwd0">_</div>
       <div class="pw-dot" id="pwd1">_</div>
       <div class="pw-dot" id="pwd2">_</div>
       <div class="pw-dot" id="pwd3">_</div>
     </div>
-    <div class="pw-keypad">
-      <div class="pw-key" onclick="pwInputFn('1')">1</div>
-      <div class="pw-key" onclick="pwInputFn('2')">2</div>
-      <div class="pw-key" onclick="pwInputFn('3')">3</div>
-      <div class="pw-key" onclick="pwInputFn('4')">4</div>
-      <div class="pw-key" onclick="pwInputFn('5')">5</div>
-      <div class="pw-key" onclick="pwInputFn('6')">6</div>
-      <div class="pw-key" onclick="pwInputFn('7')">7</div>
-      <div class="pw-key" onclick="pwInputFn('8')">8</div>
-      <div class="pw-key" onclick="pwInputFn('9')">9</div>
-      <div class="pw-key del" onclick="pwInputFn('del')">⌫</div>
-      <div class="pw-key" onclick="pwInputFn('0')">0</div>
+    <div class="pw-numpad">
+      <div class="pw-key" onclick="pwInput('1')">1</div>
+      <div class="pw-key" onclick="pwInput('2')">2</div>
+      <div class="pw-key" onclick="pwInput('3')">3</div>
+      <div class="pw-key" onclick="pwInput('4')">4</div>
+      <div class="pw-key" onclick="pwInput('5')">5</div>
+      <div class="pw-key" onclick="pwInput('6')">6</div>
+      <div class="pw-key" onclick="pwInput('7')">7</div>
+      <div class="pw-key" onclick="pwInput('8')">8</div>
+      <div class="pw-key" onclick="pwInput('9')">9</div>
+      <div class="pw-key del" onclick="pwDel()">⌫</div>
+      <div class="pw-key" onclick="pwInput('0')">0</div>
       <div class="pw-key del" onclick="closePwOverlay()">✕</div>
     </div>
-    <div class="pw-hint">// ДОСТУП К АРХИВУ FIB</div>
-    <div class="pw-err-msg" id="pwErr"></div>
+    <div class="pw-error-msg" id="pwErr"></div>
   </div>
 </div>
 
