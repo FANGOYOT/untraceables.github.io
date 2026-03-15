@@ -1,0 +1,1117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FIB // CLASSIFIED — ACCESS SEQUENCE</title>
+<!-- SHIFT: III -->
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=VT323&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#000;
+  --green:#00ff41;
+  --green-dim:#003d0f;
+  --green-mid:#00aa2a;
+  --red:#ff2200;
+  --amber:#ffaa00;
+  --white:#e8e8e8;
+  --font-mono:'Share Tech Mono',monospace;
+  --font-vt:'VT323',monospace;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;background:var(--bg)}
+body{
+  background:var(--bg);color:var(--green);
+  font-family:var(--font-mono);overflow-x:hidden;
+  min-height:100vh;
+}
+
+/* ── SCANLINES ── */
+body::before{
+  content:'';position:fixed;inset:0;z-index:9999;pointer-events:none;
+  background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.15) 2px,rgba(0,0,0,0.15) 4px);
+}
+/* ── VIGNETTE ── */
+body::after{
+  content:'';position:fixed;inset:0;z-index:9998;pointer-events:none;
+  background:radial-gradient(ellipse 120% 120% at 50% 50%,transparent 40%,rgba(0,0,0,0.75) 100%);
+}
+
+/* ── GRAIN ── */
+.grain{
+  position:fixed;inset:0;z-index:9997;pointer-events:none;opacity:.06;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size:120px;animation:grain .3s steps(2) infinite;
+}
+@keyframes grain{0%{background-position:0 0}50%{background-position:-20px 10px}100%{background-position:10px -8px}}
+
+/* ── VHS FLICKER ── */
+@keyframes flicker{0%,100%{opacity:1}92%{opacity:1}93%{opacity:.85}94%{opacity:1}97%{opacity:.9}98%{opacity:1}}
+body{animation:flicker 8s ease infinite}
+
+/* ── PROGRESS BAR ── */
+.progress-bar{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  height:3px;background:var(--green-dim);
+}
+.progress-fill{
+  height:100%;background:var(--green);
+  transition:width .5s ease;box-shadow:0 0 8px var(--green);
+}
+.progress-label{
+  position:fixed;top:8px;right:16px;z-index:100;
+  font-size:10px;letter-spacing:.3em;color:var(--green-mid);
+}
+
+/* ── BOOT SCREEN ── */
+#boot{
+  position:fixed;inset:0;z-index:200;background:#000;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  transition:opacity .6s ease;
+}
+#boot.hide{opacity:0;pointer-events:none}
+.boot-text{
+  font-family:var(--font-vt);font-size:clamp(14px,2vw,18px);
+  color:var(--green);line-height:2.4;width:min(600px,90vw);
+}
+.boot-line{opacity:0;transition:opacity .2s}
+.boot-line.show{opacity:1}
+.boot-cursor{display:inline-block;animation:blink 1s step-end infinite}
+@keyframes blink{50%{opacity:0}}
+
+/* ── SECTIONS ── */
+.section{
+  min-height:100vh;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  padding:60px 24px;position:relative;
+  opacity:0;transform:translateY(20px);
+  transition:opacity .6s ease,transform .6s ease;
+}
+.section.active{opacity:1;transform:translateY(0)}
+
+/* ── PANEL ── */
+.panel{
+  width:min(760px,96vw);
+  border:1px solid rgba(0,255,65,.2);
+  background:rgba(0,8,2,.9);
+  padding:40px;position:relative;
+}
+.panel::before{
+  content:'';position:absolute;inset:0;pointer-events:none;
+  background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(0,0,0,.08) 3px,rgba(0,0,0,.08) 4px);
+}
+/* Corner brackets */
+.panel::after{
+  content:'';position:absolute;inset:0;pointer-events:none;
+  background:
+    linear-gradient(to right,rgba(0,255,65,.4) 2px,transparent 2px) 0 0/18px 18px no-repeat,
+    linear-gradient(to bottom,rgba(0,255,65,.4) 2px,transparent 2px) 0 0/18px 18px no-repeat,
+    linear-gradient(to left,rgba(0,255,65,.4) 2px,transparent 2px) 100% 0/18px 18px no-repeat,
+    linear-gradient(to bottom,rgba(0,255,65,.4) 2px,transparent 2px) 100% 0/18px 18px no-repeat,
+    linear-gradient(to right,rgba(0,255,65,.4) 2px,transparent 2px) 0 100%/18px 18px no-repeat,
+    linear-gradient(to top,rgba(0,255,65,.4) 2px,transparent 2px) 0 100%/18px 18px no-repeat,
+    linear-gradient(to left,rgba(0,255,65,.4) 2px,transparent 2px) 100% 100%/18px 18px no-repeat,
+    linear-gradient(to top,rgba(0,255,65,.4) 2px,transparent 2px) 100% 100%/18px 18px no-repeat;
+}
+
+.sec-label{
+  font-size:9px;letter-spacing:.5em;color:var(--green-mid);
+  margin-bottom:8px;text-transform:uppercase;
+}
+.sec-title{
+  font-family:var(--font-vt);font-size:clamp(28px,5vw,48px);
+  color:var(--green);letter-spacing:.1em;margin-bottom:6px;
+  text-shadow:0 0 20px rgba(0,255,65,.4);
+}
+.sec-sub{
+  font-size:11px;color:rgba(0,255,65,.4);letter-spacing:.2em;
+  margin-bottom:32px;line-height:1.8;
+}
+
+/* ── BUTTONS ── */
+.btn{
+  font-family:var(--font-mono);font-size:11px;letter-spacing:.25em;
+  text-transform:uppercase;padding:12px 28px;
+  border:1px solid var(--green);color:#000;background:var(--green);
+  cursor:pointer;transition:all .2s;display:inline-flex;align-items:center;gap:8px;
+}
+.btn:hover{background:transparent;color:var(--green);box-shadow:0 0 20px rgba(0,255,65,.2)}
+.btn:disabled{opacity:.3;cursor:not-allowed}
+.btn-ghost{
+  background:transparent;color:rgba(0,255,65,.4);
+  border-color:rgba(0,255,65,.2);
+}
+.btn-ghost:hover{color:var(--green);border-color:var(--green);background:transparent}
+.btn-red{background:var(--red);border-color:var(--red);color:#fff}
+.btn-red:hover{background:transparent;color:var(--red)}
+
+/* ── STATUS ── */
+.status{
+  display:inline-flex;align-items:center;gap:8px;
+  font-size:9px;letter-spacing:.3em;padding:4px 12px;
+  border:1px solid;margin-bottom:20px;
+}
+.status.ok{color:#00ff41;border-color:rgba(0,255,65,.3)}
+.status.fail{color:var(--red);border-color:rgba(255,34,0,.3);animation:pulse-red 1.5s ease infinite}
+.status.pending{color:var(--amber);border-color:rgba(255,170,0,.3);animation:pulse-amb 2s ease infinite}
+@keyframes pulse-red{0%,100%{box-shadow:none}50%{box-shadow:0 0 8px rgba(255,34,0,.3)}}
+@keyframes pulse-amb{0%,100%{box-shadow:none}50%{box-shadow:0 0 8px rgba(255,170,0,.2)}}
+
+/* ── DIVIDER ── */
+.div-line{height:1px;background:linear-gradient(90deg,transparent,var(--green-dim),transparent);margin:28px 0}
+
+/* ── INPUT ── */
+.fib-input{
+  font-family:var(--font-mono);font-size:13px;letter-spacing:.1em;
+  background:rgba(0,255,65,.04);border:1px solid rgba(0,255,65,.3);
+  color:var(--green);padding:10px 16px;width:100%;
+  outline:none;transition:border-color .2s;
+}
+.fib-input:focus{border-color:var(--green);box-shadow:0 0 12px rgba(0,255,65,.1)}
+.fib-input.wrong{border-color:var(--red);animation:shake .3s ease}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+
+/* ── COMPLETE OVERLAY ── */
+.complete-overlay{
+  position:absolute;inset:0;background:rgba(0,8,2,.95);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  opacity:0;pointer-events:none;transition:opacity .4s;z-index:10;
+}
+.complete-overlay.show{opacity:1;pointer-events:all}
+.complete-text{
+  font-family:var(--font-vt);font-size:clamp(24px,4vw,40px);
+  color:var(--green);text-shadow:0 0 30px rgba(0,255,65,.6);
+  letter-spacing:.2em;margin-bottom:16px;
+  animation:glitch-text 3s ease infinite;
+}
+@keyframes glitch-text{
+  0%,90%,100%{text-shadow:0 0 30px rgba(0,255,65,.6);transform:none}
+  91%{text-shadow:-3px 0 var(--red),3px 0 rgba(0,255,65,.8);transform:skewX(-2deg)}
+  92%{text-shadow:3px 0 var(--red),-2px 0 rgba(0,255,65,.6);transform:none}
+}
+
+/* ══════════════════════════════════════════════
+   PUZZLE 1 — FIND THE AGENT
+══════════════════════════════════════════════ */
+.agent-grid{
+  display:grid;grid-template-columns:repeat(6,1fr);gap:6px;
+  margin:24px 0;
+}
+.agent-cell{
+  font-size:10px;letter-spacing:.05em;padding:8px 4px;text-align:center;
+  border:1px solid rgba(0,255,65,.1);color:rgba(0,255,65,.5);
+  cursor:pointer;transition:all .15s;user-select:none;
+}
+.agent-cell:hover{border-color:rgba(0,255,65,.4);color:var(--green);background:rgba(0,255,65,.05)}
+.agent-cell.selected{border-color:var(--amber);color:var(--amber);background:rgba(255,170,0,.08)}
+.agent-cell.correct{border-color:var(--green);color:var(--green);background:rgba(0,255,65,.12);animation:found-pulse .4s ease}
+.agent-cell.wrong-sel{border-color:var(--red);color:var(--red);animation:shake .3s ease}
+@keyframes found-pulse{0%{transform:scale(1)}50%{transform:scale(1.08)}100%{transform:scale(1)}}
+
+/* ══════════════════════════════════════════════
+   MINIGAME 1 — TERMINAL HACK
+══════════════════════════════════════════════ */
+.terminal-hack{
+  background:#000;border:1px solid rgba(0,255,65,.2);
+  padding:20px;font-family:var(--font-mono);font-size:12px;
+  height:280px;overflow-y:auto;line-height:2;
+  scrollbar-width:thin;scrollbar-color:var(--green-dim) transparent;
+}
+.terminal-hack .t-line{color:var(--green-mid)}
+.terminal-hack .t-cmd{color:var(--green)}
+.terminal-hack .t-err{color:var(--red)}
+.terminal-hack .t-ok{color:#00ff41}
+.terminal-hack .t-sys{color:var(--amber)}
+.hack-input-row{display:flex;align-items:center;gap:8px;margin-top:12px}
+.hack-prompt{color:var(--green-mid);font-size:12px;white-space:nowrap}
+.hack-input{
+  flex:1;background:transparent;border:none;border-bottom:1px solid rgba(0,255,65,.3);
+  color:var(--green);font-family:var(--font-mono);font-size:12px;
+  outline:none;padding:4px 0;letter-spacing:.05em;
+}
+.hack-input:focus{border-bottom-color:var(--green)}
+.cmd-hint{
+  display:flex;flex-wrap:wrap;gap:8px;margin-top:12px;
+}
+.cmd-chip{
+  font-size:9px;letter-spacing:.2em;padding:4px 10px;
+  border:1px solid rgba(0,255,65,.15);color:rgba(0,255,65,.4);
+  cursor:pointer;transition:all .15s;
+}
+.cmd-chip:hover{border-color:rgba(0,255,65,.5);color:var(--green)}
+
+/* ══════════════════════════════════════════════
+   PUZZLE 2 — FILE RESTORE
+══════════════════════════════════════════════ */
+.file-lines{display:flex;flex-direction:column;gap:8px;margin:20px 0}
+.file-line{
+  display:flex;align-items:center;gap:12px;
+  padding:10px 14px;border:1px solid rgba(0,255,65,.12);
+  background:rgba(0,255,65,.02);cursor:grab;
+  transition:all .2s;user-select:none;
+}
+.file-line:active{cursor:grabbing}
+.file-line.dragging{opacity:.5;border-color:var(--amber)}
+.file-line.drag-over{border-color:var(--green);background:rgba(0,255,65,.06)}
+.file-line-num{
+  font-size:9px;color:rgba(0,255,65,.25);min-width:28px;
+  letter-spacing:.1em;
+}
+.file-line-text{font-size:11px;color:var(--green);letter-spacing:.05em;line-height:1.5}
+.file-line .drag-handle{color:rgba(0,255,65,.2);font-size:14px;cursor:grab}
+
+/* ══════════════════════════════════════════════
+   MINIGAME 2 — SURVEILLANCE
+══════════════════════════════════════════════ */
+.surv-canvas-wrap{
+  position:relative;width:100%;aspect-ratio:16/9;
+  max-height:340px;background:#000;border:1px solid rgba(0,255,65,.15);
+  overflow:hidden;cursor:crosshair;
+}
+#survCanvas{width:100%;height:100%;display:block}
+.surv-hud{
+  display:flex;justify-content:space-between;align-items:center;
+  margin-top:10px;font-size:10px;letter-spacing:.2em;
+  color:rgba(0,255,65,.5);
+}
+
+/* ══════════════════════════════════════════════
+   PUZZLE 3 — CIPHER
+══════════════════════════════════════════════ */
+.cipher-msg{
+  font-family:var(--font-vt);font-size:clamp(18px,3vw,28px);
+  color:var(--amber);letter-spacing:.3em;line-height:1.8;
+  padding:20px;border:1px solid rgba(255,170,0,.15);
+  background:rgba(255,170,0,.03);margin:20px 0;text-align:center;
+  word-break:break-all;
+}
+.cipher-hint{
+  font-size:10px;color:rgba(0,255,65,.25);letter-spacing:.3em;
+  text-align:right;margin-bottom:16px;
+}
+.cipher-alphabet{
+  display:flex;flex-wrap:wrap;gap:6px;margin:16px 0;
+}
+.cipher-char{
+  font-size:10px;padding:4px 8px;
+  border:1px solid rgba(0,255,65,.1);color:rgba(0,255,65,.3);
+  letter-spacing:.1em;
+}
+.cipher-char.active{border-color:var(--green);color:var(--green)}
+
+/* ══════════════════════════════════════════════
+   MINIGAME 3 — VIRUS PURGE
+══════════════════════════════════════════════ */
+.virus-screen{
+  background:#000;border:1px solid rgba(0,255,65,.2);
+  padding:16px;font-family:var(--font-mono);font-size:11px;
+  height:320px;overflow:hidden;position:relative;
+}
+.virus-process{
+  position:absolute;display:flex;align-items:center;gap:8px;
+  padding:5px 10px;border:1px solid;white-space:nowrap;
+  transition:opacity .3s;cursor:default;
+}
+.virus-process.malicious{
+  color:var(--red);border-color:rgba(255,34,0,.4);
+  background:rgba(255,34,0,.06);animation:flicker-red 1s ease infinite;
+}
+.virus-process.safe{
+  color:rgba(0,255,65,.3);border-color:rgba(0,255,65,.1);
+}
+@keyframes flicker-red{0%,100%{opacity:1}50%{opacity:.8}}
+.virus-process.dying{animation:die .3s ease forwards}
+@keyframes die{0%{opacity:1;transform:scale(1)}100%{opacity:0;transform:scale(0.8)}}
+.virus-input-row{display:flex;gap:8px;margin-top:12px;align-items:center}
+.virus-bar{
+  display:flex;gap:4px;margin-top:10px;align-items:center;
+  font-size:9px;letter-spacing:.2em;color:rgba(0,255,65,.4);
+}
+.vbar-fill{height:6px;background:var(--red);transition:width .3s;box-shadow:0 0 6px rgba(255,34,0,.4)}
+.vbar-track{flex:1;height:6px;background:rgba(255,34,0,.1);border:1px solid rgba(255,34,0,.2)}
+
+/* ══════════════════════════════════════════════
+   FINAL REWARD
+══════════════════════════════════════════════ */
+#finalSection{display:none}
+#finalSection.show{display:flex}
+.password-box{
+  text-align:center;padding:48px 40px;
+  border:1px solid rgba(0,255,65,.3);
+  background:rgba(0,10,4,.95);
+  box-shadow:0 0 60px rgba(0,255,65,.08);
+}
+.pw-label{font-size:10px;letter-spacing:.5em;color:var(--green-mid);margin-bottom:12px}
+.pw-value{
+  font-family:var(--font-vt);font-size:clamp(40px,8vw,80px);
+  color:var(--green);letter-spacing:.3em;
+  text-shadow:0 0 40px rgba(0,255,65,.6);
+  animation:glitch-text 4s ease infinite;
+}
+.pw-sub{font-size:10px;color:rgba(0,255,65,.3);letter-spacing:.3em;margin-top:16px;line-height:1.8}
+.pw-link{
+  display:inline-block;margin-top:28px;font-size:11px;letter-spacing:.3em;
+  color:var(--green);text-decoration:none;border-bottom:1px solid rgba(0,255,65,.3);
+  transition:border-color .2s;
+}
+.pw-link:hover{border-color:var(--green)}
+
+/* ── OBSERVER FLASHES ── */
+.observer-flash{
+  position:fixed;bottom:24px;left:50%;transform:translateX(-50%);
+  z-index:300;font-size:10px;letter-spacing:.3em;
+  color:var(--green);background:rgba(0,8,2,.9);
+  border:1px solid rgba(0,255,65,.2);padding:8px 20px;
+  opacity:0;transition:opacity .3s;pointer-events:none;
+  white-space:nowrap;
+}
+.observer-flash.show{opacity:1}
+
+@media(max-width:600px){
+  .panel{padding:24px 16px}
+  .agent-grid{grid-template-columns:repeat(4,1fr)}
+  .sec-title{font-size:28px}
+}
+</style>
+</head>
+<body>
+<div class="grain"></div>
+<div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+<div class="progress-label" id="progressLabel">SEQUENCE: 0/6</div>
+
+<!-- ── BOOT ── -->
+<div id="boot">
+  <div class="boot-text" id="bootText"></div>
+</div>
+
+<!-- ── OBSERVER FLASH ── -->
+<div class="observer-flash" id="obsFlash"></div>
+
+<!-- ══════════════════════════════════
+     PUZZLE 1 — FIND THE AGENT
+══════════════════════════════════ -->
+<div class="section" id="s1">
+  <div class="panel">
+    <div class="complete-overlay" id="c1"><div class="complete-text">// AGENT IDENTIFIED</div><div style="font-size:11px;letter-spacing:.3em;color:var(--green-mid);margin-top:8px">PROCEEDING TO NEXT SEQUENCE</div></div>
+    <div class="sec-label">// PUZZLE_01 — PERSONNEL DATABASE</div>
+    <div class="sec-title">IDENTIFY THE DOUBLE</div>
+    <div class="sec-sub">
+      One name appears twice in this personnel registry.<br>
+      That name is the double agent. Find it.
+    </div>
+    <div class="status pending" id="p1status">● AWAITING INPUT</div>
+    <div class="agent-grid" id="agentGrid"></div>
+    <div class="div-line"></div>
+    <div style="font-size:10px;color:rgba(0,255,65,.3);letter-spacing:.2em">
+      SELECT THE NAME THAT APPEARS MORE THAN ONCE
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════
+     MINIGAME 1 — TERMINAL HACK
+══════════════════════════════════ -->
+<div class="section" id="s2">
+  <div class="panel">
+    <div class="complete-overlay" id="c2"><div class="complete-text">// ACCESS GRANTED</div><div style="font-size:11px;letter-spacing:.3em;color:var(--green-mid);margin-top:8px">VAULT UNLOCKED</div></div>
+    <div class="sec-label">// MINIGAME_01 — VAULT INTRUSION</div>
+    <div class="sec-title">BREACH THE SYSTEM</div>
+    <div class="sec-sub">
+      Enter the correct command sequence to unlock the FIB data vault.<br>
+      Commands must be entered in the right order.
+    </div>
+    <div class="status pending" id="p2status">● VAULT LOCKED</div>
+    <div class="terminal-hack" id="hackTerminal">
+      <div class="t-line">> FIB SECURE VAULT v3.1 — INITIALISING...</div>
+      <div class="t-line">> AUTHENTICATION REQUIRED</div>
+      <div class="t-sys">> WARNING: 3 FAILED ATTEMPTS WILL TRIGGER LOCKDOWN</div>
+      <div class="t-line">> ENTER COMMAND:</div>
+    </div>
+    <div class="hack-input-row">
+      <span class="hack-prompt">fib@vault:~$</span>
+      <input class="hack-input" id="hackInput" placeholder="type command..." autocomplete="off" spellcheck="false">
+    </div>
+    <div class="cmd-hint" id="cmdHint">
+      <div class="cmd-chip" onclick="insertCmd('scan --auth')">scan --auth</div>
+      <div class="cmd-chip" onclick="insertCmd('ping 192.168.0.1')">ping 192.168.0.1</div>
+      <div class="cmd-chip" onclick="insertCmd('bypass --layer 2')">bypass --layer 2</div>
+      <div class="cmd-chip" onclick="insertCmd('decrypt vault.key')">decrypt vault.key</div>
+      <div class="cmd-chip" onclick="insertCmd('access --override')">access --override</div>
+      <div class="cmd-chip" onclick="insertCmd('ls -classified')">ls -classified</div>
+    </div>
+    <div style="font-size:9px;color:rgba(0,255,65,.2);letter-spacing:.2em;margin-top:10px">
+      ATTEMPTS REMAINING: <span id="hackAttempts">∞</span>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════
+     PUZZLE 2 — FILE RESTORE
+══════════════════════════════════ -->
+<div class="section" id="s3">
+  <div class="panel">
+    <div class="complete-overlay" id="c3"><div class="complete-text">// FILE RESTORED</div><div style="font-size:11px;letter-spacing:.3em;color:var(--green-mid);margin-top:8px">REPORT RECONSTRUCTED</div></div>
+    <div class="sec-label">// PUZZLE_02 — CORRUPTED FILE</div>
+    <div class="sec-title">RESTORE THE REPORT</div>
+    <div class="sec-sub">
+      This FIB incident report was scrambled during transmission.<br>
+      Drag the lines into the correct chronological order.
+    </div>
+    <div class="status pending" id="p3status">● FILE CORRUPTED</div>
+    <div class="file-lines" id="fileLines"></div>
+    <div class="div-line"></div>
+    <button class="btn" onclick="checkFileOrder()">VERIFY SEQUENCE</button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════
+     MINIGAME 2 — SURVEILLANCE
+══════════════════════════════════ -->
+<div class="section" id="s4">
+  <div class="panel">
+    <div class="complete-overlay" id="c4"><div class="complete-text">// TARGET TRACKED</div><div style="font-size:11px;letter-spacing:.3em;color:var(--green-mid);margin-top:8px">CONTACT MAINTAINED</div></div>
+    <div class="sec-label">// MINIGAME_02 — FIELD SURVEILLANCE</div>
+    <div class="sec-title">MAINTAIN CONTACT</div>
+    <div class="sec-sub">
+      The target is moving through the city grid.<br>
+      Click on the target to maintain surveillance contact. Don't lose them.
+    </div>
+    <div class="status pending" id="p4status">● AWAITING DEPLOYMENT</div>
+    <div class="surv-canvas-wrap">
+      <canvas id="survCanvas"></canvas>
+    </div>
+    <div class="surv-hud">
+      <span>CONTACT: <span id="survContact" style="color:var(--green)">--</span></span>
+      <span>HITS: <span id="survHits">0</span> / 12</span>
+      <span>TIME: <span id="survTime">--</span>s</span>
+    </div>
+    <button class="btn" style="margin-top:16px" id="survBtn" onclick="startSurveillance()">DEPLOY SURVEILLANCE</button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════
+     PUZZLE 3 — CIPHER
+══════════════════════════════════ -->
+<div class="section" id="s5">
+  <div class="panel">
+    <div class="complete-overlay" id="c5"><div class="complete-text">// CIPHER BROKEN</div><div style="font-size:11px;letter-spacing:.3em;color:var(--green-mid);margin-top:8px">MESSAGE DECRYPTED</div></div>
+    <div class="sec-label">// PUZZLE_03 — INTERCEPTED TRANSMISSION</div>
+    <div class="sec-title">BREAK THE CIPHER</div>
+    <div class="sec-sub">
+      An intercepted message from FRACTURED. Encrypted with a letter shift cipher.<br>
+      Decode it and enter the final word of the message.
+    </div>
+    <div class="cipher-hint">// FIB INTERNAL NOTE — ENCRYPTION PARAMETERS — SHIFT: III</div>
+    <div class="cipher-msg" id="cipherMsg"></div>
+    <div class="status pending" id="p5status">● TRANSMISSION ENCRYPTED</div>
+    <div style="display:flex;gap:12px;align-items:center;margin-bottom:16px">
+      <input class="fib-input" id="cipherInput" placeholder="Enter the decoded final word..." style="max-width:360px" autocomplete="off" spellcheck="false">
+      <button class="btn" onclick="checkCipher()">DECODE</button>
+    </div>
+    <div style="font-size:9px;color:rgba(0,255,65,.2);letter-spacing:.2em">
+      HINT: EACH LETTER IS SHIFTED FORWARD BY 3 POSITIONS IN THE ALPHABET
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════
+     MINIGAME 3 — VIRUS PURGE
+══════════════════════════════════ -->
+<div class="section" id="s6">
+  <div class="panel">
+    <div class="complete-overlay" id="c6"><div class="complete-text">// SYSTEM CLEAN</div><div style="font-size:11px;letter-spacing:.3em;color:var(--green-mid);margin-top:8px">ALL THREATS ELIMINATED</div></div>
+    <div class="sec-label">// MINIGAME_03 — SYSTEM PURGE</div>
+    <div class="sec-title">KILL THE VIRUS</div>
+    <div class="sec-sub">
+      Malicious processes are flooding the system.<br>
+      Type <span style="color:var(--red)">KILL</span> followed by the process ID to terminate. Act fast.
+    </div>
+    <div class="status pending" id="p6status">● SYSTEM COMPROMISED</div>
+    <div class="virus-bar">
+      INFECTION: <div class="vbar-track"><div class="vbar-fill" id="virusBar" style="width:0%"></div></div>
+      <span id="virusBarPct">0%</span>
+    </div>
+    <div class="virus-screen" id="virusScreen"></div>
+    <div class="virus-input-row">
+      <span style="font-size:12px;color:var(--green-mid)">root@fib:~$</span>
+      <input class="fib-input" id="virusInput" placeholder="KILL [PID] або клікни на процес" style="flex:1" autocomplete="off" spellcheck="false">
+      <button class="btn btn-red" onclick="killProcess()">EXECUTE</button>
+    </div>
+    <div style="font-size:9px;color:rgba(0,255,65,.2);letter-spacing:.2em;margin-top:8px">
+      THREATS REMAINING: <span id="virusCount">--</span>
+    </div>
+    <button class="btn" style="margin-top:12px" id="virusStartBtn" onclick="startVirus()">INITIATE SCAN</button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════
+     FINAL
+══════════════════════════════════ -->
+<div class="section" id="finalSection">
+  <div class="password-box">
+    <div class="pw-label">// ACCESS CODE RECOVERED — FIB TERMINAL</div>
+    <div class="pw-value" id="pwReveal" style="opacity:0">D9L1TIT</div>
+    <div class="pw-sub" id="pwSub" style="opacity:0">
+      ENTER THIS CODE AT THE DOWNLOAD TERMINAL<br>
+      CLEARANCE LEVEL: CLASSIFIED<br>
+      OBSERVER IS WATCHING
+    </div>
+    <a href="index.html#terminal" class="pw-link" id="pwLink" style="opacity:0">← RETURN TO FIB TERMINAL SITE</a>
+  </div>
+</div>
+
+<script>
+// ══════════════════════════════════════════════════════════
+// UTILITIES
+// ══════════════════════════════════════════════════════════
+let completedStages = 0;
+const TOTAL_STAGES = 6;
+
+function updateProgress(){
+  const pct = (completedStages / TOTAL_STAGES) * 100;
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progressLabel').textContent =
+    'SEQUENCE: ' + completedStages + '/' + TOTAL_STAGES;
+}
+
+function showObserver(msg, duration=3500){
+  const el = document.getElementById('obsFlash');
+  el.textContent = msg;
+  el.classList.add('show');
+  setTimeout(() => el.classList.remove('show'), duration);
+}
+
+function completeStage(n, nextId){
+  completedStages++;
+  updateProgress();
+  // Show complete overlay
+  document.getElementById('c'+n).classList.add('show');
+  // After delay activate next
+  setTimeout(()=>{
+    const next = document.getElementById(nextId || 'finalSection');
+    if(next){
+      next.style.display = 'flex';
+      next.classList.add('active');
+      next.scrollIntoView({behavior:'smooth',block:'start'});
+    }
+    if(!nextId) revealFinal();
+  }, 1800);
+}
+
+function activateSection(id){
+  const el = document.getElementById(id);
+  if(el){
+    el.classList.add('active');
+  }
+}
+
+// ══════════════════════════════════════════════════════════
+// BOOT SEQUENCE
+// ══════════════════════════════════════════════════════════
+(function(){
+  const lines = [
+    '> FIB CLASSIFIED ACCESS TERMINAL — v7.3',
+    '> INITIATING SECURE CONNECTION...',
+    '> ENCRYPTION: AES-256 [OK]',
+    '> VERIFYING OPERATOR CLEARANCE...',
+    '> CLEARANCE: PENDING VERIFICATION',
+    '> WARNING: UNVERIFIED USER DETECTED',
+    '> OBSERVER PROTOCOL: ACTIVE',
+    '> THIS SESSION IS BEING MONITORED',
+    '> TO GAIN CLEARANCE — COMPLETE THE SEQUENCE',
+    '> LOADING ACCESS MODULES...',
+    '> _'
+  ];
+  const el = document.getElementById('bootText');
+  let i = 0;
+  function next(){
+    if(i >= lines.length){
+      setTimeout(()=>{
+        document.getElementById('boot').classList.add('hide');
+        document.body.style.overflow = 'auto';
+        setTimeout(()=>{
+          document.getElementById('boot').style.display='none';
+          activateSection('s1');
+          showObserver('OBSERVER: I see you. Begin.');
+        }, 700);
+      }, 600);
+      return;
+    }
+    const div = document.createElement('div');
+    div.className = 'boot-line';
+    div.textContent = lines[i];
+    el.appendChild(div);
+    requestAnimationFrame(()=>{ div.classList.add('show'); });
+    i++;
+    setTimeout(next, i < 4 ? 180 : i < 8 ? 280 : 350);
+  }
+  document.body.style.overflow = 'hidden';
+  setTimeout(next, 400);
+})();
+
+// ══════════════════════════════════════════════════════════
+// PUZZLE 1 — FIND THE AGENT
+// ══════════════════════════════════════════════════════════
+(function(){
+  const names = [
+    'MILLER','CARTER','ROSS','WALKER','PHYNEX',
+    'JACKSON','BURAN','GHOST','BLACK','WOLF',
+    'FALCON','REYES','MORGAN','STEEL','BLAZE',
+    'NOVA','VIPER','SPECTER','STORM','IRON',
+    'ORION','DELTA','VECTOR','SHADOW','RANGER',
+    'HAWK','TITAN','BISHOP','HAYES','BURNS',
+    'QUINN','KELSO','PORTER','WREN'
+  ];
+  // Duplicate: SHADOW appears twice — that's the double agent (Nedotrogi)
+  const answer = 'SHADOW';
+  const pool = [...names];
+  // Shuffle + insert duplicate in random position
+  for(let i=pool.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[pool[i],pool[j]]=[pool[j],pool[i]];}
+  // Insert second SHADOW
+  const insertAt = Math.floor(Math.random()*pool.length);
+  pool.splice(insertAt,0,answer);
+  // Trim to 36 cells
+  const grid36 = pool.slice(0,36);
+  const container = document.getElementById('agentGrid');
+  let selected = null;
+  grid36.forEach((name,idx)=>{
+    const cell = document.createElement('div');
+    cell.className = 'agent-cell';
+    cell.textContent = name;
+    cell.dataset.name = name;
+    cell.addEventListener('click',()=>{
+      if(selected) selected.classList.remove('selected');
+      if(name === answer){
+        cell.classList.add('correct');
+        document.getElementById('p1status').className='status ok';
+        document.getElementById('p1status').textContent='● DOUBLE AGENT IDENTIFIED — SHADOW';
+        showObserver('OBSERVER: SHADOW. Of course it was SHADOW.');
+        setTimeout(()=>completeStage(1,'s2'),900);
+      } else {
+        cell.classList.add('wrong-sel');
+        selected = cell;
+        document.getElementById('p1status').className='status fail';
+        document.getElementById('p1status').textContent='● INCORRECT — TRY AGAIN';
+        setTimeout(()=>{cell.classList.remove('wrong-sel','selected');
+          document.getElementById('p1status').className='status pending';
+          document.getElementById('p1status').textContent='● AWAITING INPUT';
+        }, 800);
+      }
+    });
+    container.appendChild(cell);
+  });
+})();
+
+// ══════════════════════════════════════════════════════════
+// MINIGAME 1 — TERMINAL HACK
+// ══════════════════════════════════════════════════════════
+const HACK_SEQUENCE = ['scan --auth','bypass --layer 2','decrypt vault.key','access --override'];
+let hackStep = 0;
+
+function insertCmd(cmd){
+  document.getElementById('hackInput').value = cmd;
+  document.getElementById('hackInput').focus();
+}
+
+function addHackLine(text, cls='t-line'){
+  const t = document.getElementById('hackTerminal');
+  const d = document.createElement('div');
+  d.className = cls;
+  d.textContent = text;
+  t.appendChild(d);
+  t.scrollTop = t.scrollHeight;
+}
+
+document.getElementById('hackInput').addEventListener('keydown', e=>{
+  if(e.key==='Enter') processHackCmd();
+});
+
+function processHackCmd(){
+  const inp = document.getElementById('hackInput');
+  const val = inp.value.trim().toLowerCase();
+  if(!val) return;
+  addHackLine('fib@vault:~$ ' + val, 't-cmd');
+  inp.value = '';
+  const expected = HACK_SEQUENCE[hackStep];
+  if(val === expected){
+    hackStep++;
+    const responses = [
+      '> AUTH LAYER DETECTED... SCANNING...',
+      '> LAYER 2 BYPASSED — CONTINUING...',
+      '> DECRYPTION IN PROGRESS... KEY FOUND',
+      '> OVERRIDE ACCEPTED — VAULT UNLOCKED'
+    ];
+    addHackLine(responses[hackStep-1], 't-ok');
+    if(hackStep >= HACK_SEQUENCE.length){
+      document.getElementById('p2status').className='status ok';
+      document.getElementById('p2status').textContent='● VAULT UNLOCKED — ACCESS GRANTED';
+      addHackLine('> ██████████████ CLASSIFIED DATA RETRIEVED', 't-sys');
+      showObserver('OBSERVER: I did not expect you to know that sequence.');
+      setTimeout(()=>completeStage(2,'s3'),1200);
+    } else {
+      addHackLine('> NEXT COMMAND REQUIRED — STEP ' + (hackStep+1) + '/4', 't-sys');
+    }
+  } else {
+    // Check if it's out of order
+    if(HACK_SEQUENCE.includes(val)){
+      addHackLine('> ERROR: COMMAND OUT OF SEQUENCE', 't-err');
+    } else {
+      addHackLine('> UNKNOWN COMMAND: ' + val, 't-err');
+    }
+    addHackLine('> STEP ' + (hackStep+1) + '/4 — TRY AGAIN', 't-sys');
+  }
+}
+
+// ══════════════════════════════════════════════════════════
+// PUZZLE 2 — FILE RESTORE
+// ══════════════════════════════════════════════════════════
+const FILE_CORRECT = [
+  '03:47 — SUBJECT DEPARTED FIB HEADQUARTERS UNDETECTED.',
+  '04:12 — CONVOY ROUTE TRANSMITTED TO UNKNOWN RECIPIENT.',
+  '06:30 — MILITARY CONVOY INTERCEPTED IN TUNNEL SECTOR 7.',
+  '06:34 — ALL FOUR OPERATIVES IN CONVOY NEUTRALISED.',
+  '06:41 — FRACTURED UNIT EXTRACTED WITH FULL WEAPONS CACHE.',
+  '07:15 — HUNTER ARRIVES AT SCENE. CONVOY ALREADY CLEARED.',
+  '07:16 — HUNTER NOTE: "THEY KNEW THE ROUTE. LEAK CONFIRMED."',
+];
+// Shuffle for display
+const fileShuffled = [...FILE_CORRECT];
+for(let i=fileShuffled.length-1;i>0;i--){
+  const j=Math.floor(Math.random()*(i+1));
+  [fileShuffled[i],fileShuffled[j]]=[fileShuffled[j],fileShuffled[i]];
+}
+// Build draggable list
+const fileContainer = document.getElementById('fileLines');
+let dragSrc = null;
+fileShuffled.forEach((text,i)=>{
+  const row = document.createElement('div');
+  row.className='file-line';
+  row.draggable=true;
+  row.dataset.text=text;
+  row.innerHTML=`<span class="drag-handle">⠿</span><span class="file-line-num">${String(i+1).padStart(2,'0')}</span><span class="file-line-text">${text}</span>`;
+  row.addEventListener('dragstart',e=>{dragSrc=row;row.classList.add('dragging');});
+  row.addEventListener('dragend',e=>{row.classList.remove('dragging');document.querySelectorAll('.file-line').forEach(r=>r.classList.remove('drag-over'));});
+  row.addEventListener('dragover',e=>{e.preventDefault();row.classList.add('drag-over');});
+  row.addEventListener('dragleave',e=>{row.classList.remove('drag-over');});
+  row.addEventListener('drop',e=>{
+    e.preventDefault();row.classList.remove('drag-over');
+    if(dragSrc&&dragSrc!==row){
+      const p=row.parentNode;const rows=[...p.children];
+      const si=rows.indexOf(dragSrc),ri=rows.indexOf(row);
+      if(si<ri) p.insertBefore(dragSrc,row.nextSibling);
+      else p.insertBefore(dragSrc,row);
+      // Update numbers
+      [...p.children].forEach((r,i)=>r.querySelector('.file-line-num').textContent=String(i+1).padStart(2,'0'));
+    }
+  });
+  fileContainer.appendChild(row);
+});
+
+function checkFileOrder(){
+  const rows=[...document.querySelectorAll('.file-line')];
+  const current=rows.map(r=>r.dataset.text);
+  const correct=current.every((t,i)=>t===FILE_CORRECT[i]);
+  if(correct){
+    document.getElementById('p3status').className='status ok';
+    document.getElementById('p3status').textContent='● FILE RESTORED — SEQUENCE VERIFIED';
+    showObserver('OBSERVER: Incident confirmed. You are reading classified material.');
+    setTimeout(()=>completeStage(3,'s4'),900);
+  } else {
+    document.getElementById('p3status').className='status fail';
+    document.getElementById('p3status').textContent='● SEQUENCE INCORRECT — REORDER AND TRY AGAIN';
+    setTimeout(()=>{
+      document.getElementById('p3status').className='status pending';
+      document.getElementById('p3status').textContent='● FILE CORRUPTED';
+    },1500);
+  }
+}
+
+// ══════════════════════════════════════════════════════════
+// MINIGAME 2 — SURVEILLANCE
+// ══════════════════════════════════════════════════════════
+let survGame = null;
+function startSurveillance(){
+  document.getElementById('survBtn').style.display='none';
+  document.getElementById('p4status').className='status pending';
+  document.getElementById('p4status').textContent='● TRACKING ACTIVE';
+  const canvas=document.getElementById('survCanvas');
+  const wrap=canvas.parentElement;
+  canvas.width=wrap.clientWidth;
+  canvas.height=wrap.clientHeight;
+  const ctx=canvas.getContext('2d');
+  let tx=canvas.width/2,ty=canvas.height/2;
+  let vx=(Math.random()-.5)*2.5,vy=(Math.random()-.5)*2.5;
+  let hits=0,timeLeft=20,lastTime=Date.now();
+  let contactTimer=0,contact=100;
+  const TARGET_R=18;
+  // Grid lines
+  function drawGrid(){
+    ctx.strokeStyle='rgba(0,255,65,0.06)';ctx.lineWidth=1;
+    for(let x=0;x<canvas.width;x+=40)  {ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,canvas.height);ctx.stroke();}
+    for(let y=0;y<canvas.height;y+=40) {ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(canvas.width,y);ctx.stroke();}
+  }
+  function loop(){
+    const now=Date.now(),dt=(now-lastTime)/1000;lastTime=now;
+    timeLeft-=dt;contact-=dt*8;
+    if(contact<0)contact=0;
+    if(timeLeft<=0){
+      // Check win
+      if(hits>=12){
+        document.getElementById('p4status').className='status ok';
+        document.getElementById('p4status').textContent='● TARGET TRACKED — '+hits+' CONTACTS';
+        showObserver('OBSERVER: You followed him. He noticed.');
+        completeStage(4,'s5');
+      } else {
+        ctx.clearRect(0,0,canvas.width,canvas.height);
+        drawGrid();
+        ctx.fillStyle='rgba(255,34,0,0.2)';ctx.fillRect(0,0,canvas.width,canvas.height);
+        ctx.fillStyle='#ff2200';ctx.font='bold 18px Share Tech Mono';
+        ctx.textAlign='center';
+        ctx.fillText('CONTACT LOST — RETRY',canvas.width/2,canvas.height/2);
+        document.getElementById('survBtn').style.display='block';
+        document.getElementById('survBtn').textContent='RETRY';
+        hits=0;timeLeft=20;contact=100;
+      }
+      return;
+    }
+    // Move target
+    tx+=vx;ty+=vy;
+    if(tx<TARGET_R){tx=TARGET_R;vx=Math.abs(vx)+(Math.random()-.5)*.5;}
+    if(tx>canvas.width-TARGET_R){tx=canvas.width-TARGET_R;vx=-Math.abs(vx)+(Math.random()-.5)*.5;}
+    if(ty<TARGET_R){ty=TARGET_R;vy=Math.abs(vy)+(Math.random()-.5)*.5;}
+    if(ty>canvas.height-TARGET_R){ty=canvas.height-TARGET_R;vy=-Math.abs(vy)+(Math.random()-.5)*.5;}
+    // Occasional speed change
+    if(Math.random()<0.015){vx=(Math.random()-.5)*3;vy=(Math.random()-.5)*3;}
+    // Draw
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    drawGrid();
+    // Scan lines
+    ctx.strokeStyle='rgba(0,255,65,0.04)';ctx.lineWidth=1;
+    for(let y=0;y<canvas.height;y+=3){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(canvas.width,y);ctx.stroke();}
+    // Target circle
+    const alpha=0.6+Math.sin(Date.now()/200)*.3;
+    ctx.strokeStyle=`rgba(255,34,0,${alpha})`;ctx.lineWidth=2;
+    ctx.beginPath();ctx.arc(tx,ty,TARGET_R,0,Math.PI*2);ctx.stroke();
+    // Crosshair
+    ctx.strokeStyle=`rgba(255,34,0,${alpha*.5})`;ctx.lineWidth=1;
+    ctx.beginPath();ctx.moveTo(tx-TARGET_R*1.8,ty);ctx.lineTo(tx-TARGET_R*.5,ty);ctx.stroke();
+    ctx.beginPath();ctx.moveTo(tx+TARGET_R*.5,ty);ctx.lineTo(tx+TARGET_R*1.8,ty);ctx.stroke();
+    ctx.beginPath();ctx.moveTo(tx,ty-TARGET_R*1.8);ctx.lineTo(tx,ty-TARGET_R*.5);ctx.stroke();
+    ctx.beginPath();ctx.moveTo(tx,ty+TARGET_R*.5);ctx.lineTo(tx,ty+TARGET_R*1.8);ctx.stroke();
+    // HUD
+    document.getElementById('survContact').textContent=Math.round(contact)+'%';
+    document.getElementById('survContact').style.color=contact>50?'var(--green)':contact>20?'var(--amber)':'var(--red)';
+    document.getElementById('survHits').textContent=hits;
+    document.getElementById('survTime').textContent=Math.ceil(timeLeft);
+    survGame=requestAnimationFrame(loop);
+  }
+  canvas.onclick=(e)=>{
+    const r=canvas.getBoundingClientRect();
+    const mx=(e.clientX-r.left)*(canvas.width/r.width);
+    const my=(e.clientY-r.top)*(canvas.height/r.height);
+    const dist=Math.hypot(mx-tx,my-ty);
+    if(dist<=TARGET_R+12){
+      hits++;contact=Math.min(100,contact+25);
+      // Flash
+      ctx.fillStyle='rgba(0,255,65,0.15)';
+      ctx.beginPath();ctx.arc(tx,ty,TARGET_R*2,0,Math.PI*2);ctx.fill();
+    }
+  };
+  loop();
+}
+
+// ══════════════════════════════════════════════════════════
+// PUZZLE 3 — CIPHER
+// ══════════════════════════════════════════════════════════
+// Plaintext message — final word = TIKHONYA
+// Encrypt with Caesar shift +3
+function caesar(text, shift){
+  return text.split('').map(c=>{
+    if(/[A-Z]/.test(c)){return String.fromCharCode((c.charCodeAt(0)-65+shift)%26+65);}
+    if(/[a-z]/.test(c)){return String.fromCharCode((c.charCodeAt(0)-97+shift)%26+97);}
+    return c;
+  }).join('');
+}
+const plainMsg  = 'TARGET DEPARTED AT 0400. CONVOY ROUTE COMPROMISED. ITEM DELIVERED TO TIKHONYA';
+const encrypted = caesar(plainMsg, 3);
+document.getElementById('cipherMsg').textContent = encrypted;
+
+function checkCipher(){
+  const val = document.getElementById('cipherInput').value.trim().toUpperCase();
+  if(val === 'TIKHONYA'){
+    document.getElementById('p5status').className='status ok';
+    document.getElementById('p5status').textContent='● CIPHER BROKEN — MESSAGE DECRYPTED';
+    document.getElementById('cipherInput').classList.remove('wrong');
+    showObserver('OBSERVER: TIKHONYA. You know the name now.');
+    setTimeout(()=>completeStage(5,'s6'),900);
+  } else {
+    document.getElementById('cipherInput').classList.add('wrong');
+    document.getElementById('p5status').className='status fail';
+    document.getElementById('p5status').textContent='● INCORRECT — RECHECK YOUR DECRYPTION';
+    setTimeout(()=>{
+      document.getElementById('cipherInput').classList.remove('wrong');
+      document.getElementById('p5status').className='status pending';
+      document.getElementById('p5status').textContent='● TRANSMISSION ENCRYPTED';
+    },1000);
+  }
+}
+document.getElementById('cipherInput').addEventListener('keydown',e=>{if(e.key==='Enter')checkCipher();});
+
+// ══════════════════════════════════════════════════════════
+// MINIGAME 3 — VIRUS PURGE
+// ══════════════════════════════════════════════════════════
+const SAFE_PROCS = ['svchost.exe','fib_core.sys','auth_daemon','net_monitor','log_service','kernel_32','system_idle'];
+const VIRUS_PROCS = ['xr4t_payload','shadow_inject','data_leech','rootkit_7x','back_door_v2','observer_null','sys_corrupt','vault_drain'];
+let virusActive=false,virusInterval=null,processes=[],virusKilled=0,virusTotal=0,infectionLevel=0;
+
+function startVirus(){
+  document.getElementById('virusStartBtn').style.display='none';
+  document.getElementById('p6status').className='status fail';
+  document.getElementById('p6status').textContent='● INFECTION SPREADING — PURGE NOW';
+  virusActive=true;virusKilled=0;virusTotal=0;infectionLevel=0;processes=[];
+  const screen=document.getElementById('virusScreen');
+  screen.innerHTML='';
+  // Spawn processes
+  function spawnProcess(){
+    if(!virusActive)return;
+    const isMalicious=Math.random()<0.55;
+    const name=isMalicious?
+      VIRUS_PROCS[Math.floor(Math.random()*VIRUS_PROCS.length)]:
+      SAFE_PROCS[Math.floor(Math.random()*SAFE_PROCS.length)];
+    const pid=Math.floor(100+Math.random()*900);
+    const el=document.createElement('div');
+    el.className='virus-process '+(isMalicious?'malicious':'safe');
+    el.dataset.pid=pid;
+    el.dataset.malicious=isMalicious?'1':'0';
+    el.innerHTML=`[PID:${pid}] ${name} ${isMalicious?'⚠':''}`;
+    if(isMalicious){
+      el.title='Click to kill or: KILL '+pid;
+      el.addEventListener('click',()=>{
+        if(!processes.find(p=>p.pid===pid)) return;
+        virusKilled++;
+        infectionLevel=Math.max(0,infectionLevel-12);
+        updateVBar();
+        el.classList.add('dying');
+        setTimeout(()=>{el.remove();processes=processes.filter(p=>p.pid!==pid);},350);
+      });
+    }
+    el.style.left=Math.random()*60+'%';
+    el.style.top=Math.random()*75+'%';
+    screen.appendChild(el);
+    processes.push({pid,el,malicious:isMalicious});
+    if(isMalicious){virusTotal++;infectionLevel=Math.min(100,infectionLevel+4);updateVBar();}
+    setTimeout(()=>{if(el.parentNode){el.remove();processes=processes.filter(p=>p.pid!==pid);if(isMalicious)infectionLevel=Math.min(100,infectionLevel+3);updateVBar();}},isMalicious?8000:10000);
+  }
+  virusInterval=setInterval(spawnProcess,1400);
+  setTimeout(spawnProcess,0);setTimeout(spawnProcess,200);setTimeout(spawnProcess,400);
+  document.getElementById('virusInput').focus();
+  document.getElementById('virusCount').textContent='SCANNING...';
+  // Win condition check
+  let winTimer=setInterval(()=>{
+    const remaining=processes.filter(p=>p.malicious).length;
+    document.getElementById('virusCount').textContent=remaining;
+    if(virusKilled>=8&&infectionLevel<70){
+      clearInterval(winTimer);clearInterval(virusInterval);virusActive=false;
+      processes.forEach(p=>{if(p.malicious)p.el.classList.add('dying');});
+      document.getElementById('p6status').className='status ok';
+      document.getElementById('p6status').textContent='● SYSTEM CLEAN — '+virusKilled+' THREATS ELIMINATED';
+      document.getElementById('virusBar').style.width='0%';
+      document.getElementById('virusBarPct').textContent='0%';
+      showObserver('OBSERVER: Clean. For now.');
+      setTimeout(()=>completeStage(6,null),1200);
+    }
+    if(infectionLevel>=100){
+      clearInterval(winTimer);clearInterval(virusInterval);virusActive=false;
+      document.getElementById('p6status').className='status fail';
+      document.getElementById('p6status').textContent='● SYSTEM CRITICALLY INFECTED — RESTART';
+      document.getElementById('virusStartBtn').style.display='block';
+      document.getElementById('virusStartBtn').textContent='RESTART PURGE';
+    }
+  },500);
+}
+
+function updateVBar(){
+  document.getElementById('virusBar').style.width=infectionLevel+'%';
+  document.getElementById('virusBarPct').textContent=Math.round(infectionLevel)+'%';
+}
+
+function killProcess(){
+  const inp=document.getElementById('virusInput');
+  const val=inp.value.trim().toUpperCase();
+  inp.value='';
+  // Parse: KILL [PID]
+  const match=val.match(/^KILL\s+(\d+)$/);
+  if(!match){
+    showObserver('OBSERVER: Syntax: KILL [PID]');return;
+  }
+  const pid=parseInt(match[1]);
+  const proc=processes.find(p=>p.pid===pid);
+  if(!proc){showObserver('OBSERVER: PID '+pid+' not found.');return;}
+  if(!proc.malicious){
+    // Killed safe process — penalty
+    infectionLevel=Math.min(100,infectionLevel+12);
+    updateVBar();
+    proc.el.style.borderColor='var(--amber)';
+    proc.el.style.color='var(--amber)';
+    showObserver('OBSERVER: That process was clean. Error noted.');
+    setTimeout(()=>{proc.el.remove();processes=processes.filter(p=>p.pid!==pid);},400);
+    return;
+  }
+  // Kill malicious
+  virusKilled++;
+  infectionLevel=Math.max(0,infectionLevel-12);
+  updateVBar();
+  proc.el.classList.add('dying');
+  setTimeout(()=>{proc.el.remove();processes=processes.filter(p=>p.pid!==pid);},350);
+}
+document.getElementById('virusInput').addEventListener('keydown',e=>{if(e.key==='Enter')killProcess();});
+
+// ══════════════════════════════════════════════════════════
+// FINAL REVEAL
+// ══════════════════════════════════════════════════════════
+function revealFinal(){
+  const pw=document.getElementById('pwReveal');
+  const sub=document.getElementById('pwSub');
+  const lnk=document.getElementById('pwLink');
+  showObserver('OBSERVER: You completed the sequence. Take the code. Use it wisely.', 5000);
+  // Typewriter reveal
+  const code='D9L1TIT';
+  let i=0;
+  pw.style.opacity='1';pw.textContent='';
+  function typePw(){
+    if(i<=code.length){pw.textContent=code.slice(0,i)+(i<code.length?'█':'');i++;setTimeout(typePw,120);}
+    else{
+      setTimeout(()=>{
+        sub.style.opacity='1';
+        setTimeout(()=>lnk.style.opacity='1',600);
+      },400);
+    }
+  }
+  setTimeout(typePw, 400);
+}
+
+// Observer random messages during gameplay
+const observerMsgs = [
+  'OBSERVER: I am watching your progress.',
+  'OBSERVER: Every action is logged.',
+  'OBSERVER: You are closer than you think.',
+  'OBSERVER: Some doors are not meant to be opened.',
+  'OBSERVER: The system has noted your presence.',
+  'OBSERVER: Are you certain you want to continue?',
+  'OBSERVER: The name TIKHONYA appears in 14 classified files.',
+];
+let obsIdx = 0;
+setInterval(()=>{
+  if(completedStages>0 && completedStages<TOTAL_STAGES){
+    showObserver(observerMsgs[obsIdx%observerMsgs.length]);
+    obsIdx++;
+  }
+}, 35000);
+
+// Keyboard shortcut — Enter submits in cipher and virus
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape') showObserver('OBSERVER: There is no exit from this sequence.');
+});
+</script>
+</body>
+</html>
