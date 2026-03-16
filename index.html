@@ -373,8 +373,42 @@ background:linear-gradient(to right,rgba(232,80,0,.5) 1px,transparent 1px) 0 0/2
 .pw-key.del:hover{color:#ff4444;border-color:rgba(255,34,0,.3);background:rgba(20,0,0,.8)}
 .pw-hint{font-family:var(--font-mono);font-size:9px;color:rgba(0,255,80,.2);letter-spacing:.25em;text-align:center;margin-top:28px}
 .pw-err-msg{font-family:var(--font-mono);font-size:10px;color:#ff2200;letter-spacing:.2em;text-align:center;margin-top:16px;min-height:18px;transition:opacity .3s}
-.pw-close{position:absolute;top:16px;right:16px;font-family:var(--font-mono);font-size:9px;letter-spacing:.2em;color:rgba(0,255,80,.2);background:none;border:none;cursor:pointer;padding:4px 8px;transition:color .2s}
-.pw-close:hover{color:rgba(0,255,80,.5)}
+/* ── VIRUS BUGS ── */
+.virus-bug{
+  position:fixed;z-index:99990;pointer-events:none;
+  width:28px;height:28px;
+  animation:bug-walk 0.12s steps(1) infinite;
+}
+.virus-bug svg{width:100%;height:100%}
+@keyframes bug-walk{
+  0%{transform:scaleX(1)}
+  50%{transform:scaleX(-1)}
+}
+
+/* ── BLACKOUT ── */
+#virusBlackout{
+  position:fixed;inset:0;z-index:99980;background:#000;
+  pointer-events:none;opacity:0;transition:opacity .15s;
+}
+#virusBlackout.on{opacity:1}
+
+/* ── SCREEN CRACK ── */
+#screenCrack{
+  position:fixed;inset:0;z-index:99985;pointer-events:none;opacity:0;
+  background:
+    repeating-linear-gradient(47deg,transparent 0,transparent 2px,rgba(255,34,0,0.03) 2px,rgba(255,34,0,0.03) 3px),
+    repeating-linear-gradient(-30deg,transparent 0,transparent 4px,rgba(0,255,80,0.02) 4px,rgba(0,255,80,0.02) 5px);
+  transition:opacity .2s;
+}
+#screenCrack.on{opacity:1}
+
+/* Crack SVG lines */
+#crackLines{
+  position:fixed;inset:0;z-index:99986;pointer-events:none;opacity:0;transition:opacity .1s;
+}
+#crackLines.on{opacity:1}
+.pw-input{font-family:var(--font-mono);font-size:22px;letter-spacing:.3em;background:rgba(0,20,10,.8);border:1px solid rgba(0,255,80,.3);color:#00ff50;padding:16px 20px;width:100%;text-align:center;outline:none;transition:border-color .2s,box-shadow .2s;text-transform:uppercase;}
+.pw-input:focus{border-color:#00ff50;box-shadow:0 0 16px rgba(0,255,80,.15)}
 
 .chars-grid{perspective:1200px}
 .char-card{transform-style:preserve-3d;transition:transform .7s cubic-bezier(.4,0,.2,1),box-shadow .3s ease;cursor:pointer;}
@@ -426,6 +460,17 @@ background:linear-gradient(to right,rgba(232,80,0,.5) 1px,transparent 1px) 0 0/2
   ОБЪЕКТ #<span id="visitorNum">????</span> ИДЕНТИФИЦИРОВАН<br>
   СЕССИЯ: <span id="sessionTime">00:00</span>
 </div>
+<div id="virusBlackout"></div>
+<div id="screenCrack"></div>
+<svg id="crackLines" xmlns="http://www.w3.org/2000/svg">
+  <line x1="40%" y1="30%" x2="55%" y2="55%" stroke="#ff2200" stroke-width="1.5" opacity="0.6"/>
+  <line x1="55%" y1="55%" x2="45%" y2="80%" stroke="#ff2200" stroke-width="1" opacity="0.4"/>
+  <line x1="55%" y1="55%" x2="70%" y2="65%" stroke="#ff2200" stroke-width="1" opacity="0.4"/>
+  <line x1="40%" y1="30%" x2="30%" y2="20%" stroke="#ff2200" stroke-width="0.8" opacity="0.3"/>
+  <line x1="40%" y1="30%" x2="25%" y2="45%" stroke="#ff2200" stroke-width="0.8" opacity="0.3"/>
+  <line x1="70%" y1="65%" x2="85%" y2="55%" stroke="#ff2200" stroke-width="0.7" opacity="0.25"/>
+  <line x1="45%" y1="80%" x2="35%" y2="95%" stroke="#ff2200" stroke-width="0.7" opacity="0.25"/>
+</svg>
 <canvas id="particleCanvas" style="position:fixed;inset:0;z-index:1;pointer-events:none;opacity:.3"></canvas>
 <div class="cursor-dot" id="cursorDot"></div>
 <div class="cursor-ring" id="cursorRing"></div>
@@ -848,7 +893,14 @@ background:linear-gradient(to right,rgba(232,80,0,.5) 1px,transparent 1px) 0 0/2
         <div class="t-line dim i18n" data-ru="> База данных FIB содержит засекреченные досье." data-en="> FIB database contains classified dossiers.">> База данных FIB содержит засекреченные досье.</div>
         <div class="t-line warn i18n" data-ru="> Тихоня уже знает что ты здесь." data-en="> Tikhonya already knows you're here.">> Тихоня уже знает что ты здесь.</div>
       </div>
-      <button onclick="openPwOverlay()" class="t-btn i18n" data-ru="▼  СКАЧАТЬ ТЕРМИНАЛ" data-en="▼  DOWNLOAD TERMINAL">▼ &nbsp; СКАЧАТЬ ТЕРМИНАЛ</button>
+      <button onclick="triggerVirusAttack()" id="downloadBtn" class="t-btn i18n" data-ru="▼  СКАЧАТЬ ТЕРМИНАЛ" data-en="▼  DOWNLOAD TERMINAL">▼ &nbsp; СКАЧАТЬ ТЕРМИНАЛ</button>
+      <div id="btnCrackOverlay" style="display:none;margin-top:8px;font-family:var(--font-mono);font-size:11px;color:#ff2200;letter-spacing:.2em;text-align:left;line-height:2">
+        <span id="crackText"></span>
+      </div>
+      <div style="margin-top:16px;font-family:var(--font-mono);font-size:10px;letter-spacing:.3em;color:#003d14">
+        // <span class="i18n" data-ru="ХОЧЕШЬ НАЙТИ ПАРОЛЬ?" data-en="WANT TO FIND THE PASSWORD?">ХОЧЕШЬ НАЙТИ ПАРОЛЬ?</span>
+        &nbsp;<a href="arg.html" style="color:#00cc40;text-decoration:none;border-bottom:1px solid rgba(0,255,65,.3)" onmouseover="this.style.borderColor='rgba(0,255,65,.8)'" onmouseout="this.style.borderColor='rgba(0,255,65,.3)'"><span class="i18n" data-ru="ИЩИ ЗДЕСЬ →" data-en="SEARCH HERE →">ИЩИ ЗДЕСЬ →</span></a>
+      </div>
       <div class="t-warn i18n"
         data-ru="// ВНИМАНИЕ: программа читает аппаратную конфигурацию системы.<br>// OBSERVER будет присутствовать на протяжении всей сессии.<br>// FIB CORP не несёт ответственности за найденное в базе данных."
         data-en="// WARNING: reads your system hardware configuration.<br>// OBSERVER will be present throughout your session.<br>// FIB CORP takes no responsibility for what you find in the database.">
@@ -1236,56 +1288,193 @@ document.querySelectorAll('a,button,.char-card,.syn-item,.genre-chip,.nav-secret
   document.querySelectorAll('.reveal,.reveal-left,.reveal-scale').forEach(el=>obs.observe(el));
 })();
 
-/* ── PASSWORD OVERLAY ── */
-let pwInput='';
-const PW_CODE='2025';
+/* ── VIRUS ATTACK ── */
+const BUG_SVG = `<svg viewBox="0 0 28 28" xmlns="http://www.w3.org/2000/svg">
+  <ellipse cx="14" cy="16" rx="8" ry="7" fill="#0a2a1a" stroke="#00ff50" stroke-width="1"/>
+  <circle cx="10" cy="12" r="4" fill="#001a0a" stroke="#00ff50" stroke-width="1"/>
+  <circle cx="18" cy="12" r="4" fill="#001a0a" stroke="#00ff50" stroke-width="1"/>
+  <circle cx="10" cy="12" r="2" fill="#00ff50"/>
+  <circle cx="18" cy="12" r="2" fill="#00ff50"/>
+  <circle cx="10.5" cy="12" r="0.8" fill="#000"/>
+  <circle cx="18.5" cy="12" r="0.8" fill="#000"/>
+  <line x1="6" y1="18" x2="1" y2="22" stroke="#00ff50" stroke-width="0.8"/>
+  <line x1="8" y1="20" x2="3" y2="25" stroke="#00ff50" stroke-width="0.8"/>
+  <line x1="22" y1="18" x2="27" y2="22" stroke="#00ff50" stroke-width="0.8"/>
+  <line x1="20" y1="20" x2="25" y2="25" stroke="#00ff50" stroke-width="0.8"/>
+  <line x1="14" y1="9" x2="14" y2="4" stroke="#00ff50" stroke-width="0.8"/>
+  <line x1="11" y1="10" x2="9" y2="5" stroke="#00ff50" stroke-width="0.8"/>
+  <line x1="17" y1="10" x2="19" y2="5" stroke="#00ff50" stroke-width="0.8"/>
+</svg>`;
 
+const CRACK_TEXTS = [
+  '> VIRUS.EXE INJECTED',
+  '> FIREWALL BREACHED',
+  '> ACCESSING FILES...',
+  '> OBSERVER DETECTED',
+  '> ROOT ACCESS GRANTED',
+  '> ██████ CORRUPTED',
+];
+
+let bugsActive = false;
+let bugElements = [];
+let bugTimers = [];
+
+function spawnBug(){
+  const bug = document.createElement('div');
+  bug.className = 'virus-bug';
+  bug.innerHTML = BUG_SVG;
+
+  const startX = Math.random() * (window.innerWidth - 40);
+  const startY = Math.random() * (window.innerHeight - 40);
+  bug.style.left = startX + 'px';
+  bug.style.top  = startY + 'px';
+  document.body.appendChild(bug);
+  bugElements.push(bug);
+
+  let x = startX, y = startY;
+  let dx = (Math.random() - 0.5) * 5;
+  let dy = (Math.random() - 0.5) * 5;
+  let frame;
+
+  function move(){
+    x += dx + (Math.random() - 0.5) * 2;
+    y += dy + (Math.random() - 0.5) * 2;
+    if(x < 0 || x > window.innerWidth  - 28) dx *= -1;
+    if(y < 0 || y > window.innerHeight - 28) dy *= -1;
+    bug.style.left = x + 'px';
+    bug.style.top  = y + 'px';
+    bug.style.transform = dx > 0 ? 'scaleX(1)' : 'scaleX(-1)';
+    frame = requestAnimationFrame(move);
+  }
+  frame = requestAnimationFrame(move);
+  bugTimers.push(frame);
+  return { bug, frame };
+}
+
+function killAllBugs(){
+  bugElements.forEach(b => b.remove());
+  bugTimers.forEach(f => cancelAnimationFrame(f));
+  bugElements = [];
+  bugTimers = [];
+}
+
+function triggerVirusAttack(){
+  if(bugsActive) return;
+  bugsActive = true;
+
+  const blackout  = document.getElementById('virusBlackout');
+  const crack     = document.getElementById('screenCrack');
+  const crackSvg  = document.getElementById('crackLines');
+  const btn       = document.getElementById('downloadBtn');
+  const crackText = document.getElementById('crackText');
+  const crackDiv  = document.getElementById('btnCrackOverlay');
+
+  // 1. Blackout
+  blackout.classList.add('on');
+
+  setTimeout(() => {
+    blackout.classList.remove('on');
+
+    // 2. Rapid blink x4
+    let blinks = 0;
+    const blinkInterval = setInterval(() => {
+      blackout.classList.toggle('on');
+      blinks++;
+      if(blinks >= 8) {
+        clearInterval(blinkInterval);
+        blackout.classList.remove('on');
+
+        // 3. Screen crack appears
+        crack.classList.add('on');
+        crackSvg.classList.add('on');
+
+        // 4. Crack text under button
+        crackDiv.style.display = 'block';
+        let ti = 0;
+        const typeInterval = setInterval(() => {
+          if(ti < CRACK_TEXTS.length){
+            crackText.innerHTML += CRACK_TEXTS[ti] + '<br>';
+            ti++;
+          } else {
+            clearInterval(typeInterval);
+          }
+        }, 300);
+
+        // 5. Spawn bugs — 12 жучков
+        for(let i = 0; i < 12; i++){
+          setTimeout(() => spawnBug(), i * 80);
+        }
+
+        // 6. Glitch the whole page
+        document.body.style.animation = 'none';
+        let glitchCount = 0;
+        const glitchInt = setInterval(() => {
+          document.body.style.filter = glitchCount % 2 === 0
+            ? 'hue-rotate(20deg) saturate(1.5)'
+            : 'none';
+          glitchCount++;
+          if(glitchCount > 10) {
+            clearInterval(glitchInt);
+            document.body.style.filter = 'none';
+          }
+        }, 120);
+
+        // 7. Reset after 10 seconds
+        setTimeout(() => {
+          // Kill bugs
+          killAllBugs();
+          // Remove effects
+          crack.classList.remove('on');
+          crackSvg.classList.remove('on');
+          crackDiv.style.display = 'none';
+          crackText.innerHTML = '';
+          document.body.style.filter = 'none';
+          bugsActive = false;
+
+          // Flash green — all clear
+          const clearFlash = document.createElement('div');
+          clearFlash.style.cssText = 'position:fixed;inset:0;background:rgba(0,255,80,0.05);z-index:99998;pointer-events:none;transition:opacity .5s';
+          document.body.appendChild(clearFlash);
+          setTimeout(() => { clearFlash.style.opacity = '0'; setTimeout(() => clearFlash.remove(), 500); }, 100);
+
+          // Now open password overlay
+          openPwOverlay();
+        }, 10000);
+      }
+    }, 80);
+  }, 300);
+}
 function openPwOverlay(){
-  pwInput='';
-  updateDots();
+  const inp=document.getElementById('pwInput');if(!inp)return;
+  inp.value='';inp.style.borderColor='rgba(0,255,80,.3)';inp.style.boxShadow='none';
+  document.getElementById('pwErrMsg').textContent='';
   document.getElementById('pwOverlay').classList.add('open');
+  document.body.style.overflow='hidden';
+  setTimeout(()=>inp.focus(),100);
 }
 function closePwOverlay(){
   document.getElementById('pwOverlay').classList.remove('open');
-  pwInput='';
-  updateDots();
-  document.getElementById('pwErr').textContent='';
+  document.body.style.overflow='';
 }
-function updateDots(){
-  for(let i=0;i<4;i++){
-    const d=document.getElementById('pwd'+i);
-    d.textContent=i<pwInput.length?pwInput[i]:'_';
-    d.className='pw-dot'+(i<pwInput.length?' filled':'')+(i===pwInput.length?' active':'');
-  }
-}
-function pwCheck(){
-  if(pwInput===PW_CODE){
-    for(let i=0;i<4;i++) document.getElementById('pwd'+i).classList.add('ok');
-    setTimeout(()=>{
-      closePwOverlay();
-      alert('✓ ДОСТУП РАЗРЕШЁН\n\nТерминал в разработке. Скоро.');
-    },600);
+function checkPw(){
+  const inp=document.getElementById('pwInput');
+  const val=inp.value.trim().toUpperCase();
+  if(val===PW_CORRECT){
+    inp.style.borderColor='rgba(0,255,80,.8)';inp.style.boxShadow='0 0 20px rgba(0,255,80,.3)';
+    document.getElementById('pwErrMsg').style.color='#00ff50';
+    document.getElementById('pwErrMsg').textContent='// ACCESS GRANTED';
+    setTimeout(()=>{closePwOverlay();},900);
   } else {
-    for(let i=0;i<4;i++) document.getElementById('pwd'+i).classList.add('err');
-    document.getElementById('pwErr').textContent='// КОД НЕВЕРЕН — ДОСТУП ЗАПРЕЩЁН';
-    setTimeout(()=>{
-      pwInput='';updateDots();
-      document.getElementById('pwErr').textContent='';
-    },1000);
+    inp.style.borderColor='rgba(255,34,0,.6)';inp.style.animation='shake .3s ease';
+    document.getElementById('pwErrMsg').style.color='#ff2200';
+    document.getElementById('pwErrMsg').textContent='// ACCESS DENIED — INCORRECT CODE';
+    setTimeout(()=>{inp.style.borderColor='rgba(0,255,80,.3)';inp.style.animation='';inp.value='';document.getElementById('pwErrMsg').textContent='';},1200);
   }
 }
-window.pwInputFn=function(k){
-  if(k==='del'){pwInput=pwInput.slice(0,-1);}
-  else if(k==='clr'){pwInput='';}
-  else if(pwInput.length<4){pwInput+=k;}
-  updateDots();
-  if(pwInput.length===4) setTimeout(pwCheck,200);
-};
 document.addEventListener('keydown',e=>{
   if(!document.getElementById('pwOverlay').classList.contains('open')) return;
   if(e.key==='Escape') closePwOverlay();
-  else if(e.key==='Backspace') window.pwInputFn('del');
-  else if(/^[0-9]$/.test(e.key)) window.pwInputFn(e.key);
+  if(e.key==='Enter') checkPw();
 });
 </script>
 
@@ -1294,29 +1483,13 @@ document.addEventListener('keydown',e=>{
   <div class="pw-box">
     <button class="pw-close" onclick="closePwOverlay()">[ ESC ]</button>
     <div class="pw-title">ACCESS REQUIRED</div>
-    <div class="pw-sub">ВВЕДИТЕ 4-ЗНАЧНЫЙ КОД ДОСТУПА</div>
-    <div class="pw-dots">
-      <div class="pw-dot active" id="pwd0">_</div>
-      <div class="pw-dot" id="pwd1">_</div>
-      <div class="pw-dot" id="pwd2">_</div>
-      <div class="pw-dot" id="pwd3">_</div>
+    <div class="pw-sub">ВВЕДИТЕ КОД ДОСТУПА<br>// ENTER ACCESS CODE</div>
+    <input class="pw-input" id="pwInput" maxlength="16" placeholder="_ _ _ _ _ _ _" autocomplete="off" spellcheck="false">
+    <div style="display:flex;justify-content:center;margin-top:16px">
+      <button onclick="checkPw()" class="btn btn-fire" style="font-size:10px;padding:10px 32px;letter-spacing:.2em">CONFIRM</button>
     </div>
-    <div class="pw-keypad">
-      <div class="pw-key" onclick="pwInputFn('1')">1</div>
-      <div class="pw-key" onclick="pwInputFn('2')">2</div>
-      <div class="pw-key" onclick="pwInputFn('3')">3</div>
-      <div class="pw-key" onclick="pwInputFn('4')">4</div>
-      <div class="pw-key" onclick="pwInputFn('5')">5</div>
-      <div class="pw-key" onclick="pwInputFn('6')">6</div>
-      <div class="pw-key" onclick="pwInputFn('7')">7</div>
-      <div class="pw-key" onclick="pwInputFn('8')">8</div>
-      <div class="pw-key" onclick="pwInputFn('9')">9</div>
-      <div class="pw-key del" onclick="pwInputFn('del')">⌫</div>
-      <div class="pw-key" onclick="pwInputFn('0')">0</div>
-      <div class="pw-key del" onclick="closePwOverlay()">✕</div>
-    </div>
-    <div class="pw-hint">// ДОСТУП К АРХИВУ FIB</div>
-    <div class="pw-err-msg" id="pwErr"></div>
+    <div id="pwErrMsg" style="font-family:var(--font-mono);font-size:10px;letter-spacing:.2em;text-align:center;margin-top:14px;min-height:18px;color:#ff2200"></div>
+    <div style="font-family:var(--font-mono);font-size:9px;color:rgba(0,255,80,.12);letter-spacing:.25em;text-align:center;margin-top:16px">// FIB CLASSIFIED ACCESS TERMINAL</div>
   </div>
 </div>
 
